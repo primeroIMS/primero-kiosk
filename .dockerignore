@@ -1,41 +1,62 @@
-# See https://docs.docker.com/engine/reference/builder/#dockerignore-file for more about ignoring files.
-
-# Ignore git directory.
-/.git/
-/.gitignore
-
-# Ignore bundler config.
-/.bundle
-
-# Ignore all environment files.
-/.env*
-
-# Ignore all default key files.
-/config/master.key
-/config/credentials/*.key
-
-# Ignore all logfiles and tempfiles.
-/log/*
-/tmp/*
-!/log/.keep
-!/tmp/.keep
-
-# Ignore pidfiles, but keep the directory.
-/tmp/pids/*
-!/tmp/pids/.keep
-
-# Ignore storage (uploaded files in development and any SQLite databases).
-/storage/*
-!/storage/.keep
-/tmp/storage/*
-!/tmp/storage/.keep
-
-# Ignore CI service files.
-/.github
-
-# Ignore development files
-/.devcontainer
-
-# Ignore Docker-related files
-/.dockerignore
-/Dockerfile*
+# stuff to ignore
+*.deb
+*.iml
+*.irb-history
+*.msi
+*.orig
+*.pem
+*.pid
+*.swo
+*.swp
+*.xls
+*swp
+*~
+.DS_Store
+.autotest
+.buildpath
+.bundle
+.git
+.idea
+.powrc
+.project
+.project
+.redcar
+.rvmrc
+.vagrant
+.~*
+.vscode
+Guardfile
+node_modules
+capybara_features
+cookbook
+coverage
+debug.html
+doc/
+jmeter/
+log
+public/assets
+rerun.txt
+spec
+tags
+tags.lock
+tmp
+vendor/bundle/
+vendor/cache/
+vendor/ruby/
+venv/
+storage/
+bitbucket-pipelines.yml
+Procfile.dev
+.travis.yml
+.rspec
+rpsec
+.pryrc
+.gitignore
+.tx
+.travis.yml
+.ruby-version
+CHANGELOG.md
+CONTRIBUTING.md
+README.md
+app/controllers/api/README.md
+app/controllers/api/docs
