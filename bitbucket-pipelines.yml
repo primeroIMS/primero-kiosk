@@ -14,7 +14,7 @@ definitions:
         image: node:22.15.1
         size: 2x
         script:
-          - rails primero:i18n_js
+          - printf '{}' > app/frontend/translations.json
           - npm install --global corepack@latest
           - corepack enable
           - corepack prepare pnpm@latest-10 --activate
