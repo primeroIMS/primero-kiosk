@@ -39,3 +39,6 @@ node_modules
 # https://vitejs.dev/guide/env-and-mode.html#env-files
 *.local
 
+docker/production.env
+docker/local.env
+app/frontend/translations.json
