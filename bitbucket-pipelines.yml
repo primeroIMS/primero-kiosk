@@ -41,12 +41,10 @@ definitions:
         clone:
           depth: full
         script:
-          - set -e
-          - ls -la
-          - cd docker
-          - ls -la
-          - docker/build.sh all
           - |
+              set -e
+              cd docker
+              build.sh all
               if [ -n "$BITBUCKET_TAG" ]; then
                 RAW_TAG="$BITBUCKET_TAG"
               else
