@@ -1,0 +1,10 @@
+---
+embed_fallback_translations:
+  enabled: true
+
+translations:
+  - file: app/frontend/translations.json
+    patterns:
+      - "*"
+
+

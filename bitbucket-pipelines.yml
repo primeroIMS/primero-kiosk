@@ -1,0 +1,66 @@
+definitions:
+  caches:
+    pnpm: $BITBUCKET_CLONE_DIR/.pnpm-store
+  steps:
+    - step: &server-test
+        name: Server tests
+        image: ruby:3.4.7-bookworm
+        script:
+          - ./bin/install_local_test_solr.sh
+          - ./bin/run_server_tests.sh
+        services:
+          - postgres
+        caches:
+          - bundler
+    - step: &client-test
+        name: Client tests
+        image: node:22.15.1
+        size: 2x
+        script:
+          - npm install --global corepack@latest
+          - corepack enable
+          - corepack prepare pnpm@latest-10 --activate
+          - pnpm install
+          - pnpm run lint:run
+          - pnpm run test -- --maxWorkers=2
+        caches:
+          - node
+          - pnpm
+    - step: &push-branch
+        image: atlassian/default-image:4
+        clone:
+          depth: full
+        script:
+          - git push https://$azdotoken@unicef.visualstudio.com/ICTD%20-%20Primero%20X%20DEV/_git/primero $BITBUCKET_BRANCH
+          - git push https://$primeroimstoken@github.com/primeroIMS/primero.git $BITBUCKET_BRANCH
+  services:
+    postgres:
+      image: postgres:15.6
+      variables:
+        POSTGRES_DB: 'primero_test'
+        POSTGRES_USER: 'postgres'
+        POSTGRES_PASSWORD: 'postgrespassword'
+  caches:
+    bundler: ./vendor
+pipelines:
+  branches:
+    maint_*:
+      - step: *push-branch
+    '{develop*,release-*,main}':
+      - parallel:
+        - step: *server-test
+        - step: *client-test
+      - step: *push-branch
+  tags:
+    v*:
+      - step:
+          image: atlassian/default-image:4
+          script:
+            - git push https://$azdotoken@unicef.visualstudio.com/ICTD%20-%20Primero%20X%20DEV/_git/primero $BITBUCKET_TAG
+            - git push https://$primeroimstoken@github.com/primeroIMS/primero.git $BITBUCKET_TAG
+
+  pull-requests:
+    '**':
+      - parallel:
+        - step: *server-test
+        - step: *client-test

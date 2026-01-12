@@ -1,0 +1,12 @@
+development:
+  default_locale: 'en'
+  locales: [en]
+
+test:
+  default_locale: 'en'
+  locales: [en,fr,ar,ar-LB,so,es,bn]
+
+production:
+  default_locale: 'en'
+  locales: [en,fa-AF,ps-AF]
+

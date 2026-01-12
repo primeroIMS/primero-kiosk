@@ -11,5 +11,8 @@
     "isolatedModules": true,
     "types": ["vite/client"]
   },
-  "include": ["app/frontend/**/*"]
+  "include": ["app/frontend/**/*", "vitest.config.ts"],
+  "parserOptions": {
+    "project": "./vitest.config.ts"
+  }
 }
