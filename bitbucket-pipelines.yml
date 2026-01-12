@@ -1,6 +1,4 @@
 definitions:
-  caches:
-    pnpm: $BITBUCKET_CLONE_DIR/.pnpm-store
   steps:
     - step: &server-test
         name: Server tests
@@ -69,6 +67,7 @@ definitions:
         POSTGRES_PASSWORD: 'postgrespassword'
   caches:
     bundler: ./vendor
+    pnpm: $BITBUCKET_CLONE_DIR/.pnpm-store
 pipelines:
   branches:
     maint_*:
