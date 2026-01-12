@@ -1,5 +1,3 @@
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # -------------------------------------------------------------------- BUILD STAGE
 ARG BUILD_REGISTRY
 ARG RUBY_VERSION=3.4.7
@@ -7,7 +5,7 @@ ARG ALPINE_VERSION=alpine3.22
 FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-${ALPINE_VERSION} AS build-env
 
 ENV NODE_VERSION=22.16.0-r2
-ENV BUILD_PACKAGES="bash curl wget curl-dev build-base git"
+ENV BUILD_PACKAGES="bash curl wget curl-dev build-base tzdata git"
 ENV PYTHON_PACKAGES="python3 py3-pip"
 ENV BUILD_DEP_PACKAGES="postgresql-dev yaml-dev"
 ENV RUNTIME_PACKAGES="libc6-compat nodejs=~${NODE_VERSION} gettext libintl npm vips libsodium-dev"
@@ -61,11 +59,11 @@ RUN set -euox pipefail \
         ; fi \
         && bundle install
 
-# Run npm ci
-COPY [ "package.json", "package-lock.json", "$APP_ROOT/" ]
+# Run pnpm install
+COPY [ "package.json", "pnpm-lock.yaml", "$APP_ROOT/" ]
 
 RUN set -euox pipefail \
-        ; npm config set legacy-peer-deps true; npm ci
+        ; npm install -g pnpm@latest-10; pnpm install
 
 # Note: This has its build context set to the root dir so prepend 'docker' to
 # items that need to be copied from that directory
@@ -76,8 +74,7 @@ COPY [ ".", "$APP_ROOT" ]
 
 RUN set -euox pipefail \
         ; mkdir -p "$APP_ROOT/tmp/export" "$RAILS_LOG_PATH" \
-        ; mkdir -p "$APP_ROOT/tmp/exports" "$RAILS_LOG_PATH" \
-        ; rails primero:i18n_js
+        ; mkdir -p "$APP_ROOT/tmp/exports" "$RAILS_LOG_PATH"
 
 # Intentionally cached seperately
 # Generates 32 random characters for the build-id...build id MUST be 32 characters (as its hardcoded)
@@ -88,11 +85,12 @@ RUN set -euox pipefail \
 
 # Build UI
 RUN set -euox pipefail \
-        ; npm run build
+        ; rails primero:i18n_js \
+        ; rails assets:precompile
 
 RUN set -euox pipefail \
-        ; rm -rf node_modules .tmp webpack postcss.config.js \
-        package.json package-lock.json babel.config.js app/javascript \
+        ; rm -rf node_modules .tmp \
+        package.json pnpm-lock.yaml babel.config.js app/frontend \
         /usr/local/bundle/bundler/gems/*/.git \
         /usr/local/bundle/cache/
 
@@ -101,7 +99,7 @@ ARG BUILD_REGISTRY
 FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-${ALPINE_VERSION}
 
 ENV BUILD_PACKAGES=bash
-ENV RUNTIME_PACKAGES="libpq gettext libintl vips libsodium-dev p7zip tini curl"
+ENV RUNTIME_PACKAGES="libpq gettext libintl vips libsodium-dev p7zip tini curl nodejs pnpm"
 ENV WORKER_PACKAGES="libreoffice font-noto font-noto-cjk font-noto-emoji font-noto-extra font-dejavu"
 
 ARG APP_UID

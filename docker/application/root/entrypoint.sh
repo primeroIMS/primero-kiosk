@@ -1,6 +1,4 @@
 #!/bin/bash
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 set -euxo pipefail
 
 # Check if required environment variables are defined. If they aren't then complain.
@@ -11,7 +9,7 @@ check_required_variables() {
   result=0
 
   set +ux
-  required=( PRIMERO_HOST POSTGRES_USER POSTGRES_PASSWORD PRIMERO_SECRET_KEY_BASE DEVISE_SECRET_KEY PRIMERO_MESSAGE_SECRET )
+  required=( PRIMERO_HOST PRIMERO_SECRET_KEY_BASE DEVISE_SECRET_KEY PRIMERO_MESSAGE_SECRET )
   for var in "${required[@]}"
   do
     if [ -z "${!var}" ]
@@ -42,29 +40,11 @@ primero_migrate() {
   fi
 }
 
-# Apply a known configuration template
-primero_configure() {
-  set +u
-  if [[ -n "${PRIMERO_CONFIGURATION_FILE}" ]]
-  then
-    printf "Applying configuration template\\n"
-    bin/load_configuration.rb "${PRIMERO_CONFIGURATION_FILE}"
-  else
-    if [[ -n "${RUN_DEFAULT_PRIMERO_SEEDS}" ]] && [[ "${RUN_DEFAULT_PRIMERO_SEEDS}" == 'true' ]]
-    then
-      printf "Applying seed configuration\\n"
-      bin/rails db:seed
-    fi
-  fi
-  set -u
-}
-
 # This method is called to bootstrap the database on a new instance of Primero
 primero_bootstrap() {
   printf "Starting database and configuration bootstrap\\n"
   # shellcheck disable=SC2034
   primero_migrate
-  primero_configure
 }
 
 # Start the Rails server
@@ -113,9 +93,6 @@ primero_entrypoint() {
       ;;
     primero-migrate)
       primero_migrate
-      ;;
-    primero-configure)
-      primero_configure
       ;;
     primero-worker)
       primero_worker

@@ -1,12 +1,8 @@
-<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
-
-
-# Primero Docker
+# Primero-kiosk Docker
 
 ## Overview
 
-Docker for Primero consists of the following containers: application,
-nginx, and postgres. It is compatible with MacOS and modern
+Docker for Primero-kiosk consists of the following containers: application, and worker. It is compatible with MacOS and modern
 Linux distributions.
 
 ## Installing Docker and Docker-Compose on Linux
@@ -15,7 +11,6 @@ First, install Docker and Docker Compose from the [official docker
 website.](https://docs.docker.com/install/).
 
 ## TLDR
-
 
 Run everything from the `docker` directory:
 
@@ -40,13 +35,12 @@ cp local.env.sample.production local.env
 vi local.env
 ```
 
-Start Primero.
+Start Primero-kiosk.
 
 ```
 ./compose.configure.sh
 ./compose.prod.sh up -d
 ```
-
 
 ## How to Configure the Containers
 
@@ -66,7 +60,7 @@ be modified.
 
 ## Folder Structure
 
-All of the Docker components of Primero live in the docker sub folder. Inside
+All of the Docker components of Primero-kiosk live in the docker sub folder. Inside
 the docker folder are sub folders for each container: application, development,
 nginx, etc, and an app_common folder that contains shared resources between the
 production and the development container.
@@ -81,6 +75,7 @@ the application container, which rely on configurations outside of the
 docker dir, are set to include the entire project in their build context.
 
 ## Building - Instructions
+
 Make sure you have created the file `docker/local.env`. At the very least it requires
 an entry for `POSTGRES_PASSWORD`.
 
@@ -103,73 +98,30 @@ signed SSL certificates.
 
 ## Configuration Options - Environment Variables
 
-Docker for Primero is configured through environment variables. At runtime, the
+Docker for Primero-kiosk is configured through environment variables. At runtime, the
 containers will generate appropriate configuration files based on what values
 you have the environment variables set to.
 
 config option - parameter - description
 
 PRIMERO_HOST - Required. Set this to the server domain hostname.
-If Let's Encrypt is used, this value should match LETS_ENCRYPT_DOMAIN.
 
-PRIMERO_SECRET_KEY_BASE - Required. A secure random number.
+PRIMERO_HOST_SECRET_KEY_BASE - Required. A secure random number.
 To generate, can use the command `LC_ALL=C < /dev/urandom tr -dc '_A-Z-a-z-0-9' | head -c"${1:-32}"`
 
 DEVISE_SECRET_KEY - Required. A secure random number.
 To generate, can use the command `LC_ALL=C < /dev/urandom tr -dc '_A-Z-a-z-0-9' | head -c"${1:-32}"`
 
-PRIMERO_SECRET_KEY_BASE - Required. A secure random number.
+PRIMERO_HOST_SECRET_KEY_BASE - Required. A secure random number.
 To generate, can use the command `LC_ALL=C < /dev/urandom tr -dc '_A-Z-a-z-0-9' | head -c"${1:-32}"`
 
-PRIMERO_CONFIGURATION_FILE - Optional. If you would like to run a custom configuration instead of
-the default application seeds, you need to bindmount a path on the application container that contains the script.
-The recommended value is `/primero-configuration/load_configuration.rb` where `/primero-configuration`
-is bind mounted from the host system.
-
-APP_ROOT - file path - this is where Primero gets copied to in the app container.
+APP_ROOT - file path - this is where Primero-kiosk gets copied to in the app container.
 Default is `srv/primero/application`. Changing this parameter has not been tested.
 
-RAILS_ENV - production / development - sets the build / run mode for Primero.
+RAILS_ENV - production / development - sets the build / run mode for Primero-kiosk.
 
-RAILS_LOG_PATH - path - where Primero will store its logs. Set when you want the output logged
+RAILS_LOG_PATH - path - where Primero-kiosk will store its logs. Set when you want the output logged
 to a specific file instead of to the container's standard out.
 
-NGINX_SERVER_HOST - name to put in the self signed certificate. if letsencrypt
-is used, then we will store the host name received from CertBot here.
-NGINX_SERVER_NAME - sets the server name in the nginx site config file. ie what
-name nginx responds too.
-NGINX_SSL_CLIENT_CA, NGINX_SSL_KEY_PATH - path - location where nginx will look
-for and store its self signed certificates
-nginx_cert
-NGINX_HTTP_PORT, NGINX_HTTPS_PORT - port for http/s
-NGINX_PROXY_PASS_URL - address which nginx will proxy towards. this should point
-towards the app/puma container.
-NGINX_LOG_ERROR, NGINX_LOG_ACCESS - name of respective log files.
-NGINX_LOG_DIR - path of the folder for the nginx logs
-NGINX_KEEPALIVE_TIMEOUT - time out length for nginx
-NGINX_DH_PARAM - path of the diffie hellman group. this will be generated
-automatically at container start.
-
-USE_LETS_ENCRYPT - set this to `true` to use certbot to generate ssl certs. it
-is set to `false` for local by default. if this is set, then you must set the
-following as well.
-LETS_ENCRYPT_DOMAIN - domain to put on ssl cert. only supports one domain.
-LETS_ENCRYPT_EMAIL - email for cert. must be set.
-
-POSTGRES_DATABASE - name - sets the database name for Primero to use
-POSTGRES_HOSTNAME - name of the app container. this is the address which other
-containers will use to access postgres.
-
-LOCALE_DEFAULT - set this to the language which Primero will use. `en` by
+LOCALE_DEFAULT - set this to the language which Primero-kiosk will use. `en` by
 default.
-
-## Primero application configuration
-
-If you want to run Ruby configuration scripts other than the default Primero seeds,
-you can run the script below.
-It's assumed that a Primero configuration directory will have a script named `load_configuration.rb`.
-
-```
-cd docker
-./compose.configure.sh /path/to/primero/config/directory
-```
