@@ -1,6 +1,7 @@
 AllCops:
   Exclude:
     - db/schema.rb
+    - db/queue_schema.rb
     - tmp
 
 Layout/LineLength:

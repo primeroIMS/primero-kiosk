@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Custom miscellaneous Primero configurations, pulled from the environment
 
 Rails.application.configure do
