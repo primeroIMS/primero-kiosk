@@ -10,7 +10,6 @@ export PIPELINE=${1:-bitbucket}
 setup_test_env() {
   mkdir -p log
   cp "config/$PIPELINE/database.yml" config/
-  cp "config/$PIPELINE/mailers.yml" config/
   mkdir -p tmp/storage
 
   export RAILS_ENV=test
