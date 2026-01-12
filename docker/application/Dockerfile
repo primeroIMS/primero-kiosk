@@ -86,7 +86,7 @@ RUN set -euox pipefail \
 # Build UI
 RUN set -euox pipefail \
         ; rails primero:i18n_js \
-        ; rails assets:precompile
+        ; SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
 RUN set -euox pipefail \
         ; rm -rf node_modules .tmp \

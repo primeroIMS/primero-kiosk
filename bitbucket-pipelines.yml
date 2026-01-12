@@ -44,7 +44,6 @@ definitions:
           - |
               set -e
               cd docker
-              PRIMERO_SECRET_KEY_BASE=$(LC_ALL=C < /dev/urandom tr -dc '_A-Z-a-z-0-9' | head -c"${1:-32}")
               ./build.sh all -r "$AZ_ACR_NAME"
               if [ -n "$BITBUCKET_TAG" ]; then
                 RAW_TAG="$BITBUCKET_TAG"
