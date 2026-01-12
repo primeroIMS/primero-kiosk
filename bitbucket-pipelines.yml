@@ -44,7 +44,7 @@ definitions:
           - |
               set -e
               cd docker
-              build.sh all
+              ./build.sh all
               if [ -n "$BITBUCKET_TAG" ]; then
                 RAW_TAG="$BITBUCKET_TAG"
               else
