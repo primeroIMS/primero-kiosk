@@ -83,7 +83,7 @@ pipelines:
         - step: *client-test
       # - step: *push-branch
     main:
-      - parallel:
+      # - parallel:
         # - step: *server-test
         # - step: *client-test
       - step: *build-and-push-to-acr
