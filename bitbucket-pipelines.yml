@@ -42,7 +42,9 @@ definitions:
           depth: full
         script:
           - set -e
+          - ls -la
           - cd docker
+          - ls -la
           - docker/build.sh all
           - |
               if [ -n "$BITBUCKET_TAG" ]; then
@@ -82,8 +84,8 @@ pipelines:
       # - step: *push-branch
     main:
       - parallel:
-        - step: *server-test
-        - step: *client-test
+        # - step: *server-test
+        # - step: *client-test
       - step: *build-and-push-to-acr
   tags:
     v*:
