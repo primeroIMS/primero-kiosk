@@ -21,7 +21,7 @@ definitions:
           - corepack prepare pnpm@latest-10 --activate
           - pnpm install
           - pnpm run lint:run
-          - pnpm run test -- --maxWorkers=2
+          - pnpm run test -- --run --maxWorkers=2
         caches:
           - node
           - pnpm
@@ -41,6 +41,7 @@ definitions:
         clone:
           depth: full
         script:
+          - set -e
           - docker/build.sh all
           - |
               if [ -n "$BITBUCKET_TAG" ]; then
