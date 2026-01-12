@@ -25,6 +25,7 @@ definitions:
           - node
           - pnpm
     - step: &push-branch
+        name: Build and Push to ACR
         image: atlassian/default-image:4
         clone:
           depth: full
@@ -41,6 +42,7 @@ definitions:
           depth: full
         script:
           - set -e
+          - cd docker
           - docker/build.sh all
           - |
               if [ -n "$BITBUCKET_TAG" ]; then
