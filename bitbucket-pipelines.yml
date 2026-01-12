@@ -44,7 +44,8 @@ definitions:
           - |
               set -e
               cd docker
-              ./build.sh all
+              PRIMERO_SECRET_KEY_BASE=$(LC_ALL=C < /dev/urandom tr -dc '_A-Z-a-z-0-9' | head -c"${1:-32}")
+              ./build.sh all -r "$AZ_ACR_NAME"
               if [ -n "$BITBUCKET_TAG" ]; then
                 RAW_TAG="$BITBUCKET_TAG"
               else
@@ -59,8 +60,8 @@ definitions:
               echo "Using image tag: $IMAGE_TAG"
               export IMAGE_TAG
           - docker login -u "$AZ_ACR_USER" -p "$AZ_ACR_PASSWORD" "$AZ_ACR_NAME.azurecr.io"
-          - docker push "$AZ_ACR_NAME.azurecr.io/application:$IMAGE_TAG"
-          - docker push "$AZ_ACR_NAME.azurecr.io/worker:$IMAGE_TAG"
+          - docker push "$AZ_ACR_NAME.azurecr.io/primero-kiosk/application:$IMAGE_TAG"
+          - docker push "$AZ_ACR_NAME.azurecr.io/primero-kiosk/worker:$IMAGE_TAG"
   services:
     postgres:
       image: postgres:15.6
