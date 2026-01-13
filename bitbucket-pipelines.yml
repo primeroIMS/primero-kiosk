@@ -25,7 +25,7 @@ definitions:
           - node
           - pnpm
     - step: &push-branch
-        name: Build and Push to ACR
+        name: Sync repo with Azure and GitHub
         image: atlassian/default-image:4
         clone:
           depth: full
@@ -33,6 +33,7 @@ definitions:
           - git push https://$azdotoken@unicef.visualstudio.com/ICTD%20-%20Primero%20X%20DEV/_git/primero $BITBUCKET_BRANCH
           - git push https://$primeroimstoken@github.com/primeroIMS/primero.git $BITBUCKET_BRANCH
     - step: &build-and-push-to-acr
+        name: Build and Push to ACR
         image: atlassian/default-image:4
         services:
           - docker
@@ -46,7 +47,7 @@ definitions:
               cd docker
 
               SHORT_COMMIT_ID="$(echo "$BITBUCKET_COMMIT" | tail -c 10)"
-              if [ -n "$BITBUCKET_TAG" ]; then
+              if [ -n "${BITBUCKET_TAG:-}" ]; then
                 RAW_TAG="$BITBUCKET_TAG"
               else
                 RAW_TAG="$BITBUCKET_BRANCH-$SHORT_COMMIT_ID"
