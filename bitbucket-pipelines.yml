@@ -44,7 +44,6 @@ definitions:
         script:
           - |
               set -euo pipefail
-              cd docker
 
               SHORT_COMMIT_ID="$(echo "$BITBUCKET_COMMIT" | tail -c 10)"
               if [ -n "${BITBUCKET_TAG:-}" ]; then
@@ -88,8 +87,9 @@ definitions:
                   --platform linux/amd64 \
                   --image "primero-kiosk/${SERVICE}:${IMAGE_TAG}" \
                   --image "primero-kiosk/${SERVICE}:latest" \
+                  --file "./docker/application/Dockerfile" \
                   "${BUILD_ARGS[@]}" \
-                  ./application
+                  ./
               done
   services:
     postgres:
