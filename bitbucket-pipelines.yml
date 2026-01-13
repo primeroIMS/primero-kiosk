@@ -44,7 +44,7 @@ definitions:
           - |
               set -e
               cd docker
-              ./build.sh all -r "$AZ_ACR_NAME"
+              ./build.sh all -r "${AZ_ACR_NAME}.azurecr.io"
               if [ -n "$BITBUCKET_TAG" ]; then
                 RAW_TAG="$BITBUCKET_TAG"
               else
@@ -58,7 +58,7 @@ definitions:
 
               echo "Using image tag: $IMAGE_TAG"
               export IMAGE_TAG
-          - docker login -u "$AZ_ACR_USER" -p "$AZ_ACR_PASSWORD" "$AZ_ACR_NAME.azurecr.io"
+          - docker login -u "$AZ_ACR_USER" -p "$AZ_ACR_PASSWORD" "${AZ_ACR_NAME}.azurecr.io"
           - docker images
           - docker push "${AZ_ACR_NAME}".azurecr.io/primero-kiosk/application:"${IMAGE_TAG}"
           - docker push "${AZ_ACR_NAME}".azurecr.io/primero-kiosk/worker:"${IMAGE_TAG}"
