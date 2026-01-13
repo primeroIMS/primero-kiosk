@@ -42,13 +42,14 @@ definitions:
           depth: full
         script:
           - |
-              set -e
+              set -euo pipefail
               cd docker
-              ./build.sh all -r "${AZ_ACR_NAME}.azurecr.io"
+
+              SHORT_COMMIT_ID="$(echo "$BITBUCKET_COMMIT" | tail -c 10)"
               if [ -n "$BITBUCKET_TAG" ]; then
                 RAW_TAG="$BITBUCKET_TAG"
               else
-                RAW_TAG="$BITBUCKET_BRANCH-$BITBUCKET_COMMIT"
+                RAW_TAG="$BITBUCKET_BRANCH-$SHORT_COMMIT_ID"
               fi
 
               # Docker-safe tag
@@ -58,10 +59,19 @@ definitions:
 
               echo "Using image tag: $IMAGE_TAG"
               export IMAGE_TAG
-          - docker login -u "$AZ_ACR_USER" -p "$AZ_ACR_PASSWORD" "${AZ_ACR_NAME}.azurecr.io"
+
+          - az login --service-principal \
+              --username "$AZURE_CLIENT_ID" \
+              --password "$AZURE_CLIENT_SECRET" \
+              --tenant "$AZURE_TENANT_ID" \
+              --output none
+          - az account set --subscription "$AZURE_SUBSCRIPTION_ID"
+
+          - az acr build --registry "${ACR_NAME}" --platform=linux/amd64 --image primero-kiosk/application:"${IMAGE_TAG}" ./build.sh all
+          - az acr build --registry "${ACR_NAME}" --platform=linux/amd64 --image primero-kiosk/worker:"${IMAGE_TAG}" ./build.sh all
           - docker images
-          - docker push "${AZ_ACR_NAME}".azurecr.io/primero-kiosk/application:"${IMAGE_TAG}"
-          - docker push "${AZ_ACR_NAME}".azurecr.io/primero-kiosk/worker:"${IMAGE_TAG}"
+          - docker push "${ACR_NAME}/primero-kiosk/application:"${IMAGE_TAG}"
+          - docker push "${ACR_NAME}/primero-kiosk/worker:"${IMAGE_TAG}"
   services:
     postgres:
       image: postgres:15.6
