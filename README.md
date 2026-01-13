@@ -144,7 +144,7 @@ For detailed Docker setup instructions, see the [Docker README](docker/README.md
 
 # Configuring  for Local Development
 
-Primero -kioskis partially configured with a number of yaml files. There are example versions of these files provided for local development. They need to be copied to the correct locations in order for Primero-kiosk to function.
+Primero-kiosk is partially configured with a number of yaml files. There are example versions of these files provided for local development. They need to be copied to the correct locations in order for Primero-kiosk to function.
 
 Execute these from the root directory of the repository. You may want to review these files and potentially make changes to them once they have been copied.
 ```bash
