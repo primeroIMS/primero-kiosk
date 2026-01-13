@@ -62,9 +62,9 @@ definitions:
               export IMAGE_TAG
 
           - az login --service-principal \
-              --username "$AZURE_CLIENT_ID" \
-              --password "$AZURE_CLIENT_SECRET" \
-              --tenant "$AZURE_TENANT_ID"
+              --username="$AZURE_CLIENT_ID" \
+              --password="$AZURE_CLIENT_SECRET" \
+              --tenant="$AZURE_TENANT_ID"
           - az account set --subscription "$AZURE_SUBSCRIPTION_ID"
 
           - az acr build --registry "${ACR_NAME}" --platform=linux/amd64 --image primero-kiosk/application:"${IMAGE_TAG}" ./build.sh all
