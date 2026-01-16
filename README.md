@@ -184,7 +184,7 @@ RAILS_ENV=test rails db:migrate
 You also need to generate the translation files.
 
 ```shell
-rails primero:i18n_js
+rails primero_kiosk:i18n_js
 ```
 
 Finally, you need to set a number of environment variables which contain necessary secrets.
