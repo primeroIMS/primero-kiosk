@@ -5,6 +5,7 @@ import SelectInput from "@/components/form/fields/SelectInput";
 import Form from "@/components/form/Form";
 import Logo from "@/components/Logo";
 import PageContainer from "@/components/PageContainer";
+import PageTitle from "@/components/PageTitle";
 import useStore from "@/hooks/use-store";
 import i18n from "@/translations";
 import { PrimitiveRecord } from "@/type";
@@ -14,26 +15,23 @@ export const Route = createFileRoute("/")({
 });
 
 export default function Page() {
-    const color = useStore("theme", "theme.colors.welcome_bg");
+    const bgColor = useStore("theme", "theme.colors.welcome_bg");
     const welcomeTitleColor = useStore("theme", "theme.colors.welcome_title");
     const welcomeText = useStore("theme", "theme.copy.welcome_title");
     const navigate = Route.useNavigate();
 
     function onSubmit(data: PrimitiveRecord) {
         i18n.locale = data.language as string;
-        navigate({ to: "/welcome" });
+        navigate({ to: "/goodbye" });
     }
 
     return (
-        <PageContainer style={{ backgroundColor: color }}>
+        <PageContainer style={{ backgroundColor: bgColor }}>
             <Logo />
             {welcomeText?.[i18n.locale] && (
-                <h1
-                    className="text-center text-3xl font-bold mb-3"
-                    style={{ color: welcomeTitleColor }}
-                >
+                <PageTitle color={welcomeTitleColor}>
                     {welcomeText[i18n.locale]}
-                </h1>
+                </PageTitle>
             )}
             <Form
                 className="mb-20"

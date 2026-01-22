@@ -49,6 +49,7 @@ en:
   buttons:
     continue: "Continue"
     next: "Next"
+    done: "Done"
   form:
     select_input:
       language:

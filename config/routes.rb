@@ -13,4 +13,7 @@ Rails.application.routes.draw do
     get :theme, to: 'themes#index'
     resources :system_settings, only: [:index]
   end
+
+  # TanStack Router SPA - catch all other routes (except ActiveStorage which is auto-mounted)
+  get '*all', to: 'home#index', constraints: ->(req) { !req.path.start_with?('/rails/active_storage') }
 end
