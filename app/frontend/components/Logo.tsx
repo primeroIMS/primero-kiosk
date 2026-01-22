@@ -14,7 +14,7 @@ function Logo({ className }: Props) {
             {logo ? (
                 <img
                     alt="Logo"
-                    className="h-15"
+                    className="max-w-70"
                     src={logo as string}
                 />
             ) : (

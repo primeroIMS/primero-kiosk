@@ -48,6 +48,7 @@ en:
     tet: Tetum
   buttons:
     continue: "Continue"
+    next: "Next"
   form:
     select_input:
       language:
