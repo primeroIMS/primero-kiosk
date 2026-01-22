@@ -1,0 +1,9 @@
+{
+  "editor.formatOnSave": true,
+  "eslint.format.enable": true,
+  "editor.insertSpaces": true,
+  "[typescript]": {
+    "editor.formatOnSave": true,
+    "editor.tabSize": 4
+  }
+}

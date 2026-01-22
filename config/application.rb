@@ -37,3 +37,5 @@ module PrimeroKiosk
   end
 end
 # rubocop:enable Style/ClassAndModuleChildren
+
+require File.expand_path('version', __dir__)

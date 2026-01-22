@@ -6,5 +6,17 @@ translations:
   - file: app/frontend/translations.json
     patterns:
       - "*"
+      - "!*.activerecord.*"
+      - "!*.date.*"
+      - "!*.time.*"
+      - "!*.number.*"
+      - "!*.helpers.*"
+      - "!*.errors.*"
+      - "!*.support.*"
+      - "!*.datetime.*"
 
-
+export_files:
+  enabled: true
+  files:
+    - template: "app/views/translations.erb"
+      output: "%{dir}/%{base_name}.ts"

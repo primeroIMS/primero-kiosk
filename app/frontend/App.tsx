@@ -1,15 +1,12 @@
+import { RouterProvider } from "@tanstack/react-router";
+
 import "./app.css";
-import useI18n from "./hooks/use-i18n";
+import { use } from "react";
 
-const App = () => {
-    const i18n = useI18n();
+const App = ({ promise, router }) => {
+    const data = use(promise);
 
-    return (
-        <>
-            <h1 className="text-3xl font-bold underline">App Component</h1>
-            <h1 className="text-xl font-bold underline">{i18n.t("hello")}</h1>
-        </>
-    );
+    return <RouterProvider router={router} />;
 };
 
 export default App;
