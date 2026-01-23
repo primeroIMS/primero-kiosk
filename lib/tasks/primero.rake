@@ -3,8 +3,8 @@
 namespace :primero_kiosk do
   desc 'Export translations to JS file(s)'
   task :i18n_js do
-    Dir.glob(Rails.root.join('app', 'frontend', 'translations.js')).each { |file| File.delete(file) }
+    Dir.glob(Rails.root.join('app', 'frontend', 'translations.*')).each { |file| File.delete(file) }
 
-    I18nJS.call(config_file: Rails.root.join('config/i18n.yml'))
+    `bundle exec i18n export -r lib/i18n_loader.rb`
   end
 end
