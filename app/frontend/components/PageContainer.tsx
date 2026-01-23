@@ -17,7 +17,7 @@ function PageContainer({ children, className, style }: PropsWithChildren<Props>)
             )}
             style={style}
         >
-            <div className="max-w-sm w-full text-center">{children}</div>
+            <div className="w-full max-w-sm text-center">{children}</div>
         </div>
     );
 }

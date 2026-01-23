@@ -28,7 +28,7 @@ function RouteComponent() {
             />
             <PageTitle color={headerColor}>{headerText[i18n.locale]}</PageTitle>
             <p
-                className="text-lg mb-20"
+                className="mb-20 text-lg"
                 style={{ color: responseBodyColor }}
             >
                 {responseBody[i18n.locale]}
