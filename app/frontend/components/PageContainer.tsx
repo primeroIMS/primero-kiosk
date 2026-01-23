@@ -12,7 +12,7 @@ function PageContainer({ children, className, style }: PropsWithChildren<Props>)
     return (
         <div
             className={cn(
-                "bg-gray-800 h-screen flex flex-col items-center justify-center gap-4",
+                "flex h-screen flex-col items-center justify-center gap-4 bg-gray-800",
                 className,
             )}
             style={style}

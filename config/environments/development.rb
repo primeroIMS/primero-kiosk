@@ -2,6 +2,7 @@
 
 require 'active_support/core_ext/integer/time'
 
+# rubocop:disable Metrics/BlockLength
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -78,3 +79,4 @@ Rails.application.configure do
   end || 'local'
   config.active_storage.service = storage_type
 end
+# rubocop:enable Metrics/BlockLength

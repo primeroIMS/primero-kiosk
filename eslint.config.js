@@ -55,7 +55,7 @@ export default [
             "@typescript-eslint/no-unused-vars": "off",
             "better-tailwindcss/enforce-consistent-class-order": [
                 "warn",
-                { order: "strict" },
+                { order: "official" },
             ],
             "better-tailwindcss/enforce-consistent-line-wrapping": [
                 "warn",
@@ -100,7 +100,7 @@ export default [
         },
         settings: {
             "better-tailwindcss": {
-                entryPoint: "app/app.css",
+                entryPoint: "app/frontend/app.css",
             },
         },
     },

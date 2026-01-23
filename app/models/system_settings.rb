@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# This model encapsulates system-wide configuration settings.
 class SystemSettings < ApplicationRecord
   after_initialize :set_version
   before_save :set_version
