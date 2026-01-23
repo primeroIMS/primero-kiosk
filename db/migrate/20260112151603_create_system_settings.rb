@@ -2,7 +2,7 @@
 
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-class CreateSystemSettings < ActiveRecord::Migration[5.0]
+class CreateSystemSettings < ActiveRecord::Migration[8.1]
   def change
     create_table :system_settings do |t|
       t.string :configuration_file_version

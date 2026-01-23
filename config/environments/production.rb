@@ -104,6 +104,7 @@ Rails.application.configure do
   end || 'local'
   config.active_storage.service = storage_type.to_sym
 
-  config.active_job.queue_adapter = :delayed_job
+  config.active_job.queue_adapter = :solid_queue
+  config.solid_queue.connects_to = { database: { writing: :queue } }
 end
 # rubocop:enable Metrics/BlockLength

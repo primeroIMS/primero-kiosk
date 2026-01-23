@@ -64,7 +64,7 @@ primero_bootstrap() {
 # Start the Rails server
 primero_start() {
   stage_assets
-  bin/bundle exec puma -C config/puma.rb
+  bundle exec puma -C config/puma.rb
 }
 
 stage_assets() {
@@ -77,12 +77,7 @@ stage_assets() {
 }
 
 primero_worker() {
-  if [[ "$PRIMERO_WORKER_MULTIPROCESS" == "true" ]]
-  then
-    QUEUE=long_running_process rails jobs:work & QUEUES=mailer,default rails jobs:work
-  else
-    QUEUES=mailer,long_running_process rails jobs:work
-  fi
+  bin/jobs start
 }
 
 # apps 'entrypoint' start. handles passed arguments and checks if bootstrap is
