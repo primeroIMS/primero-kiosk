@@ -9,11 +9,9 @@ gem 'jbuilder', '~> 2.14'
 gem 'pg', '~> 1.1'
 gem 'puma', '>= 5.0'
 gem 'rails', '~> 8.1.1'
-gem 'solid_cable'
-gem 'solid_cache'
 gem 'solid_queue'
 gem 'thruster', require: false
-gem 'tzinfo-data', platforms: %i[windows jruby]
+gem 'tzinfo-data'
 gem 'vite_rails', '~> 3.0'
 
 group :development, :test do

@@ -298,15 +298,6 @@ GEM
       ffi (~> 1.12)
       logger
     securerandom (0.4.1)
-    solid_cable (3.0.12)
-      actioncable (>= 7.2)
-      activejob (>= 7.2)
-      activerecord (>= 7.2)
-      railties (>= 7.2)
-    solid_cache (1.0.10)
-      activejob (>= 7.2)
-      activerecord (>= 7.2)
-      railties (>= 7.2)
     solid_queue (1.2.4)
       activejob (>= 7.1)
       activerecord (>= 7.1)
@@ -325,6 +316,8 @@ GEM
     tsort (0.2.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
+    tzinfo-data (1.2025.3)
+      tzinfo (>= 1.0.0)
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
     unicode-emoji (4.2.0)
@@ -370,8 +363,6 @@ DEPENDENCIES
   rails (~> 8.1.1)
   rspec-rails (~> 8.0)
   rubocop-rails-omakase
-  solid_cable
-  solid_cache
   solid_queue
   thruster
   tzinfo-data
