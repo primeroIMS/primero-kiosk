@@ -29,7 +29,7 @@ export default function Page() {
             <Logo />
             {welcomeText?.[i18n.locale] && (
                 <h1
-                    className="text-center text-3xl font-bold mb-3"
+                    className="mb-3 text-center text-3xl font-bold"
                     style={{ color: welcomeTitleColor }}
                 >
                     {welcomeText[i18n.locale]}

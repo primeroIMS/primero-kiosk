@@ -5,16 +5,16 @@ import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
     `
-      rounded-4xl border border-transparent bg-clip-padding text-sm font-medium
-      inline-flex items-center justify-center whitespace-nowrap transition-all shrink-0
-      outline-none group/button select-none
-      focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]
-      aria-invalid:ring-destructive/20 aria-invalid:border-destructive
-      aria-invalid:ring-[3px]
+      group/button inline-flex shrink-0 items-center justify-center rounded-4xl border
+      border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap
+      transition-all outline-none select-none
+      focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50
       disabled:pointer-events-none disabled:opacity-50
-      dark:aria-invalid:ring-destructive/40 dark:aria-invalid:border-destructive/50
-      [&_svg:not([class*='size-'])]:size-4
+      aria-invalid:border-destructive aria-invalid:ring-[3px]
+      aria-invalid:ring-destructive/20
+      dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40
       [&_svg]:pointer-events-none [&_svg]:shrink-0
+      [&_svg:not([class*='size-'])]:size-4
     `,
     {
         defaultVariants: {
@@ -54,10 +54,10 @@ const buttonVariants = cva(
                 destructive: `
                   bg-destructive/10 text-destructive
                   hover:bg-destructive/20
-                  focus-visible:ring-destructive/20 focus-visible:border-destructive/40
+                  focus-visible:border-destructive/40 focus-visible:ring-destructive/20
                   dark:bg-destructive/20
-                  dark:focus-visible:ring-destructive/40
                   dark:hover:bg-destructive/30
+                  dark:focus-visible:ring-destructive/40
                 `,
                 ghost: `
                   hover:bg-muted hover:text-foreground
@@ -95,4 +95,5 @@ function Button({
     );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export { Button, buttonVariants };
