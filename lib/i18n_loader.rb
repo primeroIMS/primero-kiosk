@@ -6,3 +6,6 @@ require 'active_support/railtie'
 require 'action_view/railtie'
 
 I18n.load_path += Dir['./config/locales/**/*.yml']
+
+module I18nLoader # rubocop:disable Style/Documentation
+end

@@ -17,6 +17,7 @@ Rails.application.configure do
 
   # Cache assets for far-future expiry since they are all digest stamped.
   config.public_file_server.headers = { 'cache-control' => "public, max-age=#{1.year.to_i}" }
+  config.public_file_server.enabled = ActiveRecord::Type::Boolean.new.cast(ENV.fetch('RAILS_PUBLIC_FILE_SERVER', nil))
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.asset_host = "http://assets.example.com"
@@ -98,9 +99,9 @@ Rails.application.configure do
     ]
   end
 
-  storage_type = %w[local microsoft amazon minio].find do |t|
+  storage_type = %w[test local microsoft amazon].find do |t|
     t == ENV['PRIMERO_STORAGE_TYPE']
   end || 'local'
-  config.active_storage.service = storage_type.to_sym
+  config.active_storage.service = storage_type
 end
 # rubocop:enable Metrics/BlockLength

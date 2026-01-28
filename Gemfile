@@ -2,6 +2,7 @@
 
 source 'https://rubygems.org'
 
+gem 'azure-blob', '~> 0.5'
 gem 'bootsnap', require: false
 gem 'i18n-js', '~> 4.2'
 gem 'image_processing', '~> 1.2'
