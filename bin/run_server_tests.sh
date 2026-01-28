@@ -13,8 +13,6 @@ setup_test_env() {
   mkdir -p tmp/storage
 
   export RAILS_ENV=test
-  export DEVISE_JWT_SECRET_KEY=DEVISE_JWT_SECRET_KEY
-  export DEVISE_SECRET_KEY=DEVISE_SECRET_KEY
 }
 
 # Create the database

@@ -1,4 +1,6 @@
 #!/bin/bash
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 set -euxo pipefail
 
 # Check if required environment variables are defined. If they aren't then complain.
@@ -9,7 +11,7 @@ check_required_variables() {
   result=0
 
   set +ux
-  required=( PRIMERO_HOST PRIMERO_SECRET_KEY_BASE DEVISE_SECRET_KEY PRIMERO_MESSAGE_SECRET )
+  required=( PRIMERO_HOST POSTGRES_USER POSTGRES_PASSWORD PRIMERO_SECRET_KEY_BASE PRIMERO_MESSAGE_SECRET )
   for var in "${required[@]}"
   do
     if [ -z "${!var}" ]
@@ -40,17 +42,29 @@ primero_migrate() {
   fi
 }
 
+# Apply a known configuration template
+primero_configure() {
+  set +u
+  if [[ -n "${PRIMERO_CONFIGURATION_FILE}" ]]
+  then
+    printf "Applying configuration template\\n"
+    bin/load_configuration.rb "${PRIMERO_CONFIGURATION_FILE}"
+  fi
+  set -u
+}
+
 # This method is called to bootstrap the database on a new instance of Primero
 primero_bootstrap() {
   printf "Starting database and configuration bootstrap\\n"
   # shellcheck disable=SC2034
   primero_migrate
+  primero_configure
 }
 
 # Start the Rails server
 primero_start() {
   stage_assets
-  bin/bundle exec puma -C config/puma.rb
+  bundle exec puma -C config/puma.rb
 }
 
 stage_assets() {
@@ -63,12 +77,7 @@ stage_assets() {
 }
 
 primero_worker() {
-  if [[ "$PRIMERO_WORKER_MULTIPROCESS" == "true" ]]
-  then
-    QUEUE=long_running_process rails jobs:work & QUEUES=mailer,export,logger,api,options,default rails jobs:work
-  else
-    QUEUES=mailer,export,logger,api,options,default,long_running_process rails jobs:work
-  fi
+  bin/jobs start
 }
 
 # apps 'entrypoint' start. handles passed arguments and checks if bootstrap is
@@ -93,6 +102,9 @@ primero_entrypoint() {
       ;;
     primero-migrate)
       primero_migrate
+      ;;
+    primero-configure)
+      primero_configure
       ;;
     primero-worker)
       primero_worker

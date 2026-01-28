@@ -4,7 +4,7 @@ ARG RUBY_VERSION=3.4.7
 ARG ALPINE_VERSION=alpine3.22
 FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-${ALPINE_VERSION} AS build-env
 
-ENV NODE_VERSION=22.16.0-r2
+ENV NODE_VERSION=22.22.0-r0
 ENV BUILD_PACKAGES="bash curl wget curl-dev build-base tzdata git"
 ENV PYTHON_PACKAGES="python3 py3-pip"
 ENV BUILD_DEP_PACKAGES="postgresql-dev yaml-dev"
@@ -22,16 +22,14 @@ ENV RAILS_LOG_PATH=${RAILS_LOG_PATH}
 # Temporary build-time secrets needed to run rails processes.
 # These are never persisted in the container images
 ENV PRIMERO_SECRET_KEY_BASE=PRIMERO_SECRET_KEY_BASE
-ENV DEVISE_SECRET_KEY=DEVISE_SECRET_KEY
-ENV DEVISE_JWT_SECRET_KEY=DEVISE_JWT_SECRET_KEY
 
 # Test if variables have been defined by build script
 # otherwise return 1 and stop docker build
 RUN set -ex ; \
         test -n "$APP_ROOT" || (printf "APP_ROOT not defined\n" ; \
-            return 1); \
+        return 1); \
         test -n "$RAILS_LOG_PATH" || (printf "RAILS_LOG_PATH not defined\n" ; \
-            return 1);
+        return 1);
 
 # Install our packages
 RUN set -euox pipefail \
@@ -85,7 +83,7 @@ RUN set -euox pipefail \
 
 # Build UI
 RUN set -euox pipefail \
-        ; rails primero:i18n_js \
+        ; rails primero_kiosk:i18n_js \
         ; SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
 RUN set -euox pipefail \
@@ -99,13 +97,10 @@ ARG BUILD_REGISTRY
 FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-${ALPINE_VERSION}
 
 ENV BUILD_PACKAGES=bash
-ENV RUNTIME_PACKAGES="libpq gettext libintl vips libsodium-dev p7zip tini curl nodejs pnpm"
-ENV WORKER_PACKAGES="libreoffice font-noto font-noto-cjk font-noto-emoji font-noto-extra font-dejavu"
+ENV RUNTIME_PACKAGES="libpq gettext libintl vips libsodium-dev p7zip tini curl"
 
 ARG APP_UID
 ARG APP_GID
-ARG IS_WORKER
-ENV IS_WORKER=${IS_WORKER:-false}
 ENV USER_ID=${APP_UID}
 ENV GROUP_ID=${APP_GID}
 
@@ -118,9 +113,6 @@ RUN set -euox pipefail \
         ; apk update \
         ; apk add --no-cache $BUILD_PACKAGES \
         ; apk add --no-cache $RUNTIME_PACKAGES \
-        ; if [ "$IS_WORKER" = true ]; then \
-          apk add --no-cache $WORKER_PACKAGES; \
-        fi \
         ; rm -rf /var/cache/apk/*
 
 COPY [ "docker/sub.sh", "docker/application/root/", "/" ]
