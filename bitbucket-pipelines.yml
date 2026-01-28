@@ -103,14 +103,7 @@ definitions:
     pnpm: $BITBUCKET_CLONE_DIR/.pnpm-store
 pipelines:
   branches:
-    maint_*:
-      - step: *push-branch
-    '{develop*,release-*}':
-      - parallel:
-        - step: *server-test
-        - step: *client-test
-      # - step: *push-branch
-    main:
+    '{develop*,release-*,main}':
       - parallel:
         - step: *server-test
         - step: *client-test

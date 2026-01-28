@@ -104,40 +104,6 @@ Afterward you need [pnpm](https://pnpm.io/) Pnpm has a few different methods of 
 curl -fsSL https://get.pnpm.io/install.sh | sh -
 ```
 
-## Installing Docker and docker-compose
-
-> [!NOTE]
-> If you already have docker and docker-compose, skip this step.
->
-> Docker can be installed in a number of different ways. As we are primarily using docker as a convenient way of running a database locally, it doesn't matter how it is installed.
-
-Install docker using [apt](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository):
-```bash
-sudo apt install docker.io docker-compose-plugin
-```
-
-## Building the Containers
-
-```bash
-cd ./docker
-sudo ./build.sh all
-```
-
-## Configuration file
-
-Before running the containers, make sure to copy the sample environment file to create the necessary `local.env` file. This file is required when using `compose.local.sh up`.
-
-```bash
-cp local.env.sample.development local.env
-```
-
-## Running the Containers
-
-You should run this from inside the docker directory.
-```bash
-sudo ./compose.local.sh up -d application worker
-```
-
 ## For more docker instructions
 
 For detailed Docker setup instructions, see the [Docker README](docker/README.md).
@@ -184,7 +150,7 @@ RAILS_ENV=test rails db:migrate
 You also need to generate the translation files.
 
 ```shell
-rails primero:i18n_js
+rails primero_kiosk:i18n_js
 ```
 
 Finally, you need to set a number of environment variables which contain necessary secrets.
