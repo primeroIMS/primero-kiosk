@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'yaml'
 require 'pg'
 require 'singleton'
@@ -9,7 +7,7 @@ require 'date'
 
 # Raw PG connection to the Primero database.
 # Call this class only in scripts
-class PrimeroDatabase
+class ApplicationDatabase
   include Singleton
 
   MIGRATION_DATE_FORMAT = '%Y%m%d%H%M%S'
