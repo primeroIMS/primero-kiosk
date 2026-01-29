@@ -35,7 +35,6 @@ export default function Page() {
             )}
             <Form
                 className="mb-20"
-                debug
                 onSubmit={onSubmit}
             >
                 <SelectInput

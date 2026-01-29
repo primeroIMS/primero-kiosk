@@ -2,6 +2,7 @@ import { DevTool } from "@hookform/devtools";
 import { PropsWithChildren } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
+import { cn } from "@/lib/utils";
 import { PrimitiveRecord } from "@/type";
 
 type Props = {
@@ -24,7 +25,7 @@ function Form({
     return (
         <FormProvider {...methods}>
             <form
-                className={className}
+                className={cn("mb-20", className)}
                 id={id}
                 onSubmit={handleSubmit(onSubmit)}
             >
