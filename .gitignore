@@ -41,4 +41,5 @@ node_modules
 
 docker/production.env
 docker/local.env
-app/frontend/translations.json
+app/frontend/translations.*
+/.tanstack

@@ -9,7 +9,13 @@
     "skipLibCheck": true,
     "noEmit": true,
     "isolatedModules": true,
-    "types": ["vite/client"]
+    "types": ["vite/client"],
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    },
+    "baseUrl": "./app/frontend/.",
   },
   "include": ["app/frontend/**/*", "vitest.config.ts"],
   "parserOptions": {
