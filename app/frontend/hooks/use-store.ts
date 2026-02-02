@@ -3,6 +3,7 @@ import type { ExtractState, StoreApi, UseBoundStore } from "zustand";
 import get from "lodash-es/get";
 
 import FormStore from "@/stores/form";
+import ScreenStore from "@/stores/screen";
 import SystemSettingsStore from "@/stores/system-settings";
 import ThemeStore from "@/stores/theme";
 
@@ -11,6 +12,7 @@ type StorePath = keyof typeof Stores;
 
 const Stores = {
     form: FormStore,
+    screen: ScreenStore,
     systemSettings: SystemSettingsStore,
     theme: ThemeStore,
 } as const;

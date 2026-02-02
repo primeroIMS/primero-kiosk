@@ -16,6 +16,7 @@ class Store extends BaseStore<SystemSettingsState> {
 
 const SystemSettingsStore = new Store({
     defaultState: { settings: {} },
+    storage: { name: "settings", provider: "idb", version: 0 },
 });
 
 export default SystemSettingsStore;

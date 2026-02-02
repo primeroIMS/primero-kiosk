@@ -15,6 +15,10 @@ module JsonNestedModel
         send("#{k}=", v) if respond_to?("#{k}=")
       end
     end
+
+    def as_json(_options = {})
+      attributes
+    end
   end
 
   class_methods do

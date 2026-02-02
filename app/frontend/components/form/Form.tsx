@@ -3,6 +3,7 @@ import { PropsWithChildren } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { cn } from "@/lib/utils";
+import FormStore from "@/stores/form";
 import { PrimitiveRecord } from "@/type";
 
 type Props = {
@@ -10,6 +11,7 @@ type Props = {
     debug?: boolean;
     id?: string;
     onSubmit: (data: PrimitiveRecord) => void;
+    persist?: boolean;
 };
 
 function Form({
@@ -18,16 +20,24 @@ function Form({
     debug = false,
     id = "form",
     onSubmit,
+    persist = false,
 }: PropsWithChildren<Props>) {
     const methods = useForm<PrimitiveRecord>();
     const { handleSubmit } = methods;
+
+    function submit(data: PrimitiveRecord) {
+        if (persist) {
+            FormStore.set(data);
+        }
+        onSubmit(data);
+    }
 
     return (
         <FormProvider {...methods}>
             <form
                 className={cn("mb-20", className)}
                 id={id}
-                onSubmit={handleSubmit(onSubmit)}
+                onSubmit={handleSubmit(submit)}
             >
                 {children}
             </form>

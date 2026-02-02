@@ -1,24 +1,41 @@
+import { useNavigate } from "@tanstack/react-router";
+
 import Button from "@/components/Button";
 import Form from "@/components/form/Form";
-import PageContainer from "@/components/PageContainer";
-import { PrimitiveRecord } from "@/type";
+import { Screen } from "@/type";
+
+import RadioGroupInput from "../form/fields/RadioGroupInput";
+import useField from "../form/use-field";
 
 type Props = {
-    bgColor?: string;
-    onSubmit: (data: PrimitiveRecord) => void;
+    config: Screen;
 };
 
-function SingleSelect({ bgColor, onSubmit }: Props) {
+function SingleSelect({ config }: Props) {
+    const navigate = useNavigate();
+    const fields = useField(config);
+
+    function onSubmit(data: Record<string, any>) {
+        // shareable next_screen logic can be implemented here, extracted into hook
+        console.log("Form submitted with data:", data);
+        // navigate({ params: { id: "next-screen-id" }, to: "." });
+    }
+
     return (
-        <PageContainer style={{ backgroundColor: bgColor }}>
-            <Form onSubmit={onSubmit}></Form>
+        <>
+            <Form
+                onSubmit={onSubmit}
+                persist
+            >
+                <RadioGroupInput name={fields.fields.option_select.backend_id} />
+            </Form>
             <Button
                 form="form"
                 text="buttons.continue"
                 type="submit"
                 variant="secondary"
             />
-        </PageContainer>
+        </>
     );
 }
 
