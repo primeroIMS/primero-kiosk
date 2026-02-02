@@ -17,6 +17,5 @@ class Screen::Data
 
   validates :component, presence: true
   validates :flow, presence: true
-  validates :fields, presence: true
   validates :bg_color, hex_color: true
 end

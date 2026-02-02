@@ -24,10 +24,11 @@ function SingleSelect({ config }: Props) {
     return (
         <>
             <Form
+                debug
                 onSubmit={onSubmit}
                 persist
             >
-                <RadioGroupInput name={fields.fields.option_select.backend_id} />
+                <RadioGroupInput name={fields.buildName("input_1")} />
             </Form>
             <Button
                 form="form"
