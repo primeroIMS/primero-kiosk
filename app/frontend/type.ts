@@ -10,6 +10,7 @@ export type Screen = {
         color?: string;
         text_i18n: Record<string, string>;
     };
+    featured_image?: string;
     fields: Field[];
     flow: {
         allow_back: boolean;

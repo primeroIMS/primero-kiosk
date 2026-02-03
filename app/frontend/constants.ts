@@ -4,4 +4,5 @@ export const STRINGS = {
     responseGoodBye: "ResponseGoodBye",
     screenNotFound: "Screen Not Found",
     singleSelect: "SingleSelect",
+    comfortingResponse: "ComfortingResponse"
 } as const;

@@ -9,5 +9,6 @@ json.data do
     json.title screen.data.title
     json.description screen.data.description
     json.flow screen.data.flow
+    json.featured_image rails_blob_path(screen.featured_image, only_path: true) if screen.featured_image.attached?
   end
 end.compact!
