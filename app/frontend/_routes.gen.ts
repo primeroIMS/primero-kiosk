@@ -9,12 +9,12 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as WelcomeRouteImport } from './routes/welcome'
+import { Route as GoodbyeRouteImport } from './routes/goodbye'
 import { Route as IndexRouteImport } from './routes/index'
 
-const WelcomeRoute = WelcomeRouteImport.update({
-  id: '/welcome',
-  path: '/welcome',
+const GoodbyeRoute = GoodbyeRouteImport.update({
+  id: '/goodbye',
+  path: '/goodbye',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -25,37 +25,37 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/welcome': typeof WelcomeRoute
+  '/goodbye': typeof GoodbyeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/welcome': typeof WelcomeRoute
+  '/goodbye': typeof GoodbyeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/welcome': typeof WelcomeRoute
+  '/goodbye': typeof GoodbyeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/welcome'
+  fullPaths: '/' | '/goodbye'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/welcome'
-  id: '__root__' | '/' | '/welcome'
+  to: '/' | '/goodbye'
+  id: '__root__' | '/' | '/goodbye'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  WelcomeRoute: typeof WelcomeRoute
+  GoodbyeRoute: typeof GoodbyeRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/welcome': {
-      id: '/welcome'
-      path: '/welcome'
-      fullPath: '/welcome'
-      preLoaderRoute: typeof WelcomeRouteImport
+    '/goodbye': {
+      id: '/goodbye'
+      path: '/goodbye'
+      fullPath: '/goodbye'
+      preLoaderRoute: typeof GoodbyeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -70,7 +70,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  WelcomeRoute: WelcomeRoute,
+  GoodbyeRoute: GoodbyeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
