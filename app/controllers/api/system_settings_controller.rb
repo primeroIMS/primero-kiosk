@@ -5,8 +5,4 @@ class Api::SystemSettingsController < ApplicationApiController
   def index
     @system_setting = SystemSettings.current
   end
-
-  def model_class
-    SystemSettings
-  end
 end
