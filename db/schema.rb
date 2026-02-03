@@ -182,6 +182,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_26_151523) do
   create_table "themes", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.jsonb "data"
+    t.boolean "disabled"
     t.datetime "updated_at", null: false
   end
 

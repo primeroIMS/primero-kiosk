@@ -8,6 +8,10 @@ Rails.application.routes.draw do
   get 'up' => 'rails/health#show', as: :rails_health_check
   resources :health, only: %i[index show]
 
-  # Defines the root path route ("/")
   root 'home#index'
+
+  namespace :api, defaults: { format: :json } do
+    get :theme, to: 'themes#index'
+    resources :system_settings, only: [:index]
+  end
 end
