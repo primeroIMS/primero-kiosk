@@ -1,14 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
 
-import Button from "@/components/Button";
-import SelectInput from "@/components/form/fields/SelectInput";
-import Form from "@/components/form/Form";
-import Logo from "@/components/Logo";
 import PageContainer from "@/components/PageContainer";
-import PageTitle from "@/components/PageTitle";
 import useStore from "@/hooks/use-store";
-import i18n from "@/translations";
-import { PrimitiveRecord } from "@/type";
 
 export const Route = createFileRoute("/")({
     component: Page,
@@ -16,43 +10,18 @@ export const Route = createFileRoute("/")({
 
 export default function Page() {
     const bgColor = useStore("theme", "theme.colors.welcome_bg");
-    const welcomeTitleColor = useStore("theme", "theme.colors.welcome_title");
-    const welcomeText = useStore("theme", "theme.copy.welcome_title");
-    const navigate = Route.useNavigate();
+    const navigate = useNavigate();
+    const initialScreenId = useStore("systemSettings", "starting_screen_id");
 
-    function onSubmit(data: PrimitiveRecord) {
-        i18n.locale = data.language as string;
-        navigate({ to: "/goodbye" });
-    }
+    useEffect(() => {
+        if (initialScreenId) {
+            setTimeout(() => {
+                navigate({ params: { id: initialScreenId }, to: "/screens/$id" });
+            }, 2500);
+        }
+    }, [initialScreenId, navigate]);
 
     return (
-        <PageContainer style={{ backgroundColor: bgColor }}>
-            <Logo />
-            {welcomeText?.[i18n.locale] && (
-                <PageTitle color={welcomeTitleColor}>
-                    {welcomeText[i18n.locale]}
-                </PageTitle>
-            )}
-            <Form
-                className="mb-20"
-                onSubmit={onSubmit}
-            >
-                <SelectInput
-                    getI18nLabelFromName
-                    name="language"
-                    optionsConfig={{
-                        i18nKey: "locales",
-                        key: "settings.locales",
-                        store: "systemSettings",
-                    }}
-                />
-            </Form>
-            <Button
-                form="form"
-                text="buttons.continue"
-                type="submit"
-                variant="secondary"
-            />
-        </PageContainer>
+        <PageContainer style={{ backgroundColor: bgColor }}>splash page</PageContainer>
     );
 }

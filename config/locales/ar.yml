@@ -1,0 +1,56 @@
+---
+ar:
+  locales:
+    ar: العربية
+    ar-IQ: العربية (العراقية)
+    ar-JO: العربية (الأردنية)
+    ar-LB: العربية (اللبنانية)
+    ar-SD: العربية (السودانية)
+    aeb: العربية (التونسية)
+    ar-SY: العربية (السورية)
+    bn: বাংলা
+    cmn: 中文
+    en: English
+    es: Español
+    es-GT: Español
+    es-ES: Español (España)
+    fr: Français
+    hu: Magyar
+    hy: Armenian
+    id: Bahasa
+    it: Italiano
+    km: ភាសាខ្មែរ
+    ku: کوردی
+    ku-IQ: کوردی (بادینی)
+    fa-AF: فارسی (افغانستان)
+    ps-AF: پښتو (افغانستان)
+    sw-KE: Kiswahili (Kenya)
+    sw-TZ: Kiswahili (Tanzania)
+    ne: नेपाली
+    om: Oromo
+    am-ET: Amharic (Ethiopia)
+    ti: Tigrinya
+    tr: Türkçe
+    mn: Mongolian
+    my: ဗမာစာ
+    pl: Polski
+    pt: Português
+    pt-AO: Português (Angola)
+    pt-BR: Português (Brasil)
+    pt-MZ: Português (Moçambique)
+    ro: Română
+    ru: Русский
+    sk: Slovenčina
+    so: Af-Soomaali
+    th: ไทย
+    uk: Українська
+    zh: 中文
+    tet: Tetum
+  buttons:
+    continue: "يكمل"
+    next: "التالي"
+    done: "منتهي"
+  form:
+    select_input:
+      language:
+        label: "اختر لغتك"

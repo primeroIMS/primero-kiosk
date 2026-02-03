@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_29_150531) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_03_160715) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -42,12 +42,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_29_150531) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "lookup_options", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.jsonb "data", default: {}
+    t.bigint "lookup_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["lookup_id"], name: "index_lookup_options_on_lookup_id"
+  end
+
   create_table "lookups", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.string "description"
-    t.string "label"
+    t.string "name"
     t.datetime "updated_at", null: false
-    t.string "value"
   end
 
   create_table "screens", force: :cascade do |t|
@@ -202,6 +208,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_29_150531) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "lookup_options", "lookups"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_failed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

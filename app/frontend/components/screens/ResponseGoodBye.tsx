@@ -1,8 +1,10 @@
 import Button from "@/components/Button";
 import PageTitle from "@/components/PageTitle";
+import { STRINGS } from "@/constants";
 import useStore from "@/hooks/use-store";
-import i18n from "@/translations";
 import { Screen } from "@/type";
+
+import I18nText from "../I18nText";
 
 type Props = {
     config: Screen;
@@ -14,18 +16,18 @@ function ResponseGoodBye({ config }: Props) {
     return (
         <>
             <img
-                alt="Response Hero"
+                alt={STRINGS.featuredImage}
                 className="mb-8"
                 src={hero as string}
             />
             <PageTitle color={config.title.color}>
-                {config.title.text_i18n[i18n.locale]}
+                <I18nText text={config.title.text} />
             </PageTitle>
             <p
                 className="mb-20 text-lg"
                 style={{ color: config.description?.color }}
             >
-                {config.description?.text_i18n?.[i18n.locale]}
+                <I18nText text={config.description?.text} />
             </p>
             <Button
                 className="bg-blue border-2 text-white"
@@ -33,7 +35,10 @@ function ResponseGoodBye({ config }: Props) {
                 to="/"
                 variant="outline"
             >
-                {config.flow.label_i18n[i18n.locale]}
+                <I18nText
+                    fallback="buttons.continue"
+                    text={config.flow?.label_next}
+                />
             </Button>
         </>
     );

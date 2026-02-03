@@ -12,6 +12,7 @@ class Screen::Field
   attribute :placeholder_i18n, default: {}
   attribute :label_i18n, default: {}
   attribute :record_definition, :string
+  attribute :lookup, :string
 
   localize_jsonb_properties %i[placeholder label]
 

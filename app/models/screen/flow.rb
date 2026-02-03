@@ -4,8 +4,8 @@
 class Screen::Condition
   include JsonNestedModel
 
-  attribute :conditions, default: {}
-  attribute :default, :string
+  attribute :eq, default: {}
+  attribute :path, :string
 end
 
 # Represents the next_screen structure for a Flow.
@@ -25,7 +25,9 @@ class Screen::Flow
   attribute :allow_back, :boolean
   attribute_hash :next_screen, Screen::NextScreen
   attribute :end_of_flow, :string
-  attribute :label_i18n, default: {}
+  attribute :label_next_i18n, default: {}
+  attribute :label_skip_i18n, default: {}
+  attribute :label_back_i18n, default: {}
 
-  localize_jsonb_properties %i[label]
+  localize_jsonb_properties %i[label_next label_skip label_back]
 end
