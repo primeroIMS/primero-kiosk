@@ -4,13 +4,13 @@ import { FormProvider, useForm } from "react-hook-form";
 
 import { cn } from "@/lib/utils";
 import FormStore from "@/stores/form";
-import { PrimitiveRecord } from "@/type";
+import { FormValues } from "@/type";
 
 type Props = {
     className?: string;
     debug?: boolean;
     id?: string;
-    onSubmit: (data: PrimitiveRecord) => void;
+    onSubmit: (data: FormValues) => void;
     persist?: boolean;
 };
 
@@ -20,12 +20,12 @@ function Form({
     debug = false,
     id = "form",
     onSubmit,
-    persist = false,
+    persist = true,
 }: PropsWithChildren<Props>) {
-    const methods = useForm<PrimitiveRecord>();
+    const methods = useForm<FormValues>();
     const { handleSubmit } = methods;
 
-    function submit(data: PrimitiveRecord) {
+    function submit(data: FormValues) {
         if (persist) {
             FormStore.set(data);
         }

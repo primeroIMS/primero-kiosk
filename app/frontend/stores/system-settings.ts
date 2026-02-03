@@ -1,21 +1,21 @@
-import { PrimitiveRecord } from "@/type";
+import { SystemSettings } from "@/type";
 
 import BaseStore from "./base-store";
 
 type SystemSettingsState = {
-    settings: PrimitiveRecord;
+    data: SystemSettings;
 };
 
 class Store extends BaseStore<SystemSettingsState> {
-    setSettings(data: PrimitiveRecord) {
+    setSettings(data: SystemSettings) {
         this.update((state) => {
-            state.settings = { ...state.settings, ...data };
+            state.data = { ...state.data, ...data };
         });
     }
 }
 
 const SystemSettingsStore = new Store({
-    defaultState: { settings: {} },
+    defaultState: { data: {} as SystemSettings },
     storage: { name: "settings", provider: "idb", version: 0 },
 });
 

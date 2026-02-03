@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     get :theme, to: 'themes#index'
     resources :system_settings, only: [:index]
     resources :screens, only: [:index]
+    resources :lookups, only: [:index]
   end
 
   # TanStack Router SPA - catch all other routes (except ActiveStorage which is auto-mounted)

@@ -1,19 +1,16 @@
-import { useNavigate } from "@tanstack/react-router";
-
 import Button from "@/components/Button";
 import Form from "@/components/form/Form";
-import { Screen } from "@/type";
+import useScreen from "@/hooks/use-screen";
+import { type Screen } from "@/type";
 
 import RadioGroupInput from "../form/fields/RadioGroupInput";
-import useField from "../form/use-field";
 
 type Props = {
     config: Screen;
 };
 
 function SingleSelect({ config }: Props) {
-    const navigate = useNavigate();
-    const fields = useField(config);
+    const fields = useScreen(config);
 
     function onSubmit(data: Record<string, any>) {
         // shareable next_screen logic can be implemented here, extracted into hook
@@ -23,12 +20,13 @@ function SingleSelect({ config }: Props) {
 
     return (
         <>
-            <Form
-                debug
-                onSubmit={onSubmit}
-                persist
-            >
-                <RadioGroupInput name={fields.buildName("input_1")} />
+            <Form onSubmit={onSubmit}>
+                <RadioGroupInput
+                    name={fields.name("input_1")}
+                    options={{
+                        key: fields.prop("input_1", "lookup"),
+                    }}
+                />
             </Form>
             <Button
                 form="form"

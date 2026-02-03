@@ -1,24 +1,23 @@
+import { isEmpty } from "lodash-es";
 import { useController } from "react-hook-form";
 
-import { OptionsConfig } from "@/hooks/use-options";
+import I18nText from "@/components/I18nText";
+import useOptions, { OptionsConfig } from "@/hooks/use-options";
 
 type Props = {
     name: string;
     options: OptionsConfig;
 };
 
-function RadioGroupInput({ name, optionsConfig }: Props) {
+function RadioGroupInput({ name, options: optionsConfig }: Props) {
     const { field } = useController({ defaultValue: "", name });
 
-    const options = [
-        { label: "Option 1", value: "option1" },
-        { label: "Option 2", value: "option2" },
-    ]; // useOptions(optionsConfig);
+    const options = useOptions(optionsConfig);
 
     return (
         <div className="grid gap-4 md:grid-cols-2">
             {options.map((option) => (
-                <div>
+                <div key={option.value}>
                     <input
                         className="peer hidden"
                         id={option.value}
@@ -43,9 +42,13 @@ function RadioGroupInput({ name, optionsConfig }: Props) {
                             src="icon"
                         />
                         <div className="block">
-                            <div className="w-full font-semibold">{option.label}</div>
-                            {option.description && (
-                                <div className="w-full">{option.description}</div>
+                            <div className="w-full font-semibold">
+                                <I18nText text={option.label} />
+                            </div>
+                            {!isEmpty(option.description) && (
+                                <div className="w-full">
+                                    <I18nText text={option.description} />
+                                </div>
                             )}
                         </div>
                     </label>
