@@ -43,77 +43,77 @@ definitions:
           depth: full
         script:
           - |
-              set -euo pipefail
+            set -euo pipefail
 
-              SHORT_COMMIT_ID="$(echo "$BITBUCKET_COMMIT" | tail -c 10)"
-              if [ -n "${BITBUCKET_TAG:-}" ]; then
-                RAW_TAG="$BITBUCKET_TAG"
-              else
-                RAW_TAG="$BITBUCKET_BRANCH-$SHORT_COMMIT_ID"
-              fi
+            SHORT_COMMIT_ID="$(echo "$BITBUCKET_COMMIT" | tail -c 10)"
+            if [ -n "${BITBUCKET_TAG:-}" ]; then
+              RAW_TAG="$BITBUCKET_TAG"
+            else
+              RAW_TAG="$BITBUCKET_BRANCH-$SHORT_COMMIT_ID"
+            fi
 
-              # Docker-safe tag
-              IMAGE_TAG=$(echo "$RAW_TAG" \
-                | tr '[:upper:]' '[:lower:]' \
-                | sed 's#[^a-z0-9._-]#-#g')
+            # Docker-safe tag
+            IMAGE_TAG=$(echo "$RAW_TAG" \
+              | tr '[:upper:]' '[:lower:]' \
+              | sed 's#[^a-z0-9._-]#-#g')
 
-              echo "Using image tag: $IMAGE_TAG"
-              export IMAGE_TAG
-          - >- 
-            az login --service-principal 
-            --username="$AZURE_CLIENT_ID" 
-            --password="$AZURE_CLIENT_SECRET" 
+            echo "Using image tag: $IMAGE_TAG"
+            export IMAGE_TAG
+          - >-
+            az login --service-principal
+            --username="$AZURE_CLIENT_ID"
+            --password="$AZURE_CLIENT_SECRET"
             --tenant="$AZURE_TENANT_ID"
           - az account set --subscription "$AZURE_SUBSCRIPTION_ID"
           - |
-              set -euo pipefail
+            set -euo pipefail
 
-              for SERVICE in application worker; do
-                echo "Building Docker image for service: $SERVICE"
+            for SERVICE in application worker; do
+              echo "Building Docker image for service: $SERVICE"
 
-                BUILD_ARGS=(
-                  --build-arg APP_ROOT=/srv/primero/application
-                  --build-arg RAILS_LOG_PATH=/srv/primero/application/log/primero
-                  --build-arg APP_UID=1000
-                  --build-arg APP_GID=1000
-                )
+              BUILD_ARGS=(
+                --build-arg APP_ROOT=/srv/kiosk
+                --build-arg RAILS_LOG_PATH=/srv/kiosk/log/primero
+                --build-arg APP_UID=1000
+                --build-arg APP_GID=1000
+              )
 
-                if [[ "$SERVICE" == "worker" ]]; then
-                  BUILD_ARGS+=(--build-arg IS_WORKER=true)
-                fi
+              if [[ "$SERVICE" == "worker" ]]; then
+                BUILD_ARGS+=(--build-arg IS_WORKER=true)
+              fi
 
-                az acr build \
-                  --registry "${ACR_NAME}" \
-                  --platform linux/amd64 \
-                  --image "primero-kiosk/${SERVICE}:${IMAGE_TAG}" \
-                  --image "primero-kiosk/${SERVICE}:latest" \
-                  --file "./docker/application/Dockerfile" \
-                  "${BUILD_ARGS[@]}" \
-                  ./
-              done
+              az acr build \
+                --registry "${ACR_NAME}" \
+                --platform linux/amd64 \
+                --image "primero-kiosk/${SERVICE}:${IMAGE_TAG}" \
+                --image "primero-kiosk/${SERVICE}:latest" \
+                --file "./docker/application/Dockerfile" \
+                "${BUILD_ARGS[@]}" \
+                ./
+            done
   services:
     postgres:
       image: postgres:15.6
       variables:
-        POSTGRES_DB: 'primero_test'
-        POSTGRES_USER: 'postgres'
-        POSTGRES_PASSWORD: 'postgrespassword'
+        POSTGRES_DB: "primero_test"
+        POSTGRES_USER: "postgres"
+        POSTGRES_PASSWORD: "postgrespassword"
   caches:
     bundler: ./vendor
     pnpm: $BITBUCKET_CLONE_DIR/.pnpm-store
 pipelines:
   branches:
-    '{develop*,release-*,main}':
+    "{develop*,release-*,main}":
       - parallel:
-        - step: *server-test
-        - step: *client-test
+          - step: *server-test
+          - step: *client-test
       - step: *build-and-push-to-acr
   tags:
     v*:
       - step: *build-and-push-to-acr
 
   pull-requests:
-    '**':
+    "**":
       - parallel:
-        - step: *server-test
-        - step: *client-test
+          - step: *server-test
+          - step: *client-test

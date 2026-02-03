@@ -77,9 +77,9 @@ RUN set -euox pipefail \
 # Intentionally cached seperately
 # Generates 32 random characters for the build-id...build id MUST be 32 characters (as its hardcoded)
 RUN set -euox pipefail \
-        ; mkdir -p /srv/primero/application/public \
-        ; touch /srv/primero/application/public/build-id \
-        ; echo "$RANDOM" > /srv/primero/application/public/build-id
+        ; mkdir -p /srv/kiosk/public \
+        ; touch /srv/kiosk/public/build-id \
+        ; echo "$RANDOM" > /srv/kiosk/public/build-id
 
 # Build UI
 RUN set -euox pipefail \
@@ -126,8 +126,8 @@ WORKDIR $APP_ROOT
 RUN set -euox pipefail \
         ; addgroup -g $GROUP_ID docker-primero \
         ; adduser --disabled-password --gecos '' -u $USER_ID -G docker-primero docker-primero \
-        ; mkdir -p /srv/primero/application/storage \
-        ; chmod -R 700 /srv/primero/application/storage \
+        ; mkdir -p /srv/kiosk/storage \
+        ; chmod -R 700 /srv/kiosk/storage \
         ; chown -R docker-primero:docker-primero "$APP_ROOT" \
         ; mkdir -p /share/public \
         ; chmod -R 755 /share/public \
