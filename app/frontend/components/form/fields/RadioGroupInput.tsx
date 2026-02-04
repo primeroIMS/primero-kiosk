@@ -3,10 +3,11 @@ import { useController } from "react-hook-form";
 
 import I18nText from "@/components/I18nText";
 import useOptions, { OptionsConfig } from "@/hooks/use-options";
+import { StoreDataMap } from "@/hooks/use-store";
 
 type Props = {
     name: string;
-    options: OptionsConfig;
+    options: OptionsConfig<keyof StoreDataMap>;
 };
 
 function RadioGroupInput({ name, options: optionsConfig }: Props) {
@@ -23,6 +24,7 @@ function RadioGroupInput({ name, options: optionsConfig }: Props) {
                         id={option.value}
                         name={name}
                         onChange={field.onChange}
+                        ref={field.ref}
                         required
                         type="radio"
                         value={option.value}

@@ -86,7 +86,7 @@ export type ScreenField = {
     type: string; // Todo add types when building user info screen
 };
 
-export type ScreenFieldScope = "global" | "record";
+export type ScreenFieldScope = "global" | "records";
 
 export type SystemSettings = {
     default_locale: I18nLocale;
@@ -101,4 +101,14 @@ export type SystemSettingsRecordDefinition = {
     id: string;
     module_id: string;
     type: string;
+};
+
+export type Theme = {
+    colors: Record<string, string>;
+    copy: Record<string, I18nTranslation>;
+    kiosk_name: string;
+    logo: string;
+    logo_pictorial: string;
+    site_description: I18nTranslation;
+    site_title: string;
 };

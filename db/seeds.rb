@@ -51,7 +51,7 @@ end
         conditions: [
           { eq: { 'input_1' => 'es' }, path: 'flow_3' }
         ],
-        default: 'flow_1'
+        default: 'flow_2'
       },
       label_i18n: { 'en' => 'Next' }
     }
@@ -63,7 +63,7 @@ end
     fields: [
       {
         field_id: 'input_1',
-        scope: 'record',
+        scope: 'records',
         backend_id: 'option_select',
         placeholder_i18n: { 'en' => 'Select an option' },
         label_i18n: { 'en' => 'Options' },

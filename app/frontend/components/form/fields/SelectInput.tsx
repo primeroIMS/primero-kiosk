@@ -10,11 +10,12 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import useOptions, { OptionsConfig } from "@/hooks/use-options";
+import { StoreDataMap } from "@/hooks/use-store";
 import { I18nTranslation } from "@/type";
 
 type Props = {
     name: string;
-    optionsConfig: OptionsConfig;
+    optionsConfig: OptionsConfig<keyof StoreDataMap>;
     placeholder?: I18nTranslation;
 };
 

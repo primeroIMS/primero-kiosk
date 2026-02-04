@@ -22,7 +22,9 @@ function Form({
     onSubmit,
     persist = true,
 }: PropsWithChildren<Props>) {
-    const methods = useForm<FormValues>();
+    const methods = useForm<FormValues>({
+        shouldFocusError: false,
+    });
     const { handleSubmit } = methods;
 
     function submit(data: FormValues) {

@@ -34,7 +34,9 @@ type StoreDataMap = {
     theme: ExtractStoreData<typeof ThemeStore>;
 };
 
-function useStore<S extends keyof StoreDataMap, P extends Path<StoreDataMap[S]>>(
+type StorePropPath<S extends keyof StoreDataMap> = Path<StoreDataMap[S]>;
+
+function useStore<S extends keyof StoreDataMap, P extends StorePropPath<S>>(
     storeName: S,
     path: P,
     defaultReturn?: PathValue<StoreDataMap[S], P>,
@@ -56,4 +58,4 @@ const Actions = Stores;
 
 export default useStore;
 export { Actions };
-export type { Store, StorePath };
+export type { Store, StoreDataMap, StorePath, StorePropPath };

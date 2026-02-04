@@ -1,16 +1,20 @@
 import i18n from "@/translations";
 import { LookupOption } from "@/type";
 
-import useStore, { StorePath } from "./use-store";
+import useStore, { StoreDataMap, StorePropPath } from "./use-store";
 
-type OptionsConfig = {
+type OptionsConfig<T extends keyof StoreDataMap> = {
     i18nKey?: string;
-    key: string;
-    store?: StorePath;
+    key: StorePropPath<T>;
+    store?: T;
 };
 
-function useOptions({ i18nKey, key, store = "lookup" }: OptionsConfig): LookupOption[] {
-    const optionsFromStore = useStore(store, key);
+function useOptions<T extends keyof StoreDataMap>({
+    i18nKey,
+    key,
+    store,
+}: OptionsConfig<T>): LookupOption[] {
+    const optionsFromStore = useStore(store ?? ("lookup" as T), key);
 
     if (
         Array.isArray(optionsFromStore) &&

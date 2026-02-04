@@ -15,7 +15,7 @@ class Store extends BaseStore<LookupState> {
 }
 
 const LookupStore = new Store({
-    defaultState: { data: {} },
+    defaultState: { data: {} as Record<string, [] | LookupOption[]> },
     storage: { name: "lookups", provider: "idb", version: 0 },
 });
 
