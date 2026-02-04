@@ -15,19 +15,18 @@ RSpec.describe Screen, type: :model do
               type: 'text' }
           ],
           title: {
-            text_en: 'Title in English',
+            text_i18n: { en: 'Title in English' },
             color: '#000000'
           },
           description: {
-            text_en: 'Description Title',
+            text_i18n: { en: 'Description Title' },
             color: '#FFFFFF'
           },
           flow: {
             allow_skip: 'yes',
             allow_back: 'no',
-            next_screen: 'screen_2',
-            end_of_flow: 'no',
-            label_i18n: { a: 'Next', b: 'Siguiente' }
+            next_screen: { default: 'flow-1' },
+            end_of_flow: 'no'
           }
         }
       )
@@ -75,6 +74,9 @@ RSpec.describe Screen, type: :model do
         data: {
           bg_color: '#FFFFFF',
           component: 'form_component',
+          title: {
+            text_i18n: { en: 'Title', es: 'Título' }
+          },
           fields: [
             { field_id: 'field_1', scope: 'user.name', type: 'text' }
           ],
@@ -93,6 +95,7 @@ RSpec.describe Screen, type: :model do
         data: {
           bg_color: '#FFFFFF',
           component: 'form_component',
+          title_i18n: { en: 'Title', es: 'Título' },
           fields: [{ field_id: 'f1', scope: 'user.name' }],
           flow: {}
         }
@@ -124,6 +127,7 @@ RSpec.describe Screen, type: :model do
         data: {
           bg_color: '#FFFFFF',
           component: 'form',
+          title_i18n: { en: 'Title', es: 'Título' },
           fields: [
             { field_id: 'f1', scope: 'user.name' },
             { scope: 'invalid' }
@@ -146,15 +150,13 @@ RSpec.describe Screen, type: :model do
             {
               field_id: 'f1',
               scope: 'user.name',
-              label_en: 'Name',
-              label_es: 'Nombre'
+              label_i18n: { en: 'Name', es: 'Nombre' }
             }
           ],
           flow: {}
         }
       )
-      expect(screen.data.fields[0].label_i18n).to eq({ 'en' => 'Name', 'es' => 'Nombre' })
-      expect(screen.data.fields[0].label_en).to eq('Name')
+      expect(screen.data.fields[0].label).to include({ 'en' => 'Name', 'es' => 'Nombre' })
     end
   end
 end

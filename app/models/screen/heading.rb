@@ -10,6 +10,5 @@ class Screen::Heading
 
   localize_jsonb_properties %i[text]
 
-  validates :text, presence: true
   validates :color, hex_color: true, allow_nil: true
 end
