@@ -2,17 +2,17 @@
 
 # Represents the data structure for LookupOption JSON attribute.
 class LookupData
-  include JsonNestedModel
   include LocalizableJsonProperty
+  include JsonNestedModel
 
   attribute :value, :string
-  attribute :label_i18n, default: {}
-  attribute :description_i18n, default: {}
+  attribute :label
+  attribute :description
 
   localize_jsonb_properties %i[label description]
 
   validates :value, presence: true
-  validates :label_i18n, presence: true
+  validates :label, presence: true
 end
 
 # Represents a LookupOption entity.

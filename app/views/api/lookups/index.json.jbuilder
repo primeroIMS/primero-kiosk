@@ -7,6 +7,7 @@ json.data do
       json.value option.data.value
       json.label option.data.label_i18n
       json.description option.data.description_i18n if option.data.description_i18n
+      json.icon rails_blob_path(option.icon, only_path: true) if option.icon.attached?
     end
   end
 end.compact!

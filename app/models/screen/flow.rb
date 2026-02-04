@@ -24,10 +24,10 @@ class Screen::Flow
   attribute :allow_skip, :boolean
   attribute :allow_back, :boolean
   attribute_hash :next_screen, Screen::NextScreen
-  attribute :end_of_flow, :string
-  attribute :label_next_i18n, default: {}
-  attribute :label_skip_i18n, default: {}
-  attribute :label_back_i18n, default: {}
+  attribute :end_of_flow, :boolean
+  attribute :label_next, default: {}
+  attribute :label_skip, default: {}
+  attribute :label_back, default: {}
 
   localize_jsonb_properties %i[label_next label_skip label_back]
 end
