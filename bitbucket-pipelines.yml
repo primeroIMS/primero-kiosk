@@ -30,8 +30,8 @@ definitions:
         clone:
           depth: full
         script:
-          - git push https://$azdotoken@unicef.visualstudio.com/ICTD%20-%20Primero%20X%20DEV/_git/primero $BITBUCKET_BRANCH
-          - git push https://$primeroimstoken@github.com/primeroIMS/primero.git $BITBUCKET_BRANCH
+          - git push https://$azdotoken@unicef.visualstudio.com/ICTD%20-%20Primero%20X%20DEV/_git/primero-kiosk $BITBUCKET_BRANCH
+          # - git push https://$primeroimstoken@github.com/primeroIMS/primero.git $BITBUCKET_BRANCH
     - step: &build-and-push-to-acr
         name: Build and Push to ACR
         image: mcr.microsoft.com/azure-cli:2.57.0
