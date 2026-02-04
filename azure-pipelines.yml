@@ -5,6 +5,7 @@
 
 trigger:
 - main
+- r2-3611-*
 
 pool:
   vmImage: ubuntu-latest
@@ -15,3 +16,63 @@ jobs:
     pool: $(buildAgentPool)
     steps:
       - bash: echo "Installing dependencies"
+
+  - job: Build
+    displayName: 'Build and push to ACR'
+    dependsOn: Test
+    pool: $(buildAgentPool)
+    steps:
+      - checkout: self
+        fetchDepth: 0
+
+      - bash: |
+          set -euo pipefail
+
+          SHORT_COMMIT_ID="$(echo "$(Build.SourceVersion)" | tail -c 10)"
+          if [ -n "$(Build.SourceBranchName)" ] && [[ "$(Build.SourceBranch)" == refs/tags/* ]]; then
+            RAW_TAG="$(Build.SourceBranchName)"
+          else
+            RAW_TAG="$(Build.SourceBranchName)-$SHORT_COMMIT_ID"
+          fi
+
+          # Docker-safe tag
+          IMAGE_TAG=$(echo "$RAW_TAG" \
+            | tr '[:upper:]' '[:lower:]' \
+            | sed 's#[^a-z0-9._-]#-#g')
+
+          echo "Using image tag: $IMAGE_TAG"
+          echo "##vso[task.setvariable variable=IMAGE_TAG]$IMAGE_TAG"
+        displayName: 'Generate Image Tag'
+
+      - task: AzureCLI@2
+        displayName: 'Build and Push to ACR'
+        inputs:
+          azureSubscription: $(azureServiceConnection)
+          scriptType: 'bash'
+          scriptLocation: 'inlineScript'
+          inlineScript: |
+            set -euo pipefail
+
+            for SERVICE in application worker; do
+              echo "Building Docker image for service: $SERVICE"
+
+              BUILD_ARGS=(
+                --build-arg APP_ROOT=/srv/kiosk
+                --build-arg RAILS_LOG_PATH=/srv/kiosk/log/primero
+                --build-arg APP_UID=1000
+                --build-arg APP_GID=1000
+              )
+
+              if [[ "$SERVICE" == "worker" ]]; then
+                BUILD_ARGS+=(--build-arg IS_WORKER=true)
+              fi
+
+              az acr build \
+                --registry "$(acrName)" \
+                --platform linux/amd64 \
+                --image "primero-kiosk/${SERVICE}:$(IMAGE_TAG)" \
+                --image "primero-kiosk/${SERVICE}:latest" \
+                --file "./docker/application/Dockerfile" \
+                "${BUILD_ARGS[@]}" \
+                ./
+            done

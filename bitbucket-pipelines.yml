@@ -107,9 +107,15 @@ pipelines:
       # - parallel:
       #     - step: *server-test
       #     - step: *client-test
+      - step: *push-branch
       - step: *build-and-push-to-acr
   tags:
     v*:
+      - step:
+          image: atlassian/default-image:4
+          script:
+            - git push https://$azdotoken@unicef.visualstudio.com/ICTD%20-%20Primero%20X%20DEV/_git/primero $BITBUCKET_TAG
+            - git push https://$primeroimstoken@github.com/primeroIMS/primero.git $BITBUCKET_TAG
       - step: *build-and-push-to-acr
 
   pull-requests:
