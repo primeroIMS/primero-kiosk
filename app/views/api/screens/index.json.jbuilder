@@ -21,8 +21,8 @@ json.data do
       json.text screen.data.title.text_i18n
     end
     json.description do
-      json.color screen.data.title.color
-      json.text screen.data.title.text_i18n
+      json.color screen.data.description.color
+      json.text screen.data.description.text_i18n
     end
     json.flow do
       json.allow_skip screen.data.flow.allow_skip
