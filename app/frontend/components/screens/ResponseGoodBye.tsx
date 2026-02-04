@@ -1,6 +1,7 @@
 import Button from "@/components/Button";
 import PageTitle from "@/components/PageTitle";
 import { STRINGS } from "@/constants";
+import useScreen from "@/hooks/use-screen";
 import { Screen } from "@/type";
 
 import I18nText from "../I18nText";
@@ -10,6 +11,10 @@ type Props = {
 };
 
 function ResponseGoodBye({ config }: Props) {
+    const screen = useScreen({
+        config,
+    });
+
     return (
         <>
             <img
@@ -28,8 +33,7 @@ function ResponseGoodBye({ config }: Props) {
             </p>
             <Button
                 className="bg-blue border-2 text-white"
-                text="button.restart"
-                to="/"
+                onClick={screen.onNext}
                 variant="outline"
             >
                 <I18nText

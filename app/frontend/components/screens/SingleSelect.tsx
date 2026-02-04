@@ -10,21 +10,20 @@ type Props = {
 };
 
 function SingleSelect({ config }: Props) {
-    const fields = useScreen(config);
-
-    function onSubmit(data: Record<string, any>) {
-        // shareable next_screen logic can be implemented here, extracted into hook
-        console.log("Form submitted with data:", data);
-        // navigate({ params: { id: "next-screen-id" }, to: "." });
-    }
+    const screen = useScreen({
+        config,
+        onSubmit: (data) => {
+            console.log("Form submitted with data:", data);
+        },
+    });
 
     return (
         <>
-            <Form onSubmit={onSubmit}>
+            <Form onSubmit={screen.onSubmit}>
                 <RadioGroupInput
-                    name={fields.name("input_1")}
+                    name={screen.name("input_1")}
                     options={{
-                        key: fields.prop("input_1", "lookup"),
+                        key: screen.prop("input_1", "lookup"),
                     }}
                 />
             </Form>

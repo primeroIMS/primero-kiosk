@@ -86,7 +86,7 @@ export type ScreenField = {
     type: string; // Todo add types when building user info screen
 };
 
-export type ScreenFieldScope = "global" | "record";
+export type ScreenFieldScope = "global" | "records";
 
 export type SystemSettings = {
     default_locale: I18nLocale;

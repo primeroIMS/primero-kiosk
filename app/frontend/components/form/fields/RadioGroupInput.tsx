@@ -24,6 +24,7 @@ function RadioGroupInput({ name, options: optionsConfig }: Props) {
                         id={option.value}
                         name={name}
                         onChange={field.onChange}
+                        ref={field.ref}
                         required
                         type="radio"
                         value={option.value}

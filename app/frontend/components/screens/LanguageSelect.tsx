@@ -6,7 +6,8 @@ import Form from "@/components/form/Form";
 import Logo from "@/components/Logo";
 import PageTitle from "@/components/PageTitle";
 import useScreen from "@/hooks/use-screen";
-import i18n from "@/translations";
+import useStore from "@/hooks/use-store";
+import i18n, { I18nLocale } from "@/translations";
 import { Screen } from "@/type";
 
 import I18nText from "../I18nText";
@@ -16,11 +17,20 @@ type Props = {
 };
 
 function LanguageSelect({ config }: Props) {
-    const screen = useScreen(config);
+    const rtlLanguages = useStore("systemSettings", "rtl_locales");
+    const screen = useScreen({
+        config,
+        onSubmit: (data) => {
+            const selectedLocale = data.global?.language as I18nLocale;
+            i18n.locale = selectedLocale;
 
-    function onSubmit(data: Record<string, unknown>) {
-        i18n.locale = data.global.language as string;
-    }
+            if (rtlLanguages.includes(selectedLocale)) {
+                document.documentElement.dir = "rtl";
+            } else {
+                document.documentElement.dir = "ltr";
+            }
+        },
+    });
 
     return (
         <>
@@ -32,7 +42,7 @@ function LanguageSelect({ config }: Props) {
             )}
             <Form
                 className="mb-20"
-                onSubmit={onSubmit}
+                onSubmit={screen.onSubmit}
             >
                 <SelectInput
                     name={screen.name("input_1", "language")}
