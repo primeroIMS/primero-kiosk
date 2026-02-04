@@ -47,7 +47,7 @@ jobs:
       - task: AzureCLI@2
         displayName: 'Build and Push to ACR'
         inputs:
-          azureSubscription: $(azureServiceConnection)
+          azureSubscription: $(AZURE_SERVICE_CONNECTION)
           scriptType: 'bash'
           scriptLocation: 'inlineScript'
           inlineScript: |
