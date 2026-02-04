@@ -20,7 +20,7 @@ class Store extends BaseStore<ScreenState> {
 }
 
 const ScreenStore = new Store({
-    defaultState: { data: [] },
+    defaultState: { data: [] as Screen[] },
     storage: { name: "screens", provider: "idb", version: 0 },
 });
 

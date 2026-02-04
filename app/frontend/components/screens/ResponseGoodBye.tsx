@@ -1,7 +1,6 @@
 import Button from "@/components/Button";
 import PageTitle from "@/components/PageTitle";
 import { STRINGS } from "@/constants";
-import useStore from "@/hooks/use-store";
 import { Screen } from "@/type";
 
 import I18nText from "../I18nText";
@@ -11,14 +10,12 @@ type Props = {
 };
 
 function ResponseGoodBye({ config }: Props) {
-    const hero = useStore("theme", "theme.response_hero");
-
     return (
         <>
             <img
                 alt={STRINGS.featuredImage}
                 className="mb-8"
-                src={hero as string}
+                src={config.featured_image as string}
             />
             <PageTitle color={config.title.color}>
                 <I18nText text={config.title.text} />

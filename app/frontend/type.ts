@@ -45,6 +45,7 @@ export type Screen = {
         color?: string;
         text: I18nTranslation;
     };
+    featured_image?: string;
     fields: ScreenField[];
     flow: {
         allow_back?: boolean;
@@ -100,4 +101,14 @@ export type SystemSettingsRecordDefinition = {
     id: string;
     module_id: string;
     type: string;
+};
+
+export type Theme = {
+    colors: Record<string, string>;
+    copy: Record<string, I18nTranslation>;
+    kiosk_name: string;
+    logo: string;
+    logo_pictorial: string;
+    site_description: I18nTranslation;
+    site_title: string;
 };

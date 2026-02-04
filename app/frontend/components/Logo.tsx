@@ -6,8 +6,8 @@ type Props = {
 };
 
 function Logo({ className }: Props) {
-    const logo = useStore("theme", "theme.logo");
-    const kioskName = useStore("theme", "theme.kiosk_name");
+    const logo = useStore("theme", "logo");
+    const kioskName = useStore("theme", "kiosk_name");
 
     return (
         <div className={cn("mb-8", className)}>

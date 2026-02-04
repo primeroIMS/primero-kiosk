@@ -23,7 +23,6 @@ class Theme < ApplicationRecord
   has_one_attached :logo_pictorial_192
   has_one_attached :logo_pictorial_256
   has_one_attached :favicon
-  has_one_attached :response_hero
 
   validate :valid_html_colors
   validates :logo, presence: true, unless: :bypass_logos

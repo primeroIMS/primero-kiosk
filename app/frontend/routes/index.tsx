@@ -9,7 +9,7 @@ export const Route = createFileRoute("/")({
 });
 
 export default function Page() {
-    const bgColor = useStore("theme", "theme.colors.welcome_bg");
+    const bgColor = useStore("theme", "colors.splash_screen_background");
     const navigate = useNavigate();
     const initialScreenId = useStore("systemSettings", "starting_screen_id");
 
