@@ -1,5 +1,3 @@
-import { useNavigate, useRouter } from "@tanstack/react-router";
-
 import Button from "@/components/Button";
 import i18n from "@/translations";
 import { Screen } from "@/type";
@@ -10,9 +8,6 @@ type Props = {
 };
 
 function ComfortingResponse({ config }: Props) {
-  const router = useRouter();
-  const navigate = useNavigate();
-
   return (
     <>
       {config.featured_image && (
@@ -22,27 +17,29 @@ function ComfortingResponse({ config }: Props) {
           src={config.featured_image}
         />
       )}
-      {config.title.text_i18n?.[i18n.locale] && (
+      {config.title.text?.[i18n.locale] && (
         <PageTitle color={config.title.color}>
-          {config.title.text_i18n[i18n.locale]}
+          {config.title.text[i18n.locale]}
         </PageTitle>
       )}
-      {config.description?.text_i18n?.[i18n.locale] && (
+      {config.description?.text?.[i18n.locale] && (
         <p className="text-foreground text-center text-lg whitespace-pre-line" style={{ color: config?.description?.color }}>
-          {config.description.text_i18n[i18n.locale]}
+          {config.description.text[i18n.locale]}
         </p>
       )}
-      <Button
-        text="buttons.back"
-        onClick={() => router.history.back()}
-        variant="outline"
-      />
-      <Button
-        text="buttons.next"
-        type="button"
-        onClick={() => navigate({ to: `/screens/${config.flow.next_screen?.default}` })}
-        variant="secondary"
-      />
+      <div className="flex justify-between">
+        <Button
+          text="buttons.back"
+          variant="outline"
+          className="bg-transparent border-2 text-white pr-10 pl-10"
+        />
+        <Button
+          text="buttons.next"
+          type="button"
+          variant="secondary"
+          className="pr-10 pl-10"
+        />
+      </div>
     </>
   );
 }
