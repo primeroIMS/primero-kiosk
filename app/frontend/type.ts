@@ -65,11 +65,15 @@ export type Screen = {
 
 export type ScreenComponent =
     | "CharacterInformation"
+    | "CharacterSelection"
     | "CharacterWelcome"
     | "ComfortingResponse"
     | "LanguageSelect"
+    | "MultiSelect"
     | "ResponseGoodBye"
-    | "SingleSelect";
+    | "SelectWithTextArea"
+    | "SingleSelect"
+    | "TextArea";
 
 export type ScreenField = {
     backend_id: string;

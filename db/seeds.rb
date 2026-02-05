@@ -38,9 +38,39 @@ end
   Lookup.create_or_update(lk)
 end
 
-[
-  {
-    id: 'flow_1',
+Screen.create!(
+  data: {
+    id: 'character',
+    bg_color: '#FA7E87',
+    component: 'CharacterSelection',
+    fields: [
+      {
+        field_id: 'input_1',
+        scope: 'global',
+        backend_id: 'character',
+        lookup: 'what_will_make_you_happy'
+      }
+    ],
+    options: {
+      text_color: '#000000',
+      bg_color: '#FFFFFF',
+      border_color: '#CCCCCC'
+    },
+    title: {
+      text_i18n: { en: 'Select an character' },
+      color: '#f44336'
+    },
+    flow: {
+      next_screen: {
+        default: 'language'
+      }
+    }
+  }
+)
+
+Screen.create!(
+  data: {
+    id: 'language',
     bg_color: '#072B36',
     component: 'LanguageSelect',
     fields: [
@@ -65,15 +95,18 @@ end
       allow_back: false,
       next_screen: {
         conditions: [
-          { eq: { 'input_1' => 'es' }, path: 'flow_3' }
+          { eq: { 'global.language' => 'en' }, path: 'singleselect' }
         ],
-        default: 'flow_2'
+        default: 'selectwithtextarea'
       },
       label_i18n: { en: 'Next' }
     }
-  },
-  {
-    id: 'flow_2',
+  }
+)
+
+Screen.create!(
+  data: {
+    id: 'singleselect',
     bg_color: '#1DC24F',
     component: 'SingleSelect',
     fields: [
@@ -104,27 +137,33 @@ end
       allow_skip: true,
       allow_back: true,
       next_screen: {
-        default: 'flow_3'
+        default: 'selectwithtextarea'
       },
       label_next_i18n: { en: 'Next' },
       label_skip_i18n: { en: 'Skip' }
     }
-  },
-  {
-    id: 'flow_3',
+  }
+)
+
+Screen.create!(
+  data: {
+    id: 'selectwithtextarea',
     bg_color: '#072B36',
-    component: 'LanguageSelect',
+    component: 'SelectWithTextArea',
     fields: [
       {
         field_id: 'input_1',
-        scope: 'global',
+        scope: 'records',
+        backend_id: 'tell_us',
         placeholder_i18n: { en: 'Select an option' },
         label_i18n: { en: 'What is your favorite color?' },
-        record_definition: 'record-def-id'
+        record_definition: 'record-def-id',
+        lookup: 'what_will_make_you_happy'
       },
       {
         field_id: 'input_2',
-        scope: 'global',
+        scope: 'records',
+        backend_id: 'more',
         placeholder_i18n: { en: 'Age' },
         label_i18n: { en: 'What is your age' },
         record_definition: 'record-def-id'
@@ -145,13 +184,85 @@ end
         conditions: [
           { eq: { 'input_1' => 'green' }, path: 'flow_2' }
         ],
-        default: 'flow_4'
+        default: 'multiselect'
       },
       label_i18n: { en: 'Next' }
     }
-  },
-  {
-    id: 'flow_4',
+  }
+)
+
+Screen.create!(
+  data: {
+    id: 'multiselect',
+    bg_color: '#1D1DC2',
+    component: 'MultiSelect',
+    fields: [
+      {
+        field_id: 'input_1',
+        scope: 'record',
+        backend_id: 'multi_select_tell_us',
+        placeholder_i18n: { en: 'Select an option' },
+        label_i18n: { en: 'What is your favorite color?' },
+        record_definition: 'record-def-id',
+        lookup: 'what_will_make_you_happy'
+      }
+    ],
+    title: {
+      text_i18n: { en: 'GoodBye' },
+      color: '#1D86A3'
+    },
+    description: {
+      text_i18n: { en: 'Thank you for your participation.' },
+      color: '#FFFFFF'
+    },
+    flow: {
+      allow_skip: false,
+      allow_back: true,
+      end_of_flow: false,
+      next_screen: {
+        default: 'textarea'
+      }
+    }
+  }
+)
+
+Screen.create!(
+  data: {
+    id: 'textarea',
+    bg_color: '#1D1DC2',
+    component: 'TextArea',
+    fields: [
+      {
+        field_id: 'input_1',
+        scope: 'record',
+        backend_id: 'textarea_tell_us',
+        placeholder_i18n: { en: 'Select an option' },
+        label_i18n: { en: 'What is your favorite color?' },
+        record_definition: 'record-def-id'
+      }
+    ],
+    title: {
+      text_i18n: { en: 'GoodBye' },
+      color: '#1D86A3'
+    },
+    description: {
+      text_i18n: { en: 'Thank you for your participation.' },
+      color: '#FFFFFF'
+    },
+    flow: {
+      allow_skip: false,
+      allow_back: true,
+      end_of_flow: false,
+      next_screen: {
+        default: 'goodbye'
+      }
+    }
+  }
+)
+
+Screen.create!(
+  data: {
+    id: 'goodbye',
     bg_color: '#1D1DC2',
     component: 'ResponseGoodBye',
     fields: [],
@@ -169,14 +280,9 @@ end
       end_of_flow: true
     }
   }
-].each do |flow|
-  Screen.where("data ->> 'id' = ?", flow[:id]).first_or_initialize.tap do |s|
-    s.data = flow
-    s.save!
-  end
-end
+)
 
 system_settings = SystemSettings.current
-system_settings.starting_screen_id = 'flow_1'
+system_settings.starting_screen_id = 'character'
 system_settings.record_definitions = [{ id: 'record-def-id', type: 'case', module_id: 'module-id' }]
 system_settings.save!

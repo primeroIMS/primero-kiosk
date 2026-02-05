@@ -39,6 +39,7 @@ function LanguageSelect({ config }: Props) {
             />
             <Form
                 className="mb-20"
+                debug
                 onSubmit={screen.onSubmit}
             >
                 <SelectInput

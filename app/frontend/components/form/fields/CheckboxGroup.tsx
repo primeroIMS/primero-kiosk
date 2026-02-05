@@ -12,9 +12,8 @@ type Props = {
     options: OptionsConfig<keyof StoreDataMap>;
 };
 
-function RadioGroupInput({ className, name, options: optionsConfig }: Props) {
-    const { field } = useController({ defaultValue: "", name });
-
+function CheckboxGroup({ className, name, options: optionsConfig }: Props) {
+    const { field } = useController({ defaultValue: [], name });
     const options = useOptions(optionsConfig);
 
     return (
@@ -28,12 +27,14 @@ function RadioGroupInput({ className, name, options: optionsConfig }: Props) {
                 <InputGroupItem
                     field={field}
                     key={option.value}
+                    multiple
                     name={name}
                     option={option}
+                    type="checkbox"
                 />
             ))}
         </div>
     );
 }
 
-export default RadioGroupInput;
+export default CheckboxGroup;

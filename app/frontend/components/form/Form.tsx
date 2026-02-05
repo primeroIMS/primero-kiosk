@@ -40,6 +40,7 @@ function Form({
             <form
                 className={cn("mb-20", className)}
                 id={id}
+                noValidate
                 onSubmit={handleSubmit(submit)}
             >
                 {children}

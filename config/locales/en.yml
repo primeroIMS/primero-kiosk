@@ -52,7 +52,3 @@ en:
     done: "Done"
     back: "Back"
     skip: "Skip"
-  form:
-    select_input:
-      language:
-        label: Choose your language
