@@ -63,7 +63,13 @@ export type Screen = {
     };
 };
 
-export type ScreenComponent = "LanguageSelect" | "ResponseGoodBye" | "SingleSelect";
+export type ScreenComponent =
+    | "CharacterInformation"
+    | "CharacterWelcome"
+    | "ComfortingResponse"
+    | "LanguageSelect"
+    | "ResponseGoodBye"
+    | "SingleSelect";
 
 export type ScreenField = {
     backend_id: string;

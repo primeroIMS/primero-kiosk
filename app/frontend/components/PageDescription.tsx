@@ -9,15 +9,15 @@ type Props = {
     className?: string;
     color?: string;
     fallback?: string;
-    text: I18nTranslation | string;
+    text?: I18nTranslation | string;
     translate?: boolean;
 };
 
-function PageTitle({ className, color, fallback, text, translate = true }: Props) {
+function PageDescription({ className, color, fallback, text, translate = true }: Props) {
     if (isEmpty(text)) return null;
 
     return (
-        <h1
+        <p
             className={cn("mb-10 w-full text-center text-3xl font-bold", className)}
             style={{ color }}
         >
@@ -26,8 +26,8 @@ function PageTitle({ className, color, fallback, text, translate = true }: Props
                 text={text}
                 translate={translate}
             />
-        </h1>
+        </p>
     );
 }
 
-export default PageTitle;
+export default PageDescription;
