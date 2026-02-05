@@ -53,6 +53,8 @@ jobs:
           inlineScript: |
             set -euo pipefail
 
+            az acr login --name "$(acrName)"
+
             for SERVICE in application worker; do
               echo "Building Docker image for service: $SERVICE"
 
@@ -67,14 +69,15 @@ jobs:
                 BUILD_ARGS+=(--build-arg IS_WORKER=true)
               fi
 
-              curl -4 ifconfig.me
+              IMAGE_NAME="$(acrName).azurecr.io/primero-kiosk/${SERVICE}"
 
-              az acr build \
-                --registry "$(acrName)" \
-                --platform linux/amd64 \
-                --image "primero-kiosk/${SERVICE}:$(IMAGE_TAG)" \
-                --image "primero-kiosk/${SERVICE}:latest" \
-                --file "./docker/application/Dockerfile" \
+              docker build \
                 "${BUILD_ARGS[@]}" \
+                -t "${IMAGE_NAME}:$(IMAGE_TAG)" \
+                -t "${IMAGE_NAME}:latest" \
+                -f "./docker/application/Dockerfile" \
                 ./
+
+              docker push "${IMAGE_NAME}:$(IMAGE_TAG)"
+              docker push "${IMAGE_NAME}:latest"
             done
