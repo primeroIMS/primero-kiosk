@@ -22,18 +22,18 @@ export type LookupOption = {
 export type Path<T> = T extends (infer U)[]
     ? `${number}.${Path<U>}` | `${number}`
     : T extends object
-        ? {
-              [K in keyof T & string]: `${K}.${Path<T[K]>}` | `${K}`;
-          }[keyof T & string]
-        : never;
+      ? {
+            [K in keyof T & string]: `${K}.${Path<T[K]>}` | `${K}`;
+        }[keyof T & string]
+      : never;
 
 export type PathValue<T, P extends string> = P extends `${infer K}.${infer R}`
     ? K extends keyof T
         ? PathValue<T[K], R>
         : never
     : P extends keyof T
-        ? T[P]
-        : never;
+      ? T[P]
+      : never;
 
 export type Primitive = boolean | null | number | string | undefined;
 
@@ -63,7 +63,13 @@ export type Screen = {
     };
 };
 
-export type ScreenComponent = "LanguageSelect" | "ResponseGoodBye" | "SingleSelect";
+export type ScreenComponent =
+    | "CharacterInformation"
+    | "CharacterWelcome"
+    | "ComfortingResponse"
+    | "LanguageSelect"
+    | "ResponseGoodBye"
+    | "SingleSelect";
 
 export type ScreenField = {
     backend_id: string;

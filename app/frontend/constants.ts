@@ -8,6 +8,7 @@ export const Strings = {
     comfortingResponse: "ComfortingResponse",
     empty: "",
     featuredImage: "Featured Image",
+    featuredImageAlt: "Featured Image",
     form: "form",
     idb: "idb",
     input_1: "input_1",

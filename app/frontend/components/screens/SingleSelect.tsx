@@ -5,6 +5,7 @@ import { type Screen } from "@/type";
 
 import RadioGroupInput from "../form/fields/RadioGroupInput";
 import PageActions from "../PageActions";
+import PageTitle from "../PageTitle";
 
 type Props = {
     config: Screen;
@@ -18,6 +19,10 @@ function SingleSelect({ config }: Props) {
 
     return (
         <>
+            <PageTitle
+                color={config.title.color}
+                text={config.title.text}
+            />
             <Form onSubmit={screen.onSubmit}>
                 <RadioGroupInput
                     name={screen.name(Strings.input_1)}
