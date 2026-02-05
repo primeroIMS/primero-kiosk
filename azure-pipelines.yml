@@ -69,7 +69,7 @@ jobs:
                 BUILD_ARGS+=(--build-arg IS_WORKER=true)
               fi
 
-              IMAGE_NAME="$(acrName).azurecr.io/primero-kiosk/${SERVICE}"
+              IMAGE_NAME="$(acrName)/primero-kiosk/${SERVICE}"
 
               docker build \
                 "${BUILD_ARGS[@]}" \
@@ -77,6 +77,8 @@ jobs:
                 -t "${IMAGE_NAME}:latest" \
                 -f "./docker/application/Dockerfile" \
                 ./
+
+              docker image ls ${IMAGE_NAME}
 
               docker push "${IMAGE_NAME}:$(IMAGE_TAG)"
               docker push "${IMAGE_NAME}:latest"
