@@ -67,6 +67,8 @@ jobs:
                 BUILD_ARGS+=(--build-arg IS_WORKER=true)
               fi
 
+              curl -4 ifconfig.me
+
               az acr build \
                 --registry "$(acrName)" \
                 --platform linux/amd64 \
