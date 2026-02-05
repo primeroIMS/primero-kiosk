@@ -1,10 +1,10 @@
-import Button from "@/components/Button";
 import PageTitle from "@/components/PageTitle";
-import { STRINGS } from "@/constants";
+import { Strings } from "@/constants";
 import useScreen from "@/hooks/use-screen";
 import { Screen } from "@/type";
 
 import I18nText from "../I18nText";
+import PageActions from "../PageActions";
 
 type Props = {
     config: Screen;
@@ -18,7 +18,7 @@ function ResponseGoodBye({ config }: Props) {
     return (
         <>
             <img
-                alt={STRINGS.featuredImage}
+                alt={Strings.featuredImage}
                 className="mb-8"
                 src={config.featured_image as string}
             />
@@ -31,16 +31,7 @@ function ResponseGoodBye({ config }: Props) {
             >
                 <I18nText text={config.description?.text} />
             </p>
-            <Button
-                className="bg-blue border-2 text-white"
-                onClick={screen.onNext}
-                variant="outline"
-            >
-                <I18nText
-                    fallback="buttons.continue"
-                    text={config.flow?.label_next}
-                />
-            </Button>
+            <PageActions screen={screen} />
         </>
     );
 }

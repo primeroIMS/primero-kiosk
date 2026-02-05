@@ -1,3 +1,4 @@
+import { Strings } from "@/constants";
 import { Theme } from "@/type";
 
 import BaseStore from "./base-store";
@@ -16,7 +17,7 @@ class Store extends BaseStore<ThemeState> {
 
 const ThemeStore = new Store({
     defaultState: { data: {} as Theme },
-    storage: { name: "theme", provider: "idb", version: 0 },
+    storage: { name: Strings.theme, provider: Strings.idb, version: 0 },
 });
 
 export default ThemeStore;

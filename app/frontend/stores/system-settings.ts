@@ -1,3 +1,4 @@
+import { Strings } from "@/constants";
 import { SystemSettings } from "@/type";
 
 import BaseStore from "./base-store";
@@ -16,7 +17,7 @@ class Store extends BaseStore<SystemSettingsState> {
 
 const SystemSettingsStore = new Store({
     defaultState: { data: {} as SystemSettings },
-    storage: { name: "settings", provider: "idb", version: 0 },
+    storage: { name: Strings.settings, provider: Strings.idb, version: 0 },
 });
 
 export default SystemSettingsStore;

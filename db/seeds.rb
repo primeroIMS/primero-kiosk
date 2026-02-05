@@ -47,7 +47,7 @@ end
       {
         field_id: 'input_1',
         scope: 'global',
-        placeholder_i18n: { en: 'Choose your language' },
+        placeholder_i18n: { en: 'Choose your language', ar: 'اختر لغتك', es: 'Elige tu idioma' },
         label_i18n: { en: 'Options' },
         record_definition: 'record-def-id'
       }

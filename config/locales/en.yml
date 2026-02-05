@@ -50,6 +50,8 @@ en:
     continue: "Continue"
     next: "Next"
     done: "Done"
+    back: "Back"
+    skip: "Skip"
   form:
     select_input:
       language:

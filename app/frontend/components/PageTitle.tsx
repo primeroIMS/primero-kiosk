@@ -7,7 +7,7 @@ type Props = {
 function PageTitle({ children, color }: PropsWithChildren<Props>) {
     return (
         <h1
-            className="mb-3 text-center text-3xl font-bold"
+            className="mb-10 text-center text-3xl font-bold"
             style={{ color }}
         >
             {children}

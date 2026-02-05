@@ -1,5 +1,5 @@
 import { ENDPOINTS } from "./constants";
-import apiClient from "./lib/apiClient";
+import apiClient from "./lib/api-client";
 import LookupStore from "./stores/lookup-store";
 import ScreenStore from "./stores/screen";
 import SystemSettingsStore from "./stores/system-settings";

@@ -1,4 +1,4 @@
-import { STRINGS } from "@/constants";
+import { Strings } from "@/constants";
 import { Screen } from "@/type";
 
 import LanguageSelect from "./screens/LanguageSelect";
@@ -9,14 +9,14 @@ type Props = { config: Screen };
 
 function ScreenSelector({ config }: Props) {
     switch (config.component) {
-        case STRINGS.languageSelect:
+        case Strings.languageSelect:
             return <LanguageSelect config={config} />;
-        case STRINGS.responseGoodBye:
+        case Strings.responseGoodBye:
             return <ResponseGoodBye config={config} />;
-        case STRINGS.singleSelect:
+        case Strings.singleSelect:
             return <SingleSelect config={config} />;
         default:
-            return <div>{STRINGS.notImplemented}</div>;
+            return <div>{Strings.notImplemented}</div>;
     }
 }
 

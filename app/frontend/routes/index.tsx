@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 
+import Logo from "@/components/Logo";
 import PageContainer from "@/components/PageContainer";
 import useStore from "@/hooks/use-store";
 
@@ -22,6 +23,8 @@ export default function Page() {
     }, [initialScreenId, navigate]);
 
     return (
-        <PageContainer style={{ backgroundColor: bgColor }}>splash page</PageContainer>
+        <PageContainer style={{ backgroundColor: bgColor }}>
+            <Logo />
+        </PageContainer>
     );
 }

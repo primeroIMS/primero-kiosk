@@ -1,11 +1,53 @@
-export const STRINGS = {
+export const Strings = {
+    app: "app",
+    buttonsBack: "buttons.back",
+    buttonsContinue: "buttons.continue",
+    buttonsSkip: "buttons.skip",
+    empty: "",
     featuredImage: "Featured Image",
+    form: "form",
+    idb: "idb",
+    input_1: "input_1",
+    json: "json",
+    kioskName: "kiosk_name",
+    language: "language",
     languageSelect: "LanguageSelect",
+    locales: "locales",
+    localStorage: "localStorage",
+    logo: "logo",
+    lookup: "lookup",
+    lookups: "lookups",
+    ltr: "ltr",
     notImplemented: "Not Implemented",
+    onResolved: "onResolved",
+    outline: "outline",
+    placeholder: "placeholder",
+    records: "records",
     responseGoodBye: "ResponseGoodBye",
+    rtl: "rtl",
+    rtlLocales: "rtl_locales",
     screenNotFound: "Screen Not Found",
+    screens: "screens",
+    secondary: "secondary",
+    settings: "settings",
     singleSelect: "SingleSelect",
+    span: "span",
+    startingScreenID: "starting_screen_id",
+    string: "string",
+    submit: "submit",
+    svgError: "Error loading svg image",
+    svgExtenstion: ".svg",
+    svgType: "image/svg+xml",
+    systemSettings: "systemSettings",
+    theme: "theme",
 } as const;
+
+export const RouteStrings = {
+    root: "/",
+    screensByID: "/screens/$id",
+};
+
+export const BASE_URL = "/api";
 
 export const ENDPOINTS = {
     lookups: "/lookups",

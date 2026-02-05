@@ -14,12 +14,13 @@ import { StoreDataMap } from "@/hooks/use-store";
 import { I18nTranslation } from "@/type";
 
 type Props = {
+    cyclePlaceholder?: boolean;
     name: string;
     optionsConfig: OptionsConfig<keyof StoreDataMap>;
     placeholder?: I18nTranslation;
 };
 
-function SelectInput({ name, optionsConfig, placeholder }: Props) {
+function SelectInput({ cyclePlaceholder, name, optionsConfig, placeholder }: Props) {
     const { field } = useController({ defaultValue: "", name });
     const options = useOptions(optionsConfig);
 
@@ -39,7 +40,10 @@ function SelectInput({ name, optionsConfig, placeholder }: Props) {
                                 }
                             />
                         ) : (
-                            <I18nText text={placeholder} />
+                            <I18nText
+                                cycleText={cyclePlaceholder}
+                                text={placeholder}
+                            />
                         )
                     }
                 </SelectValue>

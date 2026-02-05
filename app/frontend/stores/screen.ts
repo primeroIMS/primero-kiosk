@@ -1,3 +1,4 @@
+import { Strings } from "@/constants";
 import { Screen } from "@/type";
 
 import BaseStore from "./base-store";
@@ -21,7 +22,7 @@ class Store extends BaseStore<ScreenState> {
 
 const ScreenStore = new Store({
     defaultState: { data: [] as Screen[] },
-    storage: { name: "screens", provider: "idb", version: 0 },
+    storage: { name: Strings.screens, provider: Strings.idb, version: 0 },
 });
 
 export default ScreenStore;

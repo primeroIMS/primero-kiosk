@@ -1,3 +1,4 @@
+import { Strings } from "@/constants";
 import useStore from "@/hooks/use-store";
 import { cn } from "@/lib/utils";
 
@@ -6,14 +7,14 @@ type Props = {
 };
 
 function Logo({ className }: Props) {
-    const logo = useStore("theme", "logo");
-    const kioskName = useStore("theme", "kiosk_name");
+    const logo = useStore(Strings.theme, Strings.logo);
+    const kioskName = useStore(Strings.theme, Strings.kioskName);
 
     return (
         <div className={cn("mb-8", className)}>
             {logo ? (
                 <img
-                    alt="Logo"
+                    alt={Strings.logo}
                     src={logo as string}
                 />
             ) : (
