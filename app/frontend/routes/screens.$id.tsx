@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import PageContainer from "@/components/PageContainer";
 import ScreenSelector from "@/components/ScreenSelector";
-import { STRINGS } from "@/constants";
+import { Strings } from "@/constants";
 import ScreenStore from "@/stores/screen";
 
 export const Route = createFileRoute("/screens/$id")({
@@ -15,7 +15,7 @@ function Page() {
     const screen = ScreenStore.getScreenById(id);
 
     if (!screen) {
-        return <div>{STRINGS.screenNotFound}</div>;
+        return <div>{Strings.screenNotFound}</div>;
     }
 
     return (

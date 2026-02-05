@@ -9,8 +9,8 @@ class Screen::Field
   attribute :scope, :string
   attribute :backend_id, :string
   attribute :type, :string
-  attribute :placeholder_i18n, default: {}
-  attribute :label_i18n, default: {}
+  attribute :placeholder, default: {}
+  attribute :label, default: {}
   attribute :record_definition, :string
   attribute :lookup, :string
 

@@ -5,8 +5,9 @@ json.data do
     json.id lk.name
     json.options lk.lookup_options do |option|
       json.value option.data.value
-      json.label option.data.label_i18n
-      json.description option.data.description_i18n if option.data.description_i18n
+      json.label option.data.label
+      json.description option.data.description
+      json.icon rails_blob_path(option.icon, only_path: true) if option.icon.attached?
     end
   end
 end.compact!

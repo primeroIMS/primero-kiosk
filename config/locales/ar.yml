@@ -47,10 +47,12 @@ ar:
     zh: 中文
     tet: Tetum
   buttons:
-    continue: "يكمل"
-    next: "التالي"
-    done: "منتهي"
+    continue: "Continue"
+    next: "Next"
+    done: "Done"
+    back: "Back"
+    skip: "Skip"
   form:
     select_input:
       language:
-        label: "اختر لغتك"
+        label: "Choose your language"

@@ -1,3 +1,4 @@
+import { Strings } from "@/constants";
 import i18n from "@/translations";
 import { LookupOption } from "@/type";
 
@@ -14,11 +15,11 @@ function useOptions<T extends keyof StoreDataMap>({
     key,
     store,
 }: OptionsConfig<T>): LookupOption[] {
-    const optionsFromStore = useStore(store ?? ("lookup" as T), key);
+    const optionsFromStore = useStore(store ?? (Strings.lookup as T), key);
 
     if (
         Array.isArray(optionsFromStore) &&
-        optionsFromStore.every((item) => typeof item === "string")
+        optionsFromStore.every((item) => typeof item === Strings.string)
     ) {
         return optionsFromStore.map((item) => ({
             label: Object.fromEntries(

@@ -1,23 +1,24 @@
 import isEmpty from "lodash-es/isEmpty";
 
-import Button from "@/components/Button";
 import SelectInput from "@/components/form/fields/SelectInput";
 import Form from "@/components/form/Form";
 import Logo from "@/components/Logo";
 import PageTitle from "@/components/PageTitle";
+import { Strings } from "@/constants";
 import useScreen from "@/hooks/use-screen";
 import useStore from "@/hooks/use-store";
 import i18n, { I18nLocale } from "@/translations";
 import { Screen } from "@/type";
 
 import I18nText from "../I18nText";
+import PageActions from "../PageActions";
 
 type Props = {
     config: Screen;
 };
 
 function LanguageSelect({ config }: Props) {
-    const rtlLanguages = useStore("systemSettings", "rtl_locales");
+    const rtlLanguages = useStore(Strings.systemSettings, Strings.rtlLocales);
     const screen = useScreen({
         config,
         onSubmit: (data) => {
@@ -25,9 +26,9 @@ function LanguageSelect({ config }: Props) {
             i18n.locale = selectedLocale;
 
             if (rtlLanguages.includes(selectedLocale)) {
-                document.documentElement.dir = "rtl";
+                document.documentElement.dir = Strings.rtl;
             } else {
-                document.documentElement.dir = "ltr";
+                document.documentElement.dir = Strings.ltr;
             }
         },
     });
@@ -45,25 +46,20 @@ function LanguageSelect({ config }: Props) {
                 onSubmit={screen.onSubmit}
             >
                 <SelectInput
-                    name={screen.name("input_1", "language")}
+                    cyclePlaceholder
+                    name={screen.name(Strings.input_1, Strings.language)}
                     optionsConfig={{
-                        i18nKey: "locales",
-                        key: "locales",
-                        store: "systemSettings",
+                        i18nKey: Strings.locales,
+                        key: Strings.locales,
+                        store: Strings.systemSettings,
                     }}
-                    placeholder={screen.prop("input_1", "placeholder")}
+                    placeholder={screen.fieldProp(Strings.input_1, Strings.placeholder)}
                 />
             </Form>
-            <Button
-                form="form"
-                type="submit"
-                variant="secondary"
-            >
-                <I18nText
-                    fallback="buttons.continue"
-                    text={config.flow?.label_next}
-                />
-            </Button>
+            <PageActions
+                isForm
+                screen={screen}
+            />
         </>
     );
 }

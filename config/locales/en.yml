@@ -47,10 +47,11 @@ en:
     zh: 中文
     tet: Tetum
   buttons:
-    back: Back
-    continue: Continue
-    next: Next
-    done: Done
+    continue: "Continue"
+    next: "Next"
+    done: "Done"
+    back: "Back"
+    skip: "Skip"
   form:
     select_input:
       language:

@@ -10,8 +10,8 @@ class Screen::Data
   attribute :show_character, :boolean, default: false
   attribute :start_new_record, :boolean, default: false
   attribute_array :fields, Screen::Field
-  attribute_hash :title, Screen::Title
-  attribute_hash :description, Screen::Description
+  attribute_hash :title, Screen::Heading
+  attribute_hash :description, Screen::Heading
   attribute_hash :flow, Screen::Flow
   attribute_hash :options, Screen::Option
 

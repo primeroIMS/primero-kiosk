@@ -1,26 +1,12 @@
 import { useNavigate } from "@tanstack/react-router";
 import { get } from "lodash-es";
 
+import { RouteStrings, Strings } from "@/constants";
 import evaluateCondition from "@/lib/evaluate-conditions";
-import { FormValues, type Screen, ScreenField } from "@/type";
+import { FormValues, ScreenField, UseScreenArgs, UseScreenReturn } from "@/type";
 import { ScreenFieldScope } from "@/type";
 
 import useStore from "./use-store";
-
-type UseScreenArgs = {
-    config: Screen;
-    onNext?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-    onSubmit?: (data: FormValues) => void;
-    shouldComputeNextScreen?: boolean;
-};
-
-type UseScreenReturn = {
-    name: (id: string, name?: string) => string;
-    nextScreenId: (data: FormValues) => string;
-    onNext: (event: React.MouseEvent<HTMLButtonElement>) => void;
-    onSubmit: (data: FormValues) => void;
-    prop: (id: string, prop: keyof ScreenField, defaultValue?: any) => any;
-};
 
 // NOTE: Might need to read form store to get all field if you need
 // a value from previous screens
@@ -30,7 +16,7 @@ function useScreen({
     onSubmit,
     shouldComputeNextScreen = true,
 }: UseScreenArgs): UseScreenReturn {
-    const startingScreenId = useStore("systemSettings", "starting_screen_id");
+    const startingScreenId = useStore(Strings.systemSettings, Strings.startingScreenID);
     const navigate = useNavigate();
 
     const mappedFields = Object.fromEntries(
@@ -56,7 +42,7 @@ function useScreen({
     }
 
     function computeScope(scope: ScreenFieldScope) {
-        if (scope === "records") {
+        if (scope === Strings.records) {
             return "records.0";
         }
 
@@ -76,7 +62,7 @@ function useScreen({
 
         if (shouldComputeNextScreen) {
             const nextScreenID = computeNextScreen(data);
-            navigate({ params: { id: nextScreenID }, to: "/screens/$id" });
+            navigate({ params: { id: nextScreenID }, to: RouteStrings.screensByID });
         }
     }
 
@@ -85,17 +71,18 @@ function useScreen({
 
         if (shouldComputeNextScreen) {
             const nextScreenID = computeNextScreen();
-            navigate({ params: { id: nextScreenID }, to: "/screens/$id" });
+            navigate({ params: { id: nextScreenID }, to: RouteStrings.screensByID });
         }
     }
 
     return {
+        fieldProp: (id: string, prop: keyof ScreenField, defaultValue = Strings.empty) =>
+            get(mappedFields, [id, prop], defaultValue),
+        flow: config.flow,
         name: buildName,
         nextScreenId: (data) => computeNextScreen(data),
         onNext: onClickNext,
         onSubmit: handleSubmit,
-        prop: (id: string, prop: keyof ScreenField, defaultValue = "") =>
-            get(mappedFields, [id, prop], defaultValue),
     };
 }
 

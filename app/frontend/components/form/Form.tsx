@@ -2,6 +2,7 @@ import { DevTool } from "@hookform/devtools";
 import { PropsWithChildren } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
+import { Strings } from "@/constants";
 import { cn } from "@/lib/utils";
 import FormStore from "@/stores/form";
 import { FormValues } from "@/type";
@@ -18,7 +19,7 @@ function Form({
     children,
     className,
     debug = false,
-    id = "form",
+    id = Strings.form,
     onSubmit,
     persist = true,
 }: PropsWithChildren<Props>) {

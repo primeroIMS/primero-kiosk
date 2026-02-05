@@ -1,6 +1,8 @@
 import { createRouter } from "@tanstack/react-router";
 import { createRoot } from "react-dom/client";
 
+import { Strings } from "@/constants";
+
 import { routeTree } from "../_routes.gen";
 import Root from "../Root";
 
@@ -16,7 +18,7 @@ declare module "@tanstack/react-router" {
     }
 }
 
-const rootElement = document.getElementById("app")!;
+const rootElement = document.getElementById(Strings.app)!;
 
 if (!rootElement.innerHTML) {
     const root = createRoot(rootElement);

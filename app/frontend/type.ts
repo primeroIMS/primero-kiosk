@@ -14,6 +14,7 @@ export type Lookup = {
 
 export type LookupOption = {
     description?: I18nTranslation;
+    icon?: string;
     label: I18nTranslation;
     value: string;
 };
@@ -47,18 +48,7 @@ export type Screen = {
     };
     featured_image?: string;
     fields: ScreenField[];
-    flow: {
-        allow_back?: boolean;
-        allow_skip?: boolean;
-        end_of_flow?: boolean;
-        label_back?: I18nTranslation;
-        label_next?: I18nTranslation;
-        label_skip?: I18nTranslation;
-        next_screen?: {
-            conditions?: Array<{ eq: Record<string, any>; path: string }>;
-            default: string;
-        };
-    };
+    flow: ScreenFlow;
     id: string;
     options: {
         bg_color?: string;
@@ -88,6 +78,19 @@ export type ScreenField = {
 
 export type ScreenFieldScope = "global" | "records";
 
+export type ScreenFlow = {
+    allow_back?: boolean;
+    allow_skip?: boolean;
+    end_of_flow?: boolean;
+    label_back?: I18nTranslation;
+    label_next?: I18nTranslation;
+    label_skip?: I18nTranslation;
+    next_screen?: {
+        conditions?: Array<{ eq: Record<string, any>; path: string }>;
+        default: string;
+    };
+};
+
 export type SystemSettings = {
     default_locale: I18nLocale;
     locale: I18nLocale;
@@ -111,4 +114,20 @@ export type Theme = {
     logo_pictorial: string;
     site_description: I18nTranslation;
     site_title: string;
+};
+
+export type UseScreenArgs = {
+    config: Screen;
+    onNext?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    onSubmit?: (data: FormValues) => void;
+    shouldComputeNextScreen?: boolean;
+};
+
+export type UseScreenReturn = {
+    fieldProp: (id: string, prop: keyof ScreenField, defaultValue?: any) => any;
+    flow: ScreenFlow;
+    name: (id: string, name?: string) => string;
+    nextScreenId: (data: FormValues) => string;
+    onNext: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    onSubmit: (data: FormValues) => void;
 };

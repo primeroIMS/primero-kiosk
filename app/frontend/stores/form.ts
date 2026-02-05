@@ -1,3 +1,4 @@
+import { Strings } from "@/constants";
 import { FormValues } from "@/type";
 
 import BaseStore from "./base-store";
@@ -24,7 +25,7 @@ const FormStore = new Store({
     defaultState: {
         data: {} as FormValues,
     },
-    storage: { name: "form-storage", provider: "localStorage", version: 0 },
+    storage: { name: Strings.form, provider: Strings.localStorage, version: 0 },
 });
 
 export default FormStore;

@@ -2,6 +2,7 @@ import { isEmpty } from "lodash-es";
 import { useController } from "react-hook-form";
 
 import I18nText from "@/components/I18nText";
+import Icon from "@/components/Icon";
 import useOptions, { OptionsConfig } from "@/hooks/use-options";
 import { StoreDataMap } from "@/hooks/use-store";
 
@@ -39,10 +40,12 @@ function RadioGroupInput({ name, options: optionsConfig }: Props) {
                         "
                         htmlFor={option.value}
                     >
-                        <img
-                            alt="icon"
-                            src="icon"
-                        />
+                        {option.icon && (
+                            <Icon
+                                className="size-8"
+                                src={option.icon}
+                            />
+                        )}
                         <div className="block">
                             <div className="w-full font-semibold">
                                 <I18nText text={option.label} />

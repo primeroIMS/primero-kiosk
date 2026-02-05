@@ -1,3 +1,4 @@
+import { Strings } from "@/constants";
 import { Lookup, LookupOption } from "@/type";
 
 import BaseStore from "./base-store";
@@ -16,7 +17,7 @@ class Store extends BaseStore<LookupState> {
 
 const LookupStore = new Store({
     defaultState: { data: {} as Record<string, [] | LookupOption[]> },
-    storage: { name: "lookups", provider: "idb", version: 0 },
+    storage: { name: Strings.lookups, provider: Strings.idb, version: 0 },
 });
 
 export default LookupStore;

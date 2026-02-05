@@ -1,9 +1,10 @@
-import Button from "@/components/Button";
 import Form from "@/components/form/Form";
+import { Strings } from "@/constants";
 import useScreen from "@/hooks/use-screen";
 import { type Screen } from "@/type";
 
 import RadioGroupInput from "../form/fields/RadioGroupInput";
+import PageActions from "../PageActions";
 
 type Props = {
     config: Screen;
@@ -12,27 +13,20 @@ type Props = {
 function SingleSelect({ config }: Props) {
     const screen = useScreen({
         config,
-        onSubmit: (data) => {
-            console.log("Form submitted with data:", data);
-        },
+        onSubmit: (data) => {},
     });
 
     return (
         <>
             <Form onSubmit={screen.onSubmit}>
                 <RadioGroupInput
-                    name={screen.name("input_1")}
+                    name={screen.name(Strings.input_1)}
                     options={{
-                        key: screen.prop("input_1", "lookup"),
+                        key: screen.fieldProp(Strings.input_1, Strings.lookup),
                     }}
                 />
             </Form>
-            <Button
-                form="form"
-                text="buttons.continue"
-                type="submit"
-                variant="secondary"
-            />
+            <PageActions screen={screen} />
         </>
     );
 }
