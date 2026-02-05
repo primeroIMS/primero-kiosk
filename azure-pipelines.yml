@@ -5,7 +5,6 @@
 
 trigger:
 - main
-- r2-3611-*
 
 pool:
   vmImage: ubuntu-latest
