@@ -5,7 +5,9 @@ export const STRINGS = {
     responseGoodBye: "ResponseGoodBye",
     screenNotFound: "Screen Not Found",
     singleSelect: "SingleSelect",
-    comfortingResponse: "ComfortingResponse"
+    comfortingResponse: "ComfortingResponse",
+    characterInformation: "CharacterInformation",
+    characterWelcome: "CharacterWelcome"
 } as const;
 
 export const ENDPOINTS = {

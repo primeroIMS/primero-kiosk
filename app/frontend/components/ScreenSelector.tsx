@@ -5,6 +5,8 @@ import LanguageSelect from "./screens/LanguageSelect";
 import ResponseGoodBye from "./screens/ResponseGoodBye";
 import SingleSelect from "./screens/SingleSelect";
 import ComfortingResponse from "./screens/ComfortingResponse";
+import CharacterInformation from "./screens/CharacterInformation";
+import CharacterWelcome from "./screens/CharacterWelcome";
 
 type Props = { config: Screen };
 
@@ -18,6 +20,10 @@ function ScreenSelector({ config }: Props) {
             return <SingleSelect config={config} />;
         case STRINGS.comfortingResponse:
             return <ComfortingResponse config={config} />;
+        case STRINGS.characterInformation:
+            return <CharacterInformation config={config} />;
+        case STRINGS.characterWelcome:
+            return <CharacterWelcome config={config} />;
         default:
             return <div>{STRINGS.notImplemented}</div>;
     }
