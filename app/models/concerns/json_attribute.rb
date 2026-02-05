@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
+# Concern for handling JSON attributes in ActiveRecord models
 module JsonAttribute
   extend ActiveSupport::Concern
 
-  class_methods do
-    def json_attribute(name, wrapper_class, array: false)
+  class_methods do # rubocop:disable Metrics/BlockLength
+    def json_attribute(name, wrapper_class, array: false) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
       type = Class.new(ActiveModel::Type::Value) do
         define_method(:cast_value) do |value|
           return if value.nil?
@@ -14,7 +17,7 @@ module JsonAttribute
           end
         end
 
-        define_method(:cast_one) do |value|
+        define_method(:cast_one) do |value| # rubocop:disable Metrics/MethodLength
           case value
           when wrapper_class
             value
@@ -40,7 +43,7 @@ module JsonAttribute
           result.to_json
         end
 
-        define_method(:primitive) do |value|
+        define_method(:primitive) do |value| # rubocop:disable Metrics/CyclomaticComplexity,Metrics/MethodLength
           case value
           when nil
             nil
