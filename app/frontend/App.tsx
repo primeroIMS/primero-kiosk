@@ -1,7 +1,7 @@
 import { RouterProvider } from "@tanstack/react-router";
+import { use } from "react";
 
 import "./app.css";
-import { use } from "react";
 
 const App = ({ promise, router }) => {
     const data = use(promise);

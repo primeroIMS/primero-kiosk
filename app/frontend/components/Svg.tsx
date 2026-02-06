@@ -14,8 +14,8 @@ const innerFunction = (
         _props[element.attributes[i].nodeName] = element.attributes[i].nodeValue;
     }
 
-    const children: React.ReactNode[] = Array.from(element.children).map((item) =>
-        innerFunction(item),
+    const children: React.ReactNode[] = Array.from(element.children).map((item, index) =>
+        innerFunction(item, { key: index }),
     );
 
     return createElement(tagName, _props, children);

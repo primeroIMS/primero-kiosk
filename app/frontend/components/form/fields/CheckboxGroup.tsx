@@ -1,4 +1,3 @@
-import { PropsWithChildren } from "react";
 import { useController } from "react-hook-form";
 
 import useOptions, { OptionsConfig } from "@/hooks/use-options";
@@ -8,28 +7,14 @@ import { cn } from "@/lib/utils";
 import InputGroupItem from "./InputGroupItem";
 
 type Props = {
-    centerText?: boolean;
     className?: string;
     cols?: 2 | 3;
-    iconLarge?: boolean;
-    itemClasses?: string;
     name: string;
     options: OptionsConfig<keyof StoreDataMap>;
-    outlined?: boolean;
 };
 
-function RadioGroupInput({
-    centerText,
-    children,
-    className,
-    cols = 3,
-    iconLarge,
-    name,
-    options: optionsConfig,
-    outlined,
-}: PropsWithChildren<Props>) {
-    const { field } = useController({ defaultValue: "", name });
-
+function CheckboxGroup({ className, cols = 3, name, options: optionsConfig }: Props) {
+    const { field } = useController({ defaultValue: [], name });
     const options = useOptions(optionsConfig);
 
     return (
@@ -40,20 +25,18 @@ function RadioGroupInput({
                 className,
             )}
         >
-            {children}
             {options.map((option) => (
                 <InputGroupItem
-                    centerText={centerText}
                     field={field}
-                    iconLarge={iconLarge}
                     key={option.value}
+                    multiple
                     name={name}
                     option={option}
-                    outlined={outlined}
+                    type="checkbox"
                 />
             ))}
         </div>
     );
 }
 
-export default RadioGroupInput;
+export default CheckboxGroup;

@@ -4,10 +4,11 @@
 # rubocop:disable Naming/VariableNumber
 class Theme < ApplicationRecord
   DEFAULT_THEME = {
-    site_title: 'Primero',
-    kiosk_name: 'Primero',
-    site_description: { en: I18n.t('email.site_description', locale: :en) },
-    revision: SecureRandom.uuid
+    site_title: 'Primero Kiosk',
+    kiosk_name: 'Primero Kiosk',
+    site_description: { en: I18n.t('site_description', locale: :en) },
+    revision: SecureRandom.uuid,
+    theme_color: '#ffffff'
   }.with_indifferent_access.freeze
 
   PICTORIAL_SIZES = %w[144 192 256].freeze
@@ -15,7 +16,7 @@ class Theme < ApplicationRecord
   attr_accessor :bypass_logos
 
   store_accessor :data, :site_description, :site_title,
-                 :revision, :kiosk_name, :colors, :copy
+                 :revision, :kiosk_name, :colors, :copy, :theme_color
 
   has_one_attached :logo
   has_one_attached :logo_pictorial

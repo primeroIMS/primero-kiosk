@@ -3,7 +3,7 @@ import { Strings } from "@/constants";
 import useScreen from "@/hooks/use-screen";
 import { type Screen } from "@/type";
 
-import RadioGroupInput from "../form/fields/RadioGroupInput";
+import TextAreaInput from "../form/fields/TextAreaInput";
 import PageActions from "../PageActions";
 import PageTitle from "../PageTitle";
 
@@ -11,9 +11,10 @@ type Props = {
     config: Screen;
 };
 
-function SingleSelect({ config }: Props) {
+function TextArea({ config }: Props) {
     const screen = useScreen({
         config,
+        onSubmit: (data) => {},
     });
 
     return (
@@ -22,13 +23,13 @@ function SingleSelect({ config }: Props) {
                 color={config.title.color}
                 text={config.title.text}
             />
-            <Form onSubmit={screen.onSubmit}>
-                <RadioGroupInput
-                    cols={2}
+            <Form
+                debug
+                onSubmit={screen.onSubmit}
+            >
+                <TextAreaInput
                     name={screen.name(Strings.input_1)}
-                    options={{
-                        key: screen.fieldProp(Strings.input_1, Strings.lookup),
-                    }}
+                    placeholder={screen.fieldProp(Strings.input_1, Strings.placeholder)}
                 />
             </Form>
             <PageActions screen={screen} />
@@ -36,4 +37,4 @@ function SingleSelect({ config }: Props) {
     );
 }
 
-export default SingleSelect;
+export default TextArea;

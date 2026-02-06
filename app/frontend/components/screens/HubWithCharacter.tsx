@@ -1,0 +1,70 @@
+import { Strings } from "@/constants";
+import useScreen from "@/hooks/use-screen";
+import useStore from "@/hooks/use-store";
+import i18n from "@/translations";
+import { type Screen } from "@/type";
+
+import RadioGroupInput from "../form/fields/RadioGroupInput";
+import Form from "../form/Form";
+import Icon from "../Icon";
+import PageActions from "../PageActions";
+import PageDescription from "../PageDescription";
+import PageTitle from "../PageTitle";
+
+type Props = {
+    config: Screen;
+};
+
+function HubWithCharacter({ config }: Props) {
+    const screen = useScreen({ config, onSubmit: () => {} });
+    const character = useStore("form", "global.character");
+
+    return (
+        <>
+            <div className="mb-10 flex w-full justify-center">
+                <div className="flex size-50 rounded-full bg-amber-100">
+                    <Icon src={character?.icon} />
+                </div>
+            </div>
+
+            <PageTitle
+                color={config.title.color}
+                text={config.title.text}
+            />
+            <PageDescription
+                color={config.description?.color}
+                text={config.description?.text}
+            />
+            <div
+                className="
+                  my-5 flex items-center py-3 text-lg font-light text-white
+                  before:me-6 before:flex-1 before:border-t before:border-white
+                  after:ms-6 after:flex-1 after:border-t after:border-white
+                "
+            >
+                {i18n.t("divider.pick_one")}
+            </div>
+            <Form
+                className="flex flex-col gap-15"
+                debug
+                onSubmit={screen.onSubmit}
+            >
+                <RadioGroupInput
+                    centerText
+                    iconLarge
+                    name={screen.name(Strings.input_1)}
+                    options={{
+                        key: screen.fieldProp(Strings.input_1, Strings.lookup),
+                    }}
+                    outlined
+                />
+            </Form>
+            <PageActions
+                isForm
+                screen={screen}
+            />
+        </>
+    );
+}
+
+export default HubWithCharacter;
