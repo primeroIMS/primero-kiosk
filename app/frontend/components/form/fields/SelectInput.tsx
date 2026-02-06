@@ -1,5 +1,6 @@
 import { useController } from "react-hook-form";
 
+import I18nText from "@/components/I18nText";
 import {
     Select,
     SelectContent,
@@ -9,25 +10,18 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import useOptions, { OptionsConfig } from "@/hooks/use-options";
-import i18n from "@/translations";
+import { StoreDataMap } from "@/hooks/use-store";
+import { I18nTranslation } from "@/type";
 
 type Props = {
-    getI18nLabelFromName?: boolean;
-    label?: string;
+    cyclePlaceholder?: boolean;
     name: string;
-    optionsConfig: OptionsConfig;
+    optionsConfig: OptionsConfig<keyof StoreDataMap>;
+    placeholder?: I18nTranslation;
 };
 
-function SelectInput({
-    getI18nLabelFromName = false,
-    label,
-    name,
-    optionsConfig,
-}: Props) {
+function SelectInput({ cyclePlaceholder, name, optionsConfig, placeholder }: Props) {
     const { field } = useController({ defaultValue: "", name });
-    const fieldLabel = getI18nLabelFromName
-        ? i18n.t(`form.select_input.${name}.label`)
-        : label;
     const options = useOptions(optionsConfig);
 
     return (
@@ -37,7 +31,22 @@ function SelectInput({
             value={field.value}
         >
             <SelectTrigger className="w-full min-w-60">
-                <SelectValue placeholder={fieldLabel} />
+                <SelectValue>
+                    {(item) =>
+                        item ? (
+                            <I18nText
+                                text={
+                                    options.find((option) => option.value === item)?.label
+                                }
+                            />
+                        ) : (
+                            <I18nText
+                                cycleText={cyclePlaceholder}
+                                text={placeholder}
+                            />
+                        )
+                    }
+                </SelectValue>
             </SelectTrigger>
             <SelectContent className="w-50">
                 <SelectGroup>
@@ -46,7 +55,7 @@ function SelectInput({
                             key={item.value}
                             value={item.value}
                         >
-                            {item.label}
+                            <I18nText text={item.label} />
                         </SelectItem>
                     ))}
                 </SelectGroup>

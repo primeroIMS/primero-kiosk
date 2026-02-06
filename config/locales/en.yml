@@ -50,7 +50,8 @@ en:
     continue: "Continue"
     next: "Next"
     done: "Done"
-  form:
-    select_input:
-      language:
-        label: "Choose your language"
+    back: "Back"
+    skip: "Skip"
+  site_description: "Primero Kiosk is a kiosk platform."
+  divider:
+    pick_one: "Pick one to start!"

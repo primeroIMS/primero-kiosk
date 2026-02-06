@@ -1,30 +1,31 @@
-import { PrimitiveRecord } from "@/type";
+import { Strings } from "@/constants";
+import { FormValues } from "@/type";
 
 import BaseStore from "./base-store";
 
 type FormState = {
-    formData: PrimitiveRecord;
+    data: FormValues;
 };
 
 class Store extends BaseStore<FormState> {
     reset() {
         this.update((state) => {
-            state.formData = {} as PrimitiveRecord;
+            state.data = {} as FormValues;
         });
     }
 
-    set(data: PrimitiveRecord) {
+    set(data: FormValues) {
         this.update((state) => {
-            state.formData = { ...state.formData, ...data };
+            state.data = { ...state.data, ...data };
         });
     }
 }
 
 const FormStore = new Store({
     defaultState: {
-        formData: {} as PrimitiveRecord,
+        data: {} as FormValues,
     },
-    storage: { name: "form-storage", provider: "localStorage", version: 0 },
+    storage: { name: Strings.form, provider: Strings.localStorage, version: 0 },
 });
 
 export default FormStore;

@@ -8,11 +8,17 @@ Rails.application.routes.draw do
   get 'up' => 'rails/health#show', as: :rails_health_check
   resources :health, only: %i[index show]
 
+  get '/dev-sw.js', to: 'service_worker#show'
+  get '/sw.js', to: 'service_worker#show'
+  get 'manifest', to: 'service_worker#manifest', defaults: { format: :json }
+
   root 'home#index'
 
   namespace :api, defaults: { format: :json } do
     get :theme, to: 'themes#index'
     resources :system_settings, only: [:index]
+    resources :screens, only: [:index]
+    resources :lookups, only: [:index]
   end
 
   # TanStack Router SPA - catch all other routes (except ActiveStorage which is auto-mounted)

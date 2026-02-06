@@ -8,6 +8,5 @@ if @theme.present?
     json.copy @theme.copy
     json.logo rails_blob_path(@theme.logo, only_path: true) if @theme&.logo&.attached?
     json.logo_pictorial rails_blob_path(@theme.logo_pictorial, only_path: true) if @theme&.logo_pictorial&.attached?
-    json.response_hero rails_blob_path(@theme.response_hero, only_path: true) if @theme&.response_hero&.attached?
   end.compact!
 end
