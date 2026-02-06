@@ -68,6 +68,8 @@ export type ScreenComponent =
     | "CharacterSelection"
     | "CharacterWelcome"
     | "ComfortingResponse"
+    | "Hub"
+    | "HubWithCharacter"
     | "LanguageSelect"
     | "MultiSelect"
     | "ResponseGoodBye"

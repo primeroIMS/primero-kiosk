@@ -14,13 +14,21 @@ import { StoreDataMap } from "@/hooks/use-store";
 import i18n, { I18nLocale } from "@/translations";
 
 type Props = {
+    iconName: string;
     name: string;
     options: OptionsConfig<keyof StoreDataMap>;
 };
 
-function CarouselInput({ name, options: optionsConfig }: Props) {
+function CarouselInput({ iconName, name, options: optionsConfig }: Props) {
     const { field } = useController({ defaultValue: "", name });
+    const { field: iconField } = useController({ defaultValue: "", name: iconName });
+
     const options = useOptions(optionsConfig);
+
+    function handleOnChange(value: string, icon: string) {
+        field.onChange(value);
+        iconField.onChange(icon);
+    }
 
     return (
         <Carousel className="w-full">
@@ -35,14 +43,16 @@ function CarouselInput({ name, options: optionsConfig }: Props) {
                                   aria-selected:bg-amber-200 aria-selected:ring-4
                                   aria-selected:ring-amber-300
                                 "
-                                onClick={() => field.onChange(option.value)}
+                                onClick={() =>
+                                    handleOnChange(option.value, option.icon as string)
+                                }
                             >
                                 <CardContent
                                     className="
                                       flex aspect-square items-center justify-center p-6
                                     "
                                 >
-                                    <Icon src={option.icon} />
+                                    <Icon src={option.icon as string} />
                                 </CardContent>
                             </Card>
                             <div className="mt-5 text-2xl font-bold">

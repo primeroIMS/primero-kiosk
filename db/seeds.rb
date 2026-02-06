@@ -28,6 +28,15 @@ end
     ]
   },
   {
+    name: 'talk_about',
+    lookup_options: [
+      build_lookup_option(value: 'ice_cream', label: 'Some ice cream would be nice',
+                          icon_filename: 'smile.svg'),
+      build_lookup_option(value: 'fun', label: 'Some fun', icon_filename: 'surprised.svg'),
+      build_lookup_option(value: 'food', label: 'Food', icon_filename: 'confused.svg')
+    ]
+  },
+  {
     name: 'yes_no',
     lookup_options: [
       build_lookup_option(value: 'yes', label: 'Yes', icon_filename: 'check.svg'),
@@ -58,6 +67,74 @@ Screen.create!(
     },
     title: {
       text_i18n: { en: 'Select an character' },
+      color: '#f44336'
+    },
+    flow: {
+      next_screen: {
+        default: 'hub_with_character'
+      }
+    }
+  }
+)
+
+Screen.create!(
+  data: {
+    id: 'hub_with_character',
+    bg_color: '#FA7E87',
+    component: 'HubWithCharacter',
+    fields: [
+      {
+        field_id: 'input_1',
+        scope: 'records',
+        backend_id: 'hub_with_character',
+        lookup: 'talk_about'
+      }
+    ],
+    options: {
+      text_color: '#000000',
+      bg_color: '#FFFFFF',
+      border_color: '#CCCCCC'
+    },
+    title: {
+      text_i18n: { en: 'What would you like to talk about' },
+      color: '#f44336'
+    },
+    description: {
+      text_i18n: { en: 'Let\'s talk about it' },
+      color: '#f44336'
+    },
+    flow: {
+      next_screen: {
+        default: 'hub'
+      }
+    }
+  }
+)
+
+Screen.create!(
+  data: {
+    id: 'hub',
+    bg_color: '#FA7E87',
+    component: 'Hub',
+    fields: [
+      {
+        field_id: 'input_1',
+        scope: 'records',
+        backend_id: 'hub',
+        lookup: 'talk_about'
+      }
+    ],
+    options: {
+      text_color: '#000000',
+      bg_color: '#FFFFFF',
+      border_color: '#CCCCCC'
+    },
+    title: {
+      text_i18n: { en: 'What would you like to talk about' },
+      color: '#f44336'
+    },
+    description: {
+      text_i18n: { en: 'Let\'s talk about it' },
       color: '#f44336'
     },
     flow: {

@@ -14,7 +14,6 @@ type Props = {
 function SingleSelect({ config }: Props) {
     const screen = useScreen({
         config,
-        onSubmit: (data) => {},
     });
 
     return (
@@ -25,6 +24,7 @@ function SingleSelect({ config }: Props) {
             />
             <Form onSubmit={screen.onSubmit}>
                 <RadioGroupInput
+                    cols={2}
                     name={screen.name(Strings.input_1)}
                     options={{
                         key: screen.fieldProp(Strings.input_1, Strings.lookup),

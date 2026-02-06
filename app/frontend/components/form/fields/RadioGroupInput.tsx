@@ -1,3 +1,4 @@
+import { PropsWithChildren } from "react";
 import { useController } from "react-hook-form";
 
 import useOptions, { OptionsConfig } from "@/hooks/use-options";
@@ -7,12 +8,26 @@ import { cn } from "@/lib/utils";
 import InputGroupItem from "./InputGroupItem";
 
 type Props = {
+    centerText?: boolean;
     className?: string;
+    cols?: 2 | 3;
+    iconLarge?: boolean;
+    itemClasses?: string;
     name: string;
     options: OptionsConfig<keyof StoreDataMap>;
+    outlined?: boolean;
 };
 
-function RadioGroupInput({ className, name, options: optionsConfig }: Props) {
+function RadioGroupInput({
+    centerText,
+    children,
+    className,
+    cols = 3,
+    iconLarge,
+    name,
+    options: optionsConfig,
+    outlined,
+}: PropsWithChildren<Props>) {
     const { field } = useController({ defaultValue: "", name });
 
     const options = useOptions(optionsConfig);
@@ -20,16 +35,21 @@ function RadioGroupInput({ className, name, options: optionsConfig }: Props) {
     return (
         <div
             className={cn(
-                "m-auto flex flex-row flex-wrap justify-center gap-4",
+                "grid grid-flow-row-dense gap-4",
+                cols === 2 ? "grid-cols-2" : "grid-cols-3",
                 className,
             )}
         >
+            {children}
             {options.map((option) => (
                 <InputGroupItem
+                    centerText={centerText}
                     field={field}
+                    iconLarge={iconLarge}
                     key={option.value}
                     name={name}
                     option={option}
+                    outlined={outlined}
                 />
             ))}
         </div>

@@ -31,6 +31,7 @@ function CharacterSelection({ config }: Props) {
                 onSubmit={screen.onSubmit}
             >
                 <CarouselInput
+                    iconName={screen.name(Strings.input_1, Strings.characterIcon)}
                     name={screen.name(Strings.input_1, Strings.character)}
                     options={{
                         key: screen.fieldProp(Strings.input_1, Strings.lookup),

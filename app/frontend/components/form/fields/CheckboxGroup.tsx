@@ -8,18 +8,20 @@ import InputGroupItem from "./InputGroupItem";
 
 type Props = {
     className?: string;
+    cols?: 2 | 3;
     name: string;
     options: OptionsConfig<keyof StoreDataMap>;
 };
 
-function CheckboxGroup({ className, name, options: optionsConfig }: Props) {
+function CheckboxGroup({ className, cols = 3, name, options: optionsConfig }: Props) {
     const { field } = useController({ defaultValue: [], name });
     const options = useOptions(optionsConfig);
 
     return (
         <div
             className={cn(
-                "m-auto flex flex-row flex-wrap justify-center gap-4",
+                "grid grid-flow-row-dense gap-4",
+                cols === 2 ? "grid-cols-2" : "grid-cols-3",
                 className,
             )}
         >
