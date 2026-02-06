@@ -5,7 +5,7 @@ return unless Rails.env.development?
 Rake::Task['db:truncate_all'].execute
 
 def build_lookup_option(value:, label:, icon_filename: nil)
-  option = LookupOption.new(data: { value: value, label_i18n: { en: label } })
+  option = Lookup::Option.new(data: { value: value, label_i18n: { en: label } })
 
   option.icon.attach(
     io: File.open(Rails.root.join('db', 'seed_resources', icon_filename)),

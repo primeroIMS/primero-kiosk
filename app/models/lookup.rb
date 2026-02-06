@@ -2,7 +2,7 @@
 
 # Represents a Lookup entity.
 class Lookup < ApplicationRecord
-  has_many :lookup_options, dependent: :destroy
+  has_many :lookup_options, dependent: :destroy, class_name: 'Lookup::Option'
 
   def self.create_or_update(attributes)
     lookup = find_or_initialize_by(name: attributes[:name])

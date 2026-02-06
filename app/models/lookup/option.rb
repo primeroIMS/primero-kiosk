@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Represents a LookupOption entity.
-class LookupOption < ApplicationRecord
+# Represents a Option entity.
+class Lookup::Option < ApplicationRecord
   include JsonAttribute
 
   json_attribute :data, Lookup::Data
