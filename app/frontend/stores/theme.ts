@@ -1,22 +1,23 @@
-import { PrimitiveRecord } from "@/type";
+import { Strings } from "@/constants";
+import { Theme } from "@/type";
 
 import BaseStore from "./base-store";
 
 type ThemeState = {
-    theme: PrimitiveRecord;
+    data: Theme;
 };
 
 class Store extends BaseStore<ThemeState> {
-    setTheme(data: PrimitiveRecord) {
+    setTheme(data: Theme) {
         this.update((state) => {
-            state.theme = { ...state.theme, ...data };
+            state.data = { ...state.data, ...data };
         });
     }
 }
 
 const ThemeStore = new Store({
-    defaultState: { theme: {} },
-    storage: { name: "theme", provider: "idb", version: 0 },
+    defaultState: { data: {} as Theme },
+    storage: { name: Strings.theme, provider: Strings.idb, version: 0 },
 });
 
 export default ThemeStore;

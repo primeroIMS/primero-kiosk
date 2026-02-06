@@ -2,6 +2,8 @@ import { produce } from "immer";
 import { create, type StoreApi, type UseBoundStore } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
+import { Strings } from "@/constants";
+
 import idbStorage from "./idb-storage";
 
 type BaseStoreParams<T> = {
@@ -39,7 +41,7 @@ class BaseStore<T> {
 
     public storageProvider(provider: StorageProvider) {
         switch (provider) {
-            case "idb":
+            case Strings.idb:
                 return idbStorage;
 
             default:

@@ -2,31 +2,45 @@ import { DevTool } from "@hookform/devtools";
 import { PropsWithChildren } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { PrimitiveRecord } from "@/type";
+import { Strings } from "@/constants";
+import { cn } from "@/lib/utils";
+import FormStore from "@/stores/form";
+import { FormValues } from "@/type";
 
 type Props = {
     className?: string;
     debug?: boolean;
     id?: string;
-    onSubmit: (data: PrimitiveRecord) => void;
+    onSubmit: (data: FormValues) => void;
+    persist?: boolean;
 };
 
 function Form({
     children,
     className,
     debug = false,
-    id = "form",
+    id = Strings.form,
     onSubmit,
+    persist = true,
 }: PropsWithChildren<Props>) {
-    const methods = useForm<PrimitiveRecord>();
+    const methods = useForm<FormValues>({
+        shouldFocusError: false,
+    });
     const { handleSubmit } = methods;
+
+    function submit(data: FormValues) {
+        if (persist) {
+            FormStore.set(data);
+        }
+        onSubmit(data);
+    }
 
     return (
         <FormProvider {...methods}>
             <form
-                className={className}
+                className={cn("mb-20", className)}
                 id={id}
-                onSubmit={handleSubmit(onSubmit)}
+                onSubmit={handleSubmit(submit)}
             >
                 {children}
             </form>

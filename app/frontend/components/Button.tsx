@@ -15,7 +15,8 @@ type Props = {
     VariantProps<typeof buttonVariants>;
 
 function Button({ children, text, to, ...rest }: PropsWithChildren<Props>) {
-    const render = text ? i18n.t(text) : children;
+    const render = children ? children : text && i18n.t(text);
+
     if (to) {
         return (
             <UIButton
