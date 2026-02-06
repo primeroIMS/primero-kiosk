@@ -5,6 +5,7 @@ import { Screen } from "@/type";
 import CarouselInput from "../form/fields/CarouselInput";
 import Form from "../form/Form";
 import PageActions from "../PageActions";
+import PageDescription from "../PageDescription";
 import PageTitle from "../PageTitle";
 
 type Props = {
@@ -19,6 +20,10 @@ function CharacterSelection({ config }: Props) {
             <PageTitle
                 color={config.title.color}
                 text={config.title.text}
+            />
+            <PageDescription
+                color={config.description?.color}
+                text={config.description?.text}
             />
             <Form
                 className="mb-20"

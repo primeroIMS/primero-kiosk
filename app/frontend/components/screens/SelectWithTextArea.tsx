@@ -26,7 +26,6 @@ function SelectWithTextArea({ config }: Props) {
             />
             <Form
                 className="flex flex-col gap-15"
-                debug
                 onSubmit={screen.onSubmit}
             >
                 <RadioGroupInput
@@ -41,7 +40,10 @@ function SelectWithTextArea({ config }: Props) {
                     placeholder={screen.fieldProp(Strings.input_1, Strings.placeholder)}
                 />
             </Form>
-            <PageActions screen={screen} />
+            <PageActions
+                isForm
+                screen={screen}
+            />
         </>
     );
 }

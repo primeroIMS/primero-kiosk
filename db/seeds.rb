@@ -201,10 +201,14 @@ Screen.create!(
         field_id: 'input_1',
         scope: 'record',
         backend_id: 'multi_select_tell_us',
-        placeholder_i18n: { en: 'Select an option' },
-        label_i18n: { en: 'What is your favorite color?' },
         record_definition: 'record-def-id',
         lookup: 'what_will_make_you_happy'
+      },
+      {
+        field_id: 'input_2',
+        scope: 'records',
+        backend_id: 'multi_select_more',
+        record_definition: 'record-def-id'
       }
     ],
     title: {
