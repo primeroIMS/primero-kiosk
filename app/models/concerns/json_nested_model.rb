@@ -1,6 +1,23 @@
 # frozen_string_literal: true
 
 # Provides functionality for models that are nested JSON structures.
+#
+# Usage:
+#   class Address
+#     include JsonNestedModel
+#     attribute :street, :string
+#     attribute :city, :string
+#
+#     validates :street, presence: true
+#   end
+#
+#   class Profile
+#     include JsonNestedModel
+#     attribute_hash :address, Address
+#     attribute_array :tags, Tag
+#   end
+#
+# Validations can be used as normal, and errors from nested objects are propagated to the parent model.
 module JsonNestedModel
   extend ActiveSupport::Concern
 

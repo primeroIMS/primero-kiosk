@@ -1,18 +1,10 @@
 # frozen_string_literal: true
 
-## Represents the conditions structure for a Flow.
-class Screen::Condition
-  include JsonNestedModel
-
-  attribute :eq, default: {}
-  attribute :path, :string
-end
-
 # Represents the next_screen structure for a Flow.
 class Screen::NextScreen
   include JsonNestedModel
 
-  attribute_array :conditions, Screen::Condition
+  attribute :conditions, array: true
   attribute :default, :string
 end
 
