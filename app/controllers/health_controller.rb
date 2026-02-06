@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Simple check to return status code 204 if Primero is healthy
+# Simple check to return status code 204 if Primero Kiosk is healthy
 class HealthController < ApplicationController
   RETRY_AFTER = 60
 

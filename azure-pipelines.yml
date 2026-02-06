@@ -54,34 +54,30 @@ jobs:
 
             az acr login --name "$(acrName)"
 
-            for SERVICE in application worker; do
-              echo "Building Docker image for service: $SERVICE"
+            IMAGE_NAME="$(acrName)/primero-kiosk/application"
+            echo "Building Docker image: $IMAGE_NAME"
 
-              BUILD_ARGS=(
-                --build-arg APP_ROOT=/srv/kiosk
-                --build-arg RAILS_LOG_PATH=/srv/kiosk/log/primero
-                --build-arg APP_UID=1000
-                --build-arg APP_GID=1000
-              )
+            docker build \
+              --build-arg APP_ROOT=/srv/kiosk \
+              --build-arg APP_UID=1000 \
+              --build-arg APP_GID=1000 \
+              -t "${IMAGE_NAME}:$(IMAGE_TAG)" \
+              -f "./docker/application/Dockerfile" \
+              ./
 
-              if [[ "$SERVICE" == "worker" ]]; then
-                BUILD_ARGS+=(--build-arg IS_WORKER=true)
-              fi
+            if [[ "$(Build.SourceBranchName)" == "main" ]]; then
+                docker tag "${IMAGE_NAME}:$(IMAGE_TAG)" "${IMAGE_NAME}:latest"
+            fi
 
-              IMAGE_NAME="$(acrName)/primero-kiosk/${SERVICE}"
+            docker image ls ${IMAGE_NAME}
 
-              docker build \
-                "${BUILD_ARGS[@]}" \
-                -t "${IMAGE_NAME}:$(IMAGE_TAG)" \
-                -t "${IMAGE_NAME}:latest" \
-                -f "./docker/application/Dockerfile" \
-                ./
+            docker push "${IMAGE_NAME}:$(IMAGE_TAG)"
 
-              docker image ls ${IMAGE_NAME}
+            if [[ "$(Build.SourceBranchName)" == "main" ]]; then
+                docker push "${IMAGE_NAME}:latest"
+                docker rmi "${IMAGE_NAME}:latest"
+            fi
 
-              docker push "${IMAGE_NAME}:$(IMAGE_TAG)"
-              docker push "${IMAGE_NAME}:latest"
+            # Cleanup image to free up space
+            docker rmi "${IMAGE_NAME}:$(IMAGE_TAG)"
 
-              # Cleanup images to free up space
-              docker rmi "${IMAGE_NAME}:$(IMAGE_TAG)" "${IMAGE_NAME}:latest"
-            done

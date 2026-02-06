@@ -85,6 +85,14 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
+  $stdout.sync = true
+  logger = ActiveSupport::Logger.new($stdout)
+  logger.formatter = Logger::Formatter.new
+  config.logger = ActiveSupport::TaggedLogging.new(logger)
+  config.log_tags = [
+    :request_id, ->(_request) { LogUtils.thread_id }, ->(request) { LogUtils.remote_ip(request) }
+  ]
+
   storage_type = %w[local microsoft amazon minio].find do |t|
     t == ENV['PRIMERO_STORAGE_TYPE']
   end || 'local'

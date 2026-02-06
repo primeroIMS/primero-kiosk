@@ -16,8 +16,6 @@ ENV PYTHON=/usr/bin/python
 # Grab our path from --build-arg and store it in an env
 ARG APP_ROOT
 ENV APP_ROOT=${APP_ROOT}
-ARG RAILS_LOG_PATH
-ENV RAILS_LOG_PATH=${RAILS_LOG_PATH}
 
 # Temporary build-time secrets needed to run rails processes.
 # These are never persisted in the container images
@@ -27,8 +25,6 @@ ENV PRIMERO_SECRET_KEY_BASE=PRIMERO_SECRET_KEY_BASE
 # otherwise return 1 and stop docker build
 RUN set -ex ; \
         test -n "$APP_ROOT" || (printf "APP_ROOT not defined\n" ; \
-        return 1); \
-        test -n "$RAILS_LOG_PATH" || (printf "RAILS_LOG_PATH not defined\n" ; \
         return 1);
 
 # Install our packages
@@ -71,8 +67,8 @@ RUN set -euox pipefail \
 COPY [ ".", "$APP_ROOT" ]
 
 RUN set -euox pipefail \
-        ; mkdir -p "$APP_ROOT/tmp/export" "$RAILS_LOG_PATH" \
-        ; mkdir -p "$APP_ROOT/tmp/exports" "$RAILS_LOG_PATH"
+        ; mkdir -p "$APP_ROOT/tmp/export" \
+        ; mkdir -p "$APP_ROOT/tmp/exports"
 
 # Intentionally cached seperately
 # Generates 32 random characters for the build-id...build id MUST be 32 characters (as its hardcoded)
