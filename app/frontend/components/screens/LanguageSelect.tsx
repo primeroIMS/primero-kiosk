@@ -1,5 +1,3 @@
-import isEmpty from "lodash-es/isEmpty";
-
 import SelectInput from "@/components/form/fields/SelectInput";
 import Form from "@/components/form/Form";
 import Logo from "@/components/Logo";
@@ -10,7 +8,6 @@ import useStore from "@/hooks/use-store";
 import i18n, { I18nLocale } from "@/translations";
 import { Screen } from "@/type";
 
-import I18nText from "../I18nText";
 import PageActions from "../PageActions";
 
 type Props = {
@@ -36,11 +33,10 @@ function LanguageSelect({ config }: Props) {
     return (
         <>
             <Logo />
-            {!isEmpty(config.title.text) && (
-                <PageTitle color={config.title.color}>
-                    <I18nText text={config.title.text} />
-                </PageTitle>
-            )}
+            <PageTitle
+                color={config.title.color}
+                text={config.title.text}
+            />
             <Form
                 className="mb-20"
                 onSubmit={screen.onSubmit}

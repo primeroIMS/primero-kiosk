@@ -22,9 +22,10 @@ function ResponseGoodBye({ config }: Props) {
                 className="mb-8"
                 src={config.featured_image as string}
             />
-            <PageTitle color={config.title.color}>
-                <I18nText text={config.title.text} />
-            </PageTitle>
+            <PageTitle
+                color={config.title.color}
+                text={config.title.text}
+            />
             <p
                 className="mb-20 text-lg"
                 style={{ color: config.description?.color }}

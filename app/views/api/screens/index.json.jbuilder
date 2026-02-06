@@ -6,6 +6,7 @@ json.data do
     json.id screen.data.id
     json.bg_color screen.data.bg_color
     json.component screen.data.component
+    json.featured_image rails_blob_path(screen.featured_image, only_path: true) if screen.featured_image.attached?
     json.fields screen.data.fields do |field|
       json.backend_id field.backend_id
       json.field_id field.field_id
