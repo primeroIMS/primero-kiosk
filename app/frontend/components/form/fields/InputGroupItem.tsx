@@ -30,7 +30,7 @@ function InputGroupItem({
 }: Props) {
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         const { checked, value } = event.target;
-        console.log(multiple);
+
         if (multiple) {
             if (checked) {
                 field.onChange([...field.value, value]);
