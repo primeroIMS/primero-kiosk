@@ -62,7 +62,7 @@ RUN set -euox pipefail \
 # Note: This has its build context set to the root dir so prepend 'docker' to
 # items that need to be copied from that directory
 #
-# Now copy over primero and do setup
+# Now copy over primero kiosk and do setup
 
 COPY [ ".", "$APP_ROOT" ]
 

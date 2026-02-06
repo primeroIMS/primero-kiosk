@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Validate basic Primero health: in this case being able to access core dependencies
+# Validate basic Application health: in this case being able to access core dependencies
 class HealthCheckService
   BACKENDS = %w[database server].freeze
   class << self
