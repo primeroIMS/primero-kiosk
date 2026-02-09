@@ -27,6 +27,8 @@ function LanguageSelect({ config }: Props) {
             } else {
                 document.documentElement.dir = Strings.ltr;
             }
+
+            document.documentElement.lang = selectedLocale;
         },
     });
 

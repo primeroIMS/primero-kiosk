@@ -10,43 +10,43 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ScreensIdRouteImport } from './routes/screens.$id'
+import { Route as FlowIdRouteImport } from './routes/$flow.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ScreensIdRoute = ScreensIdRouteImport.update({
-  id: '/screens/$id',
-  path: '/screens/$id',
+const FlowIdRoute = FlowIdRouteImport.update({
+  id: '/$flow/$id',
+  path: '/$flow/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/screens/$id': typeof ScreensIdRoute
+  '/$flow/$id': typeof FlowIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/screens/$id': typeof ScreensIdRoute
+  '/$flow/$id': typeof FlowIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/screens/$id': typeof ScreensIdRoute
+  '/$flow/$id': typeof FlowIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/screens/$id'
+  fullPaths: '/' | '/$flow/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/screens/$id'
-  id: '__root__' | '/' | '/screens/$id'
+  to: '/' | '/$flow/$id'
+  id: '__root__' | '/' | '/$flow/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ScreensIdRoute: typeof ScreensIdRoute
+  FlowIdRoute: typeof FlowIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -58,11 +58,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/screens/$id': {
-      id: '/screens/$id'
-      path: '/screens/$id'
-      fullPath: '/screens/$id'
-      preLoaderRoute: typeof ScreensIdRouteImport
+    '/$flow/$id': {
+      id: '/$flow/$id'
+      path: '/$flow/$id'
+      fullPath: '/$flow/$id'
+      preLoaderRoute: typeof FlowIdRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -70,7 +70,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ScreensIdRoute: ScreensIdRoute,
+  FlowIdRoute: FlowIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

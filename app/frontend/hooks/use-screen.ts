@@ -16,6 +16,7 @@ function useScreen({
     onSubmit,
     shouldComputeNextScreen = true,
 }: UseScreenArgs): UseScreenReturn {
+    const flow = useStore(Strings.systemSettings, Strings.flow);
     const startingScreenId = useStore(Strings.systemSettings, Strings.startingScreenID);
     const navigate = useNavigate();
 
@@ -62,7 +63,10 @@ function useScreen({
 
         if (shouldComputeNextScreen) {
             const nextScreenID = computeNextScreen(data);
-            navigate({ params: { id: nextScreenID }, to: RouteStrings.screensByID });
+            navigate({
+                params: { flow, id: nextScreenID },
+                to: RouteStrings.screensByID,
+            });
         }
     }
 
@@ -71,7 +75,10 @@ function useScreen({
 
         if (shouldComputeNextScreen) {
             const nextScreenID = computeNextScreen();
-            navigate({ params: { id: nextScreenID }, to: RouteStrings.screensByID });
+            navigate({
+                params: { flow, id: nextScreenID },
+                to: RouteStrings.screensByID,
+            });
         }
     }
 

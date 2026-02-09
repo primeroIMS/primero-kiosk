@@ -112,6 +112,7 @@ export type ScreenFlow = {
 
 export type SystemSettings = {
     default_locale: I18nLocale;
+    flow: string;
     locale: I18nLocale;
     locales: I18nLocale[];
     record_definitions: SystemSettingsRecordDefinition[];

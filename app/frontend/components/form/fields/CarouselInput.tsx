@@ -1,3 +1,4 @@
+import { useDirection } from "@base-ui/react/direction-provider";
 import { useController } from "react-hook-form";
 
 import Icon from "@/components/Icon";
@@ -27,6 +28,7 @@ function CarouselInput({ iconName, name, optionColors, options: optionsConfig }:
         name,
     });
     const { field: iconField } = useController({ defaultValue: "", name: iconName });
+    const direction = useDirection();
 
     const options = useOptions(optionsConfig);
 
@@ -34,9 +36,15 @@ function CarouselInput({ iconName, name, optionColors, options: optionsConfig }:
         field.onChange(value);
         iconField.onChange(icon);
     }
-
+    console.log(direction);
     return (
-        <Carousel className="w-full">
+        <Carousel
+            className="w-full"
+            dir={direction}
+            opts={{
+                direction: direction,
+            }}
+        >
             <CarouselContent>
                 {options.map((option) => (
                     <CarouselItem key={option.value}>
@@ -80,7 +88,7 @@ function CarouselInput({ iconName, name, optionColors, options: optionsConfig }:
                 variant="default"
             />
             <CarouselNext
-                className="-right-20 size-15"
+                className="-right-20 size-15 text-2xl"
                 size="icon-lg"
                 variant="default"
             />
