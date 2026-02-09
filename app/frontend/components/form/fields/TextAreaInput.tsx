@@ -3,10 +3,17 @@ import { useController } from "react-hook-form";
 import i18n, { I18nLocale } from "@/translations";
 import { I18nTranslation } from "@/type";
 
-type Props = { name: string; placeholder?: I18nTranslation; showIcon?: boolean };
+type Props = {
+    name: string;
+    placeholder?: I18nTranslation;
+    showIcon?: boolean;
+};
 
 function TextAreaInput({ name, placeholder, showIcon = true }: Props) {
-    const { field } = useController({ defaultValue: "", name });
+    const { field } = useController({
+        defaultValue: "",
+        name,
+    });
 
     return (
         <div className="relative">

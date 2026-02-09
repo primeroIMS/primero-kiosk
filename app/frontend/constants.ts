@@ -12,6 +12,7 @@ export const Strings = {
     empty: "",
     featuredImage: "Featured Image",
     featuredImageAlt: "Featured Image",
+    flow: "flow",
     form: "form",
     hub: "Hub",
     hubWithCharacter: "HubWithCharacter",
@@ -25,6 +26,8 @@ export const Strings = {
     locales: "locales",
     localStorage: "localStorage",
     logo: "logo",
+    logoPictorial: "logo_pictorial",
+    logoPictorialSecondary: "logo_pictorial_secondary",
     lookup: "lookup",
     lookups: "lookups",
     ltr: "ltr",
@@ -59,7 +62,7 @@ export const Strings = {
 
 export const RouteStrings = {
     root: "/",
-    screensByID: "/screens/$id",
+    screensByID: "/$flow/$id",
 };
 
 export const BASE_URL = "/api";

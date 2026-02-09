@@ -13,7 +13,7 @@ type Props =
       } & SVGProps<SVGElement>);
 
 function Icon({ src, ...props }: Props) {
-    if (src.endsWith(Strings.svgExtenstion)) {
+    if (src?.endsWith(Strings.svgExtenstion)) {
         return (
             <Svg
                 src={src}

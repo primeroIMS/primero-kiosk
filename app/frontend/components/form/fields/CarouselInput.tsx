@@ -1,3 +1,4 @@
+import { useDirection } from "@base-ui/react/direction-provider";
 import { useController } from "react-hook-form";
 
 import Icon from "@/components/Icon";
@@ -12,16 +13,22 @@ import {
 import useOptions, { OptionsConfig } from "@/hooks/use-options";
 import { StoreDataMap } from "@/hooks/use-store";
 import i18n, { I18nLocale } from "@/translations";
+import { ScreenElement } from "@/type";
 
 type Props = {
     iconName: string;
     name: string;
+    optionColors?: ScreenElement;
     options: OptionsConfig<keyof StoreDataMap>;
 };
 
-function CarouselInput({ iconName, name, options: optionsConfig }: Props) {
-    const { field } = useController({ defaultValue: "", name });
+function CarouselInput({ iconName, name, optionColors, options: optionsConfig }: Props) {
+    const { field } = useController({
+        defaultValue: "",
+        name,
+    });
     const { field: iconField } = useController({ defaultValue: "", name: iconName });
+    const direction = useDirection();
 
     const options = useOptions(optionsConfig);
 
@@ -29,9 +36,15 @@ function CarouselInput({ iconName, name, options: optionsConfig }: Props) {
         field.onChange(value);
         iconField.onChange(icon);
     }
-
+    console.log(direction);
     return (
-        <Carousel className="w-full">
+        <Carousel
+            className="w-full"
+            dir={direction}
+            opts={{
+                direction: direction,
+            }}
+        >
             <CarouselContent>
                 {options.map((option) => (
                     <CarouselItem key={option.value}>
@@ -40,11 +53,18 @@ function CarouselInput({ iconName, name, options: optionsConfig }: Props) {
                                 aria-selected={field.value === option.value}
                                 className="
                                   cursor-pointer
-                                  aria-selected:bg-amber-200 aria-selected:ring-4
-                                  aria-selected:ring-amber-300
+                                  aria-selected:bg-(--selected-bg) aria-selected:ring-4
+                                  aria-selected:ring-(--selected-border)
                                 "
                                 onClick={() =>
                                     handleOnChange(option.value, option.icon as string)
+                                }
+                                style={
+                                    {
+                                        "--selected-bg": optionColors?.bg_selected_color,
+                                        "--selected-border":
+                                            optionColors?.border_selected_color,
+                                    } as React.CSSProperties
                                 }
                             >
                                 <CardContent
@@ -68,7 +88,7 @@ function CarouselInput({ iconName, name, options: optionsConfig }: Props) {
                 variant="default"
             />
             <CarouselNext
-                className="-right-20 size-15"
+                className="-right-20 size-15 text-2xl"
                 size="icon-lg"
                 variant="default"
             />

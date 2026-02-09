@@ -27,6 +27,8 @@ function LanguageSelect({ config }: Props) {
             } else {
                 document.documentElement.dir = Strings.ltr;
             }
+
+            document.documentElement.lang = selectedLocale;
         },
     });
 
@@ -38,8 +40,8 @@ function LanguageSelect({ config }: Props) {
                 text={config.title.text}
             />
             <Form
+                allowSkip={config.flow.allow_skip}
                 className="mb-20"
-                debug
                 onSubmit={screen.onSubmit}
             >
                 <SelectInput

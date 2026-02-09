@@ -7,6 +7,7 @@ import { type Screen } from "@/type";
 import RadioGroupInput from "../form/fields/RadioGroupInput";
 import Form from "../form/Form";
 import Icon from "../Icon";
+import Logo from "../Logo";
 import PageActions from "../PageActions";
 import PageDescription from "../PageDescription";
 import PageTitle from "../PageTitle";
@@ -21,6 +22,11 @@ function HubWithCharacter({ config }: Props) {
 
     return (
         <>
+            <Logo
+                className="absolute top-5 left-5 size-10"
+                secondary={config.logo_secondary}
+                showPictorial
+            />
             <div className="mb-10 flex w-full justify-center">
                 <div className="flex size-50 rounded-full bg-amber-100">
                     <Icon src={character?.icon} />
@@ -45,14 +51,15 @@ function HubWithCharacter({ config }: Props) {
                 {i18n.t("divider.pick_one")}
             </div>
             <Form
-                className="flex flex-col gap-15"
-                debug
+                allowSkip={config.flow.allow_skip}
+                className="flex flex-col"
                 onSubmit={screen.onSubmit}
             >
                 <RadioGroupInput
                     centerText
                     iconLarge
                     name={screen.name(Strings.input_1)}
+                    optionColors={config.options}
                     options={{
                         key: screen.fieldProp(Strings.input_1, Strings.lookup),
                     }}

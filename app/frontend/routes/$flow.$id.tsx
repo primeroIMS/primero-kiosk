@@ -5,7 +5,7 @@ import ScreenSelector from "@/components/ScreenSelector";
 import { Strings } from "@/constants";
 import ScreenStore from "@/stores/screen";
 
-export const Route = createFileRoute("/screens/$id")({
+export const Route = createFileRoute("/$flow/$id")({
     component: Page,
 });
 

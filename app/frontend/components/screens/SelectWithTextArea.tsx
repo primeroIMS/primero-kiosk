@@ -5,6 +5,7 @@ import { type Screen } from "@/type";
 
 import RadioGroupInput from "../form/fields/RadioGroupInput";
 import TextAreaInput from "../form/fields/TextAreaInput";
+import Logo from "../Logo";
 import PageActions from "../PageActions";
 import PageTitle from "../PageTitle";
 
@@ -20,24 +21,31 @@ function SelectWithTextArea({ config }: Props) {
 
     return (
         <>
+            <Logo
+                className="absolute top-5 left-5 size-10"
+                secondary={config.logo_secondary}
+                showPictorial
+            />
             <PageTitle
                 color={config.title.color}
                 text={config.title.text}
             />
             <Form
-                className="flex flex-col gap-15"
+                allowSkip={config.flow.allow_skip}
+                className="flex flex-col gap-10"
                 onSubmit={screen.onSubmit}
             >
                 <RadioGroupInput
                     className="justify-start"
                     name={screen.name(Strings.input_1)}
+                    optionColors={config.options}
                     options={{
                         key: screen.fieldProp(Strings.input_1, Strings.lookup),
                     }}
                 />
                 <TextAreaInput
                     name={screen.name(Strings.input_2)}
-                    placeholder={screen.fieldProp(Strings.input_1, Strings.placeholder)}
+                    placeholder={screen.fieldProp(Strings.input_2, Strings.placeholder)}
                 />
             </Form>
             <PageActions

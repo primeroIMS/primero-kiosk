@@ -2,6 +2,7 @@ import { Strings } from "@/constants";
 import useScreen from "@/hooks/use-screen";
 import { Screen } from "@/type";
 
+import Logo from "../Logo";
 import PageActions from "../PageActions";
 import PageDescription from "../PageDescription";
 import PageTitle from "../PageTitle";
@@ -15,6 +16,11 @@ function CharacterResponse({ config }: Props) {
 
     return (
         <>
+            <Logo
+                className="absolute top-5 left-5 size-10"
+                secondary={config.logo_secondary}
+                showPictorial
+            />
             <div className="mb-10 rounded-lg bg-white p-5">
                 <PageTitle
                     className="mb-5 text-center font-bold text-foreground"

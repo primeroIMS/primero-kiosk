@@ -4,6 +4,7 @@ import { type Screen } from "@/type";
 
 import RadioGroupInput from "../form/fields/RadioGroupInput";
 import Form from "../form/Form";
+import Logo from "../Logo";
 import PageActions from "../PageActions";
 import PageTitle from "../PageTitle";
 
@@ -16,13 +17,22 @@ function Hub({ config }: Props) {
 
     return (
         <>
-            <Form onSubmit={screen.onSubmit}>
+            <Logo
+                className="absolute top-5 left-5 size-10"
+                secondary={config.logo_secondary}
+                showPictorial
+            />
+            <Form
+                allowSkip={config.flow.allow_skip}
+                onSubmit={screen.onSubmit}
+            >
                 <RadioGroupInput
                     centerText
                     className="w-full"
                     cols={2}
                     iconLarge
                     name={screen.name(Strings.input_1)}
+                    optionColors={config.options}
                     options={{
                         key: screen.fieldProp(Strings.input_1, Strings.lookup),
                     }}

@@ -1,6 +1,2 @@
-import { DirectionProvider, useDirection } from "@base-ui/react/direction-provider";
-
-export default {
-    DirectionProvider,
-    useDirection,
-};
+// eslint-disable-next-line react-refresh/only-export-components
+export { DirectionProvider, useDirection } from "@base-ui/react/direction-provider";

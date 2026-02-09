@@ -41,6 +41,7 @@ export type PrimitiveRecord = Record<string, Primitive>;
 
 export type Screen = {
     bg_color?: string;
+    button: ScreenElement;
     component: ScreenComponent;
     description?: {
         color?: string;
@@ -50,11 +51,8 @@ export type Screen = {
     fields: ScreenField[];
     flow: ScreenFlow;
     id: string;
-    options: {
-        bg_color?: string;
-        border_color?: string;
-        text_color?: string;
-    };
+    logo_secondary?: boolean;
+    options: ScreenElement;
     show_character?: boolean;
     start_new_record?: boolean;
     title: {
@@ -76,6 +74,15 @@ export type ScreenComponent =
     | "SelectWithTextArea"
     | "SingleSelect"
     | "TextArea";
+
+export type ScreenElement = {
+    bg_color?: string;
+    bg_selected_color?: string;
+    border_color?: string;
+    border_selected_color?: string;
+    text_color?: string;
+    text_selected_color?: string;
+};
 
 export type ScreenField = {
     backend_id: string;
@@ -105,6 +112,7 @@ export type ScreenFlow = {
 
 export type SystemSettings = {
     default_locale: I18nLocale;
+    flow: string;
     locale: I18nLocale;
     locales: I18nLocale[];
     record_definitions: SystemSettingsRecordDefinition[];
@@ -124,6 +132,7 @@ export type Theme = {
     kiosk_name: string;
     logo: string;
     logo_pictorial: string;
+    logo_pictorial_secondary: string;
     site_description: I18nTranslation;
     site_title: string;
 };
@@ -136,6 +145,7 @@ export type UseScreenArgs = {
 };
 
 export type UseScreenReturn = {
+    button: ScreenElement;
     fieldProp: (id: string, prop: keyof ScreenField, defaultValue?: any) => any;
     flow: ScreenFlow;
     name: (id: string, name?: string) => string;

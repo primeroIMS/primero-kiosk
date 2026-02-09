@@ -5,6 +5,7 @@ import { type Screen } from "@/type";
 
 import CheckboxGroup from "../form/fields/CheckboxGroup";
 import TextAreaInput from "../form/fields/TextAreaInput";
+import Logo from "../Logo";
 import PageActions from "../PageActions";
 import PageDescription from "../PageDescription";
 import PageTitle from "../PageTitle";
@@ -21,6 +22,11 @@ function MultiSelect({ config }: Props) {
 
     return (
         <>
+            <Logo
+                className="absolute top-5 left-5 size-10"
+                secondary={config.logo_secondary}
+                showPictorial
+            />
             <PageTitle
                 color={config.title.color}
                 text={config.title.text}
@@ -30,12 +36,14 @@ function MultiSelect({ config }: Props) {
                 text={config.description?.text}
             />
             <Form
-                className="flex flex-col gap-15"
+                allowSkip={config.flow.allow_skip}
+                className="flex flex-col"
                 onSubmit={screen.onSubmit}
             >
                 <CheckboxGroup
-                    className="justify-start"
+                    className="mb-15 justify-start"
                     name={screen.name(Strings.input_1)}
+                    optionColors={config.options}
                     options={{
                         key: screen.fieldProp(Strings.input_1, Strings.lookup),
                     }}

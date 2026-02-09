@@ -8,7 +8,7 @@ RSpec.describe Screen, type: :model do
       screen = Screen.new(
         data: {
           bg_color: '#FFFFFF',
-          component: 'form_component',
+          component: 'SingleSelect',
           fields: [
             { field_id: 'field_1',
               scope: 'user.name',
@@ -44,6 +44,12 @@ RSpec.describe Screen, type: :model do
       expect(screen.valid?).to be false
     end
 
+    it 'is invalid when component type invalid' do
+      screen = Screen.new(data: { component: 'invalid_component', flow: {}, fields: [] })
+      expect(screen.valid?).to be false
+      expect(screen.errors['data.component']).to be_present
+    end
+
     it 'is invalid without flow' do
       screen = Screen.new(data: { component: 'form', fields: [] })
       expect(screen.valid?).to be false
@@ -73,7 +79,7 @@ RSpec.describe Screen, type: :model do
       screen = Screen.create!(
         data: {
           bg_color: '#FFFFFF',
-          component: 'form_component',
+          component: 'SingleSelect',
           title: {
             text_i18n: { en: 'Title', es: 'Título' }
           },
@@ -94,7 +100,7 @@ RSpec.describe Screen, type: :model do
       screen = Screen.create!(
         data: {
           bg_color: '#FFFFFF',
-          component: 'form_component',
+          component: 'SingleSelect',
           title_i18n: { en: 'Title', es: 'Título' },
           fields: [{ field_id: 'f1', scope: 'user.name' }],
           flow: {}
@@ -145,7 +151,7 @@ RSpec.describe Screen, type: :model do
       screen = Screen.new(
         data: {
           bg_color: '#FFFFFF',
-          component: 'form',
+          component: 'SingleSelect',
           fields: [
             {
               field_id: 'f1',

@@ -10,17 +10,18 @@ export const Route = createFileRoute("/")({
 });
 
 export default function Page() {
-    const bgColor = useStore("theme", "colors.splash_screen_background");
+    const bgColor = useStore("theme", "colors.splash_screen");
+    const flow = useStore("systemSettings", "flow");
     const navigate = useNavigate();
     const initialScreenId = useStore("systemSettings", "starting_screen_id");
 
     useEffect(() => {
         if (initialScreenId) {
             setTimeout(() => {
-                navigate({ params: { id: initialScreenId }, to: "/screens/$id" });
+                navigate({ params: { flow, id: initialScreenId }, to: "/$flow/$id" });
             }, 2500);
         }
-    }, [initialScreenId, navigate]);
+    }, [initialScreenId, navigate, flow]);
 
     return (
         <PageContainer style={{ backgroundColor: bgColor }}>

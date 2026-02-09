@@ -21,7 +21,10 @@ type Props = {
 };
 
 function SelectInput({ cyclePlaceholder, name, optionsConfig, placeholder }: Props) {
-    const { field } = useController({ defaultValue: "", name });
+    const { field } = useController({
+        defaultValue: "",
+        name,
+    });
     const options = useOptions(optionsConfig);
 
     return (
