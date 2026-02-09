@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Contains all log utils
 class LogUtils
   def self.thread_id
     Thread.current.object_id
