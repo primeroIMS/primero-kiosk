@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Custom miscellaneous Primero configurations, pulled from the environment
+# Custom miscellaneous Primero Kiosk configurations, pulled from the environment
 
 Rails.application.configure do
   # Path to the i18n translation strings used by the front end

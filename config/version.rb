@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 class PrimeroKiosk::Application
-  VERSION = '0.1.0'
+  VERSION = '0.1.0-rc1'
 end

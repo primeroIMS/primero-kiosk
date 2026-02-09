@@ -5,7 +5,7 @@ require 'pg'
 require 'singleton'
 require 'date'
 
-# Raw PG connection to the Primero database.
+# Raw PG connection to the Primero kiosk database.
 # Call this class only in scripts
 class ApplicationDatabase
   include Singleton

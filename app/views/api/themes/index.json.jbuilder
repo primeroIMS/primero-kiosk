@@ -2,8 +2,8 @@
 
 if @theme.present?
   json.data do
-    json.site_title @theme.site_title || 'Primero'
-    json.kiosk_name @theme.kiosk_name || 'Primero'
+    json.site_title @theme.site_title || 'Primero Kiosk'
+    json.kiosk_name @theme.kiosk_name || 'Primero Kiosk'
     json.colors @theme.colors
     json.copy @theme.copy
     json.logo rails_blob_path(@theme.logo, only_path: true) if @theme&.logo&.attached?

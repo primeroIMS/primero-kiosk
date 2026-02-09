@@ -16,8 +16,6 @@ ENV PYTHON=/usr/bin/python
 # Grab our path from --build-arg and store it in an env
 ARG APP_ROOT
 ENV APP_ROOT=${APP_ROOT}
-ARG RAILS_LOG_PATH
-ENV RAILS_LOG_PATH=${RAILS_LOG_PATH}
 
 # Temporary build-time secrets needed to run rails processes.
 # These are never persisted in the container images
@@ -27,8 +25,6 @@ ENV PRIMERO_SECRET_KEY_BASE=PRIMERO_SECRET_KEY_BASE
 # otherwise return 1 and stop docker build
 RUN set -ex ; \
         test -n "$APP_ROOT" || (printf "APP_ROOT not defined\n" ; \
-        return 1); \
-        test -n "$RAILS_LOG_PATH" || (printf "RAILS_LOG_PATH not defined\n" ; \
         return 1);
 
 # Install our packages
@@ -66,20 +62,20 @@ RUN set -euox pipefail \
 # Note: This has its build context set to the root dir so prepend 'docker' to
 # items that need to be copied from that directory
 #
-# Now copy over primero and do setup
+# Now copy over primero kiosk and do setup
 
 COPY [ ".", "$APP_ROOT" ]
 
 RUN set -euox pipefail \
-        ; mkdir -p "$APP_ROOT/tmp/export" "$RAILS_LOG_PATH" \
-        ; mkdir -p "$APP_ROOT/tmp/exports" "$RAILS_LOG_PATH"
+        ; mkdir -p "$APP_ROOT/tmp/export" \
+        ; mkdir -p "$APP_ROOT/tmp/exports"
 
 # Intentionally cached seperately
 # Generates 32 random characters for the build-id...build id MUST be 32 characters (as its hardcoded)
 RUN set -euox pipefail \
-        ; mkdir -p /srv/primero/application/public \
-        ; touch /srv/primero/application/public/build-id \
-        ; echo "$RANDOM" > /srv/primero/application/public/build-id
+        ; mkdir -p /srv/kiosk/public \
+        ; touch /srv/kiosk/public/build-id \
+        ; echo "$RANDOM" > /srv/kiosk/public/build-id
 
 # Build UI
 RUN set -euox pipefail \
@@ -126,8 +122,8 @@ WORKDIR $APP_ROOT
 RUN set -euox pipefail \
         ; addgroup -g $GROUP_ID docker-primero \
         ; adduser --disabled-password --gecos '' -u $USER_ID -G docker-primero docker-primero \
-        ; mkdir -p /srv/primero/application/storage \
-        ; chmod -R 700 /srv/primero/application/storage \
+        ; mkdir -p /srv/kiosk/storage \
+        ; chmod -R 700 /srv/kiosk/storage \
         ; chown -R docker-primero:docker-primero "$APP_ROOT" \
         ; mkdir -p /share/public \
         ; chmod -R 755 /share/public \

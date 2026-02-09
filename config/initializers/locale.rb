@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# This specifies the locales the Primero currently supports
+# This specifies the locales the Primero Kiosk currently supports
 #
 # ku-IQ: This locale represents the Kurdish Badini subdialect of Kurmanji, as spoken in Dohuk in
 #        Western Iraqi Kurdistan Region and North-East Syria

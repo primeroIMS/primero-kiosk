@@ -18,12 +18,12 @@ end
 
 def not_loading_already_seeded
   ApplicationDatabase.instance.connection.close
-  puts('Not loading: PRIMERO_CONFIGURATION_RUN_SCRIPTS != true; Primero is already seeded')
+  puts('Not loading: PRIMERO_CONFIGURATION_RUN_SCRIPTS != true; Primero Kiosk is already seeded')
 end
 
 def not_loading_pinned_version
   ApplicationDatabase.instance.connection.close
-  puts("Not loading: Primero configuration is pinned to #{ENV.fetch('PRIMERO_CONFIGURATION_FILE_VERSION', nil)}")
+  puts("Not loading: Primero Kiosk configuration is pinned to #{ENV.fetch('PRIMERO_CONFIGURATION_FILE_VERSION', nil)}")
 end
 
 def usage
