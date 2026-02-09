@@ -3,6 +3,7 @@ import { Strings } from "@/constants";
 import useScreen from "@/hooks/use-screen";
 import { Screen } from "@/type";
 
+import Logo from "../Logo";
 import PageActions from "../PageActions";
 import PageDescription from "../PageDescription";
 
@@ -15,6 +16,11 @@ function ComfortingResponse({ config }: Props) {
 
     return (
         <>
+            <Logo
+                className="absolute top-5 left-5 size-10"
+                secondary={config.logo_secondary}
+                showPictorial
+            />
             <div className="mb-20">
                 {config.featured_image && (
                     <img

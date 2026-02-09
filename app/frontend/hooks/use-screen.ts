@@ -76,6 +76,7 @@ function useScreen({
     }
 
     return {
+        button: config.button,
         fieldProp: (id: string, prop: keyof ScreenField, defaultValue = Strings.empty) =>
             get(mappedFields, [id, prop], defaultValue),
         flow: config.flow,

@@ -4,6 +4,7 @@ import useScreen from "@/hooks/use-screen";
 import { Screen } from "@/type";
 
 import I18nText from "../I18nText";
+import Logo from "../Logo";
 import PageActions from "../PageActions";
 
 type Props = {
@@ -17,6 +18,11 @@ function ResponseGoodBye({ config }: Props) {
 
     return (
         <>
+            <Logo
+                className="absolute top-5 left-5 size-10"
+                secondary={config.logo_secondary}
+                showPictorial
+            />
             <img
                 alt={Strings.featuredImage}
                 className="mb-8"

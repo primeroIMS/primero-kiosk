@@ -2,6 +2,7 @@ import { Strings } from "@/constants";
 import useScreen from "@/hooks/use-screen";
 import { Screen } from "@/type";
 
+import Logo from "../Logo";
 import PageActions from "../PageActions";
 import PageDescription from "../PageDescription";
 import PageTitle from "../PageTitle";
@@ -15,7 +16,15 @@ function CharacterWelcome({ config }: Props) {
 
     return (
         <>
-            <div className="mb-5 rounded-lg bg-cyan-500 p-5 pr-30">
+            <Logo
+                className="absolute top-5 left-5 size-10"
+                secondary={config.logo_secondary}
+                showPictorial
+            />
+            <div
+                className="mb-5 rounded-lg p-5 pr-30"
+                style={{ backgroundColor: config?.options.bg_color }}
+            >
                 <div className="mb-5 rounded-lg bg-white p-5">
                     <PageTitle
                         className="mb-5 text-left text-2xl font-bold text-foreground"

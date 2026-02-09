@@ -4,6 +4,7 @@ import { Screen } from "@/type";
 
 import CarouselInput from "../form/fields/CarouselInput";
 import Form from "../form/Form";
+import Logo from "../Logo";
 import PageActions from "../PageActions";
 import PageDescription from "../PageDescription";
 import PageTitle from "../PageTitle";
@@ -17,6 +18,11 @@ function CharacterSelection({ config }: Props) {
 
     return (
         <>
+            <Logo
+                className="absolute top-5 left-5 size-10"
+                secondary={config.logo_secondary}
+                showPictorial
+            />
             <PageTitle
                 color={config.title.color}
                 text={config.title.text}
@@ -26,13 +32,14 @@ function CharacterSelection({ config }: Props) {
                 text={config.description?.text}
             />
             <Form
+                allowSkip={config.flow.allow_skip}
                 className="mb-20"
-                debug
                 onSubmit={screen.onSubmit}
             >
                 <CarouselInput
                     iconName={screen.name(Strings.input_1, Strings.characterIcon)}
                     name={screen.name(Strings.input_1, Strings.character)}
+                    optionColors={config.options}
                     options={{
                         key: screen.fieldProp(Strings.input_1, Strings.lookup),
                     }}

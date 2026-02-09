@@ -25,6 +25,8 @@ export const Strings = {
     locales: "locales",
     localStorage: "localStorage",
     logo: "logo",
+    logoPictorial: "logo_pictorial",
+    logoPictorialSecondary: "logo_pictorial_secondary",
     lookup: "lookup",
     lookups: "lookups",
     ltr: "ltr",

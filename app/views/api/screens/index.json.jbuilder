@@ -5,7 +5,10 @@ json.data do
   json.array! @screens do |screen|
     json.id screen.data.id
     json.bg_color screen.data.bg_color
+    json.button screen.data.button
+    json.logo_secondary screen.data.logo_secondary
     json.component screen.data.component
+    json.options screen.data.options
     json.featured_image rails_blob_path(screen.featured_image, only_path: true) if screen.featured_image.attached?
     json.fields screen.data.fields do |field|
       json.backend_id field.backend_id

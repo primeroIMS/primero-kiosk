@@ -7,22 +7,23 @@ class Theme < ApplicationRecord
     site_title: 'Primero Kiosk',
     kiosk_name: 'Primero Kiosk',
     site_description: { en: I18n.t('site_description', locale: :en) },
-    revision: SecureRandom.uuid,
-    theme_color: '#ffffff'
+    revision: SecureRandom.uuid
   }.with_indifferent_access.freeze
 
-  PICTORIAL_SIZES = %w[144 192 256].freeze
+  PICTORIAL_SIZES = %w[144 192 256 512].freeze
 
   attr_accessor :bypass_logos
 
   store_accessor :data, :site_description, :site_title,
-                 :revision, :kiosk_name, :colors, :copy, :theme_color
+                 :revision, :kiosk_name, :colors, :copy
 
   has_one_attached :logo
   has_one_attached :logo_pictorial
+  has_one_attached :logo_pictorial_secondary
   has_one_attached :logo_pictorial_144
   has_one_attached :logo_pictorial_192
   has_one_attached :logo_pictorial_256
+  has_one_attached :logo_pictorial_512
   has_one_attached :favicon
 
   validate :valid_html_colors

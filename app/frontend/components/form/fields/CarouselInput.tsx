@@ -12,15 +12,20 @@ import {
 import useOptions, { OptionsConfig } from "@/hooks/use-options";
 import { StoreDataMap } from "@/hooks/use-store";
 import i18n, { I18nLocale } from "@/translations";
+import { ScreenElement } from "@/type";
 
 type Props = {
     iconName: string;
     name: string;
+    optionColors?: ScreenElement;
     options: OptionsConfig<keyof StoreDataMap>;
 };
 
-function CarouselInput({ iconName, name, options: optionsConfig }: Props) {
-    const { field } = useController({ defaultValue: "", name });
+function CarouselInput({ iconName, name, optionColors, options: optionsConfig }: Props) {
+    const { field } = useController({
+        defaultValue: "",
+        name,
+    });
     const { field: iconField } = useController({ defaultValue: "", name: iconName });
 
     const options = useOptions(optionsConfig);
@@ -40,11 +45,18 @@ function CarouselInput({ iconName, name, options: optionsConfig }: Props) {
                                 aria-selected={field.value === option.value}
                                 className="
                                   cursor-pointer
-                                  aria-selected:bg-amber-200 aria-selected:ring-4
-                                  aria-selected:ring-amber-300
+                                  aria-selected:bg-(--selected-bg) aria-selected:ring-4
+                                  aria-selected:ring-(--selected-border)
                                 "
                                 onClick={() =>
                                     handleOnChange(option.value, option.icon as string)
+                                }
+                                style={
+                                    {
+                                        "--selected-bg": optionColors?.bg_selected_color,
+                                        "--selected-border":
+                                            optionColors?.border_selected_color,
+                                    } as React.CSSProperties
                                 }
                             >
                                 <CardContent

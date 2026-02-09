@@ -50,6 +50,8 @@ function PageActions({ isForm, screen }: Props) {
             <div>
                 <Button
                     {...nextButtonProps}
+                    bgColor={screen.button.bg_color}
+                    textColor={screen.button.text_color}
                     variant={Strings.secondary}
                 >
                     <I18nText

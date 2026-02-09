@@ -4,6 +4,7 @@ import useScreen from "@/hooks/use-screen";
 import { type Screen } from "@/type";
 
 import RadioGroupInput from "../form/fields/RadioGroupInput";
+import Logo from "../Logo";
 import PageActions from "../PageActions";
 import PageTitle from "../PageTitle";
 
@@ -18,20 +19,32 @@ function SingleSelect({ config }: Props) {
 
     return (
         <>
+            <Logo
+                className="absolute top-5 left-5 size-10"
+                secondary={config.logo_secondary}
+                showPictorial
+            />
             <PageTitle
                 color={config.title.color}
                 text={config.title.text}
             />
-            <Form onSubmit={screen.onSubmit}>
+            <Form
+                allowSkip={config.flow.allow_skip}
+                onSubmit={screen.onSubmit}
+            >
                 <RadioGroupInput
-                    cols={2}
+                    cols={3}
                     name={screen.name(Strings.input_1)}
+                    optionColors={config.options}
                     options={{
                         key: screen.fieldProp(Strings.input_1, Strings.lookup),
                     }}
                 />
             </Form>
-            <PageActions screen={screen} />
+            <PageActions
+                isForm
+                screen={screen}
+            />
         </>
     );
 }
