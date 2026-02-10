@@ -5,6 +5,7 @@ import { Screen } from "@/type";
 
 import Logo from "../Logo";
 import PageActions from "../PageActions";
+import PageContainer from "../PageContainer";
 import PageDescription from "../PageDescription";
 
 type Props = {
@@ -15,13 +16,13 @@ function ComfortingResponse({ config }: Props) {
     const screen = useScreen({ config });
 
     return (
-        <>
+        <PageContainer bgColor={config.bg_color}>
             <Logo
                 className="absolute top-5 left-5 size-10"
                 secondary={config.logo_secondary}
                 showPictorial
             />
-            <div className="mb-20">
+            <div>
                 {config.featured_image && (
                     <img
                         alt={Strings.featuredImageAlt}
@@ -40,7 +41,7 @@ function ComfortingResponse({ config }: Props) {
                 />
             </div>
             <PageActions screen={screen} />
-        </>
+        </PageContainer>
     );
 }
 

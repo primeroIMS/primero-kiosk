@@ -8,6 +8,7 @@ class Lookup::Data
   attribute :value, :string
   attribute :label
   attribute :description
+  attribute_hash :meta, Element::Option
 
   localize_jsonb_properties %i[label description]
 

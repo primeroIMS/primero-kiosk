@@ -30,7 +30,6 @@ function InputGroupItem({
     outlined,
     type = Strings.radio,
 }: Props) {
-    console.log(optionColors);
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         const { checked, value } = event.target;
 
@@ -46,7 +45,7 @@ function InputGroupItem({
     }
 
     return (
-        <div className={cn("aspect-square min-w-40 rounded-3xl")}>
+        <div className={cn("aspect-square w-40 rounded-3xl")}>
             <input
                 checked={field.value.includes(option.value)}
                 className="peer hidden"
@@ -92,11 +91,11 @@ function InputGroupItem({
                     </div>
                 )}
                 <div className="block">
-                    <div className="w-full font-semibold">
+                    <div className="w-full clamp-[text,xs,base,@sm,@5xl] font-semibold">
                         <I18nText text={option.label} />
                     </div>
                     {!isEmpty(option.description) && (
-                        <div className="w-full">
+                        <div className="w-full clamp-[text,xs,base,@sm,@5xl]">
                             <I18nText text={option.description} />
                         </div>
                     )}

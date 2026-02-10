@@ -6,8 +6,8 @@ export const Route = createRootRoute({
 
 function RootComponent() {
     return (
-        <div className="select-none">
+        <>
             <Outlet />
-        </div>
+        </>
     );
 }

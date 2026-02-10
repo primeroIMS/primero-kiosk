@@ -52,6 +52,7 @@ en:
     done: "Done"
     back: "Back"
     skip: "Skip"
+    get_started: "Get Started"
   site_description: "Primero Kiosk is a kiosk platform."
   form:
     errors: "Pick or fill out something below"

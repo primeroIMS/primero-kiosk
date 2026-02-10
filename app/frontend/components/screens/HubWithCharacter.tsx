@@ -9,6 +9,7 @@ import Form from "../form/Form";
 import Icon from "../Icon";
 import Logo from "../Logo";
 import PageActions from "../PageActions";
+import PageContainer from "../PageContainer";
 import PageDescription from "../PageDescription";
 import PageTitle from "../PageTitle";
 
@@ -21,18 +22,22 @@ function HubWithCharacter({ config }: Props) {
     const character = useStore("form", "global.character");
 
     return (
-        <>
+        <PageContainer bgColor={config.bg_color}>
             <Logo
                 className="absolute top-5 left-5 size-10"
                 secondary={config.logo_secondary}
                 showPictorial
             />
             <div className="mb-10 flex w-full justify-center">
-                <div className="flex size-50 rounded-full bg-amber-100">
+                <div
+                    className="
+                      flex clamp-[size,30,40,@sm,@5xl] overflow-hidden rounded-full
+                      bg-amber-100
+                    "
+                >
                     <Icon src={character?.icon} />
                 </div>
             </div>
-
             <PageTitle
                 color={config.title.color}
                 text={config.title.text}
@@ -52,11 +57,11 @@ function HubWithCharacter({ config }: Props) {
             </div>
             <Form
                 allowSkip={config.flow.allow_skip}
-                className="flex flex-col"
                 onSubmit={screen.onSubmit}
             >
                 <RadioGroupInput
                     centerText
+                    cols={2}
                     iconLarge
                     name={screen.name(Strings.input_1)}
                     optionColors={config.options}
@@ -70,7 +75,7 @@ function HubWithCharacter({ config }: Props) {
                 isForm
                 screen={screen}
             />
-        </>
+        </PageContainer>
     );
 }
 

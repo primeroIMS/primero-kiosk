@@ -1,9 +1,11 @@
 import { Strings } from "@/constants";
 import useScreen from "@/hooks/use-screen";
+import useStore from "@/hooks/use-store";
 import { Screen } from "@/type";
 
 import Logo from "../Logo";
 import PageActions from "../PageActions";
+import PageContainer from "../PageContainer";
 import PageDescription from "../PageDescription";
 import PageTitle from "../PageTitle";
 
@@ -13,43 +15,44 @@ type Props = {
 
 function CharacterWelcome({ config }: Props) {
     const screen = useScreen({ config });
+    const character = useStore("form", "global.character");
 
     return (
-        <>
+        <PageContainer
+            bgColor={config.bg_color}
+            centered
+        >
             <Logo
                 className="absolute top-5 left-5 size-10"
                 secondary={config.logo_secondary}
                 showPictorial
             />
             <div
-                className="mb-5 rounded-lg p-5 pr-30"
+                className="relative mb-5 h-90 rounded-lg p-4 pr-40"
                 style={{ backgroundColor: config?.options.bg_color }}
             >
-                <div className="mb-5 rounded-lg bg-white p-5">
+                <div className="absolute top-4 left-5 z-50 w-3/5 rounded-lg bg-white p-5">
                     <PageTitle
-                        className="mb-5 text-left text-2xl font-bold text-foreground"
+                        className="mb-5 text-left font-bold text-foreground"
                         color={config?.title?.color}
                         text={config.title.text}
                     />
                     <PageDescription
-                        className="text-left text-lg whitespace-pre-line text-foreground"
+                        className="text-left whitespace-pre-line text-foreground"
                         color={config?.description?.color}
                         text={config.description?.text}
                     />
                 </div>
-                <div className="mb-20">
-                    {config.featured_image && (
-                        <img
-                            alt={Strings.featuredImageAlt}
-                            className="mb-8 rounded-full object-cover"
-                            src={config.featured_image}
-                            width={150}
-                        />
-                    )}
+                <div className="absolute right-0 bottom-0 z-10">
+                    <img
+                        alt={Strings.featuredImageAlt}
+                        className="w-45 md:w-60"
+                        src={character?.icon}
+                    />
                 </div>
             </div>
             <PageActions screen={screen} />
-        </>
+        </PageContainer>
     );
 }
 

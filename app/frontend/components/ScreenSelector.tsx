@@ -9,8 +9,9 @@ import Hub from "./screens/Hub";
 import HubWithCharacter from "./screens/HubWithCharacter";
 import LanguageSelect from "./screens/LanguageSelect";
 import MultiSelect from "./screens/MultiSelect";
+import MultiSelectOrWrite from "./screens/MultiSelectOrWrite";
 import ResponseGoodBye from "./screens/ResponseGoodBye";
-import SelectWithTextArea from "./screens/SelectWithTextArea";
+import SelectOrWrite from "./screens/SelectOrWrite";
 import SingleSelect from "./screens/SingleSelect";
 import TextArea from "./screens/TextArea";
 
@@ -34,10 +35,12 @@ function ScreenSelector({ config }: Props) {
             return <LanguageSelect config={config} />;
         case Strings.multiSelect:
             return <MultiSelect config={config} />;
+        case Strings.multiSelectOrWrite:
+            return <MultiSelectOrWrite config={config} />;
         case Strings.responseGoodBye:
             return <ResponseGoodBye config={config} />;
-        case Strings.selectWithTextArea:
-            return <SelectWithTextArea config={config} />;
+        case Strings.selectOrWrite:
+            return <SelectOrWrite config={config} />;
         case Strings.singleSelect:
             return <SingleSelect config={config} />;
         case Strings.textArea:

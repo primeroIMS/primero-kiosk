@@ -4,6 +4,7 @@
 @import "@fontsource-variable/figtree";
 
 @plugin 'tailwind-scrollbar';
+@plugin "tailwind-clamp";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -123,11 +124,17 @@
     @apply border-border outline-ring/50;
   }
   
-    body {
+  body {
     @apply font-sans bg-background text-foreground;
+    position: relative;
   }
   
   html {
     @apply font-sans;
+  }
+
+  body, html, #app {
+    height: 100vh;
+    height: 100dvh
   }
 }

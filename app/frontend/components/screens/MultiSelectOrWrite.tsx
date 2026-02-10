@@ -1,20 +1,25 @@
+import Form from "@/components/form/Form";
 import { Strings } from "@/constants";
 import useScreen from "@/hooks/use-screen";
 import { type Screen } from "@/type";
 
-import RadioGroupInput from "../form/fields/RadioGroupInput";
-import Form from "../form/Form";
+import CheckboxGroup from "../form/fields/CheckboxGroup";
+import TextAreaInput from "../form/fields/TextAreaInput";
 import Logo from "../Logo";
 import PageActions from "../PageActions";
 import PageContainer from "../PageContainer";
+import PageDescription from "../PageDescription";
 import PageTitle from "../PageTitle";
 
 type Props = {
     config: Screen;
 };
 
-function Hub({ config }: Props) {
-    const screen = useScreen({ config });
+function MultiSelectOrWrite({ config }: Props) {
+    const screen = useScreen({
+        config,
+        onSubmit: (data) => {},
+    });
 
     return (
         <PageContainer bgColor={config.bg_color}>
@@ -23,29 +28,31 @@ function Hub({ config }: Props) {
                 secondary={config.logo_secondary}
                 showPictorial
             />
+            <PageTitle
+                color={config.title.color}
+                text={config.title.text}
+            />
+            <PageDescription
+                color={config.description?.color}
+                text={config.description?.text}
+            />
             <Form
                 allowSkip={config.flow.allow_skip}
+                className="flex flex-col"
                 onSubmit={screen.onSubmit}
             >
-                <RadioGroupInput
-                    centerText
-                    className="w-full"
-                    cols={2}
-                    iconLarge
+                <CheckboxGroup
+                    className="mb-15 justify-start"
                     name={screen.name(Strings.input_1)}
                     optionColors={config.options}
                     options={{
                         key: screen.fieldProp(Strings.input_1, Strings.lookup),
                     }}
-                >
-                    <div className="aspect-square min-w-40">
-                        <PageTitle
-                            className="text-left"
-                            color={config.title.color}
-                            text={config.title.text}
-                        />
-                    </div>
-                </RadioGroupInput>
+                />
+                <TextAreaInput
+                    name={screen.name(Strings.input_2)}
+                    placeholder={screen.fieldProp(Strings.input_2, Strings.placeholder)}
+                />
             </Form>
             <PageActions
                 isForm
@@ -55,4 +62,4 @@ function Hub({ config }: Props) {
     );
 }
 
-export default Hub;
+export default MultiSelectOrWrite;

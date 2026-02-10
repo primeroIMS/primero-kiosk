@@ -58,7 +58,12 @@ function Form({
                 onSubmit={handleSubmit(submit)}
             >
                 {!methods.formState.isValid && methods.formState.isSubmitted && (
-                    <div className="mb-10 rounded-3xl bg-red-400 py-3 font-bold text-white">
+                    <div
+                        className="
+                          mb-5 rounded-3xl bg-red-400 py-3 clamp-[text,xs,xl,@sm,@5xl]
+                          font-semibold text-white
+                        "
+                    >
                         {i18n.t("form.errors")}
                     </div>
                 )}

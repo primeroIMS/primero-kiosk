@@ -4,9 +4,9 @@ import useScreen from "@/hooks/use-screen";
 import { type Screen } from "@/type";
 
 import CheckboxGroup from "../form/fields/CheckboxGroup";
-import TextAreaInput from "../form/fields/TextAreaInput";
 import Logo from "../Logo";
 import PageActions from "../PageActions";
+import PageContainer from "../PageContainer";
 import PageDescription from "../PageDescription";
 import PageTitle from "../PageTitle";
 
@@ -21,7 +21,7 @@ function MultiSelect({ config }: Props) {
     });
 
     return (
-        <>
+        <PageContainer bgColor={config.bg_color}>
             <Logo
                 className="absolute top-5 left-5 size-10"
                 secondary={config.logo_secondary}
@@ -48,16 +48,12 @@ function MultiSelect({ config }: Props) {
                         key: screen.fieldProp(Strings.input_1, Strings.lookup),
                     }}
                 />
-                <TextAreaInput
-                    name={screen.name(Strings.input_2)}
-                    placeholder={screen.fieldProp(Strings.input_2, Strings.placeholder)}
-                />
             </Form>
             <PageActions
                 isForm
                 screen={screen}
             />
-        </>
+        </PageContainer>
     );
 }
 

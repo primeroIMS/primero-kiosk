@@ -16,6 +16,7 @@ export type LookupOption = {
     description?: I18nTranslation;
     icon?: string;
     label: I18nTranslation;
+    meta: ScreenElement;
     value: string;
 };
 
@@ -70,8 +71,9 @@ export type ScreenComponent =
     | "HubWithCharacter"
     | "LanguageSelect"
     | "MultiSelect"
+    | "MultiSelectOrWrite"
     | "ResponseGoodBye"
-    | "SelectWithTextArea"
+    | "SelectOrWrite"
     | "SingleSelect"
     | "TextArea";
 
@@ -80,6 +82,7 @@ export type ScreenElement = {
     bg_selected_color?: string;
     border_color?: string;
     border_selected_color?: string;
+    order: number;
     text_color?: string;
     text_selected_color?: string;
 };
