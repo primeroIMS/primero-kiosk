@@ -1,5 +1,5 @@
 import { Button as ButtonPrimitive } from "@base-ui/react/button";
-import { Link } from "@tanstack/react-router";
+import { Link, LinkProps } from "@tanstack/react-router";
 import { VariantProps } from "class-variance-authority";
 import { Scope } from "i18n-js";
 import { PropsWithChildren } from "react";
@@ -12,25 +12,32 @@ type Props = {
     bgColor?: string;
     text?: Scope;
     textColor?: string;
-    to?: string;
 } & ButtonPrimitive.Props &
     VariantProps<typeof buttonVariants>;
 
 function Button({
     bgColor,
     children,
+    params,
     text,
     textColor,
     to,
     ...rest
-}: PropsWithChildren<Props>) {
+}: LinkProps & PropsWithChildren<Props>) {
     const render = children ? children : text && i18n.t(text);
 
     if (to) {
         return (
             <UIButton
                 nativeButton={false}
-                render={<Link to={to}>{render}</Link>}
+                render={
+                    <Link
+                        params={params}
+                        to={to}
+                    >
+                        {render}
+                    </Link>
+                }
                 {...rest}
             />
         );

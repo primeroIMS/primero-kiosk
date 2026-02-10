@@ -7,20 +7,21 @@ import RadioGroupInput from "../form/fields/RadioGroupInput";
 import TextAreaInput from "../form/fields/TextAreaInput";
 import Logo from "../Logo";
 import PageActions from "../PageActions";
+import PageContainer from "../PageContainer";
 import PageTitle from "../PageTitle";
 
 type Props = {
     config: Screen;
 };
 
-function SelectWithTextArea({ config }: Props) {
+function SelectOrWrite({ config }: Props) {
     const screen = useScreen({
         config,
         onSubmit: (data) => {},
     });
 
     return (
-        <>
+        <PageContainer bgColor={config.bg_color}>
             <Logo
                 className="absolute top-5 left-5 size-10"
                 secondary={config.logo_secondary}
@@ -52,8 +53,8 @@ function SelectWithTextArea({ config }: Props) {
                 isForm
                 screen={screen}
             />
-        </>
+        </PageContainer>
     );
 }
 
-export default SelectWithTextArea;
+export default SelectOrWrite;

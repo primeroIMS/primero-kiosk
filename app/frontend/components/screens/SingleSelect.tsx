@@ -6,6 +6,7 @@ import { type Screen } from "@/type";
 import RadioGroupInput from "../form/fields/RadioGroupInput";
 import Logo from "../Logo";
 import PageActions from "../PageActions";
+import PageContainer from "../PageContainer";
 import PageTitle from "../PageTitle";
 
 type Props = {
@@ -18,7 +19,7 @@ function SingleSelect({ config }: Props) {
     });
 
     return (
-        <>
+        <PageContainer bgColor={config.bg_color}>
             <Logo
                 className="absolute top-5 left-5 size-10"
                 secondary={config.logo_secondary}
@@ -45,7 +46,7 @@ function SingleSelect({ config }: Props) {
                 isForm
                 screen={screen}
             />
-        </>
+        </PageContainer>
     );
 }
 

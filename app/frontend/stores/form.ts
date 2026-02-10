@@ -1,3 +1,5 @@
+import merge from "deepmerge";
+
 import { Strings } from "@/constants";
 import { FormValues } from "@/type";
 
@@ -16,7 +18,7 @@ class Store extends BaseStore<FormState> {
 
     set(data: FormValues) {
         this.update((state) => {
-            state.data = { ...state.data, ...data };
+            state.data = merge(state.data, data);
         });
     }
 }

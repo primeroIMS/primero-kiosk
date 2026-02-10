@@ -36,13 +36,14 @@ function CarouselInput({ iconName, name, optionColors, options: optionsConfig }:
         field.onChange(value);
         iconField.onChange(icon);
     }
-    console.log(direction);
+
     return (
         <Carousel
             className="w-full"
             dir={direction}
             opts={{
                 direction: direction,
+                loop: true,
             }}
         >
             <CarouselContent>
@@ -52,8 +53,8 @@ function CarouselInput({ iconName, name, optionColors, options: optionsConfig }:
                             <Card
                                 aria-selected={field.value === option.value}
                                 className="
-                                  cursor-pointer
-                                  aria-selected:bg-(--selected-bg) aria-selected:ring-4
+                                  cursor-pointer bg-(--option-bg) object-cover p-0
+                                  aria-selected:ring-4
                                   aria-selected:ring-(--selected-border)
                                 "
                                 onClick={() =>
@@ -61,6 +62,7 @@ function CarouselInput({ iconName, name, optionColors, options: optionsConfig }:
                                 }
                                 style={
                                     {
+                                        "--option-bg": option.meta.bg_color,
                                         "--selected-bg": optionColors?.bg_selected_color,
                                         "--selected-border":
                                             optionColors?.border_selected_color,
@@ -69,10 +71,13 @@ function CarouselInput({ iconName, name, optionColors, options: optionsConfig }:
                             >
                                 <CardContent
                                     className="
-                                      flex aspect-square items-center justify-center p-6
+                                      flex aspect-square h-80 items-center justify-center
                                     "
                                 >
-                                    <Icon src={option.icon as string} />
+                                    <Icon
+                                        className="h-full"
+                                        src={option.icon as string}
+                                    />
                                 </CardContent>
                             </Card>
                             <div className="mt-5 text-2xl font-bold">
@@ -83,14 +88,16 @@ function CarouselInput({ iconName, name, optionColors, options: optionsConfig }:
                 ))}
             </CarouselContent>
             <CarouselPrevious
-                className="-left-20 size-15 text-2xl"
+                className="top-41 left-3"
                 size="icon-lg"
-                variant="default"
+                style={{ backgroundColor: optionColors?.bg_color }}
+                variant="ghost"
             />
             <CarouselNext
-                className="-right-20 size-15 text-2xl"
+                className="top-41 right-3"
                 size="icon-lg"
-                variant="default"
+                style={{ backgroundColor: optionColors?.bg_color }}
+                variant="ghost"
             />
         </Carousel>
     );

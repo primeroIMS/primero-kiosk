@@ -6,6 +6,7 @@ import CarouselInput from "../form/fields/CarouselInput";
 import Form from "../form/Form";
 import Logo from "../Logo";
 import PageActions from "../PageActions";
+import PageContainer from "../PageContainer";
 import PageDescription from "../PageDescription";
 import PageTitle from "../PageTitle";
 
@@ -17,7 +18,10 @@ function CharacterSelection({ config }: Props) {
     const screen = useScreen({ config });
 
     return (
-        <>
+        <PageContainer
+            bgColor={config.bg_color}
+            centered
+        >
             <Logo
                 className="absolute top-5 left-5 size-10"
                 secondary={config.logo_secondary}
@@ -33,7 +37,6 @@ function CharacterSelection({ config }: Props) {
             />
             <Form
                 allowSkip={config.flow.allow_skip}
-                className="mb-20"
                 onSubmit={screen.onSubmit}
             >
                 <CarouselInput
@@ -49,7 +52,7 @@ function CharacterSelection({ config }: Props) {
                 isForm
                 screen={screen}
             />
-        </>
+        </PageContainer>
     );
 }
 

@@ -14,7 +14,8 @@ class Screen::Data
     LanguageSelect
     MultiSelect
     ResponseGoodBye
-    SelectWithTextArea
+    SelectOrWrite
+    MultiSelectOrWrite
     SingleSelect
     TextArea
   ].freeze
@@ -26,11 +27,11 @@ class Screen::Data
   attribute :show_character, :boolean, default: false
   attribute :start_new_record, :boolean, default: false
   attribute_array :fields, Screen::Field
-  attribute_hash :button, Screen::ElementOption
+  attribute_hash :button, Element::Option
   attribute_hash :title, Screen::Heading
   attribute_hash :description, Screen::Heading
   attribute_hash :flow, Screen::Flow
-  attribute_hash :options, Screen::ElementOption
+  attribute_hash :options, Element::Option
 
   validates :component, presence: true
   validates :flow, presence: true

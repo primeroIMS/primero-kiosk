@@ -32,7 +32,7 @@ function CheckboxGroup({
         <div
             className={cn(
                 "grid grid-flow-row-dense gap-4",
-                cols === 2 ? "grid-cols-2" : "grid-cols-3",
+                cols === 2 ? "grid-cols-2" : "grid-cols-2 md:grid-cols-3",
                 className,
             )}
         >

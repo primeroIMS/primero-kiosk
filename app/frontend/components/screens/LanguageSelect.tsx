@@ -9,6 +9,7 @@ import i18n, { I18nLocale } from "@/translations";
 import { Screen } from "@/type";
 
 import PageActions from "../PageActions";
+import PageContainer from "../PageContainer";
 
 type Props = {
     config: Screen;
@@ -33,15 +34,17 @@ function LanguageSelect({ config }: Props) {
     });
 
     return (
-        <>
-            <Logo />
+        <PageContainer
+            bgColor={config.bg_color}
+            centered
+        >
+            <Logo className="mb-20" />
             <PageTitle
                 color={config.title.color}
                 text={config.title.text}
             />
             <Form
                 allowSkip={config.flow.allow_skip}
-                className="mb-20"
                 onSubmit={screen.onSubmit}
             >
                 <SelectInput
@@ -59,7 +62,7 @@ function LanguageSelect({ config }: Props) {
                 isForm
                 screen={screen}
             />
-        </>
+        </PageContainer>
     );
 }
 

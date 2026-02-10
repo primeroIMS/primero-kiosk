@@ -37,17 +37,19 @@ function RadioGroupInput({
     });
 
     const options = useOptions(optionsConfig);
+    const sortedOptions = [...options].sort(
+        (a, b) => (a.meta?.order || 0) - (b.meta?.order || 0),
+    );
 
     return (
         <div
             className={cn(
-                "grid grid-flow-row-dense gap-4",
-                cols === 2 ? "grid-cols-2" : "grid-cols-3",
+                "flex w-full flex-row flex-wrap justify-center gap-3",
                 className,
             )}
         >
             {children}
-            {options.map((option) => (
+            {sortedOptions.map((option) => (
                 <InputGroupItem
                     centerText={centerText}
                     field={field}

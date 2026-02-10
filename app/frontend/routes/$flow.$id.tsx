@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import PageContainer from "@/components/PageContainer";
 import ScreenSelector from "@/components/ScreenSelector";
 import { Strings } from "@/constants";
 import ScreenStore from "@/stores/screen";
@@ -19,8 +18,8 @@ function Page() {
     }
 
     return (
-        <PageContainer style={{ backgroundColor: screen?.bg_color }}>
+        <>
             <ScreenSelector config={screen} />
-        </PageContainer>
+        </>
     );
 }

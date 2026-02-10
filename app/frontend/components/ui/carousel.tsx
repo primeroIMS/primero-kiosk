@@ -183,7 +183,7 @@ function CarouselNext({
             variant={variant}
             {...props}
         >
-            <ChevronRightIcon />
+            <ChevronRightIcon className="size-10 text-white" />
             <span className="sr-only">Next slide</span>
         </Button>
     );
@@ -213,7 +213,7 @@ function CarouselPrevious({
             variant={variant}
             {...props}
         >
-            <ChevronLeftIcon />
+            <ChevronLeftIcon className="size-10 text-white" />
             <span className="sr-only">Previous slide</span>
         </Button>
     );

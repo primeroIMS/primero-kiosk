@@ -29,6 +29,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      deepmerge:
+        specifier: ^4.3.1
+        version: 4.3.1
       embla-carousel-react:
         specifier: ^8.6.0
         version: 8.6.0(react@19.2.4)
@@ -153,6 +156,9 @@ importers:
       prettier:
         specifier: ^3.8.1
         version: 3.8.1
+      tailwind-clamp:
+        specifier: ^4.1.2
+        version: 4.1.2(@csstools/css-parser-algorithms@3.0.5(@csstools/css-tokenizer@3.0.4))(@csstools/css-tokenizer@3.0.4)
       tailwind-scrollbar:
         specifier: ^4.0.2
         version: 4.0.2(react@19.2.4)(tailwindcss@4.1.18)
@@ -6135,6 +6141,9 @@ packages:
   tagged-tag@1.0.0:
     resolution: {integrity: sha512-yEFYrVhod+hdNyx7g5Bnkkb0G6si8HJurOoOEgC8B/O0uXLHlaey/65KRv6cuWBNhBgHKAROVpc7QyYqE5gFng==}
     engines: {node: '>=20'}
+
+  tailwind-clamp@4.1.2:
+    resolution: {integrity: sha512-5gnasZJeeabG8/jAbHB1OJfg1fPJ2Mcm/frFk+bKmmimODMeBOAm6OvAFrb4FZe+UB9Lx9C/wu91FOqKoAr5lg==}
 
   tailwind-csstree@0.1.4:
     resolution: {integrity: sha512-FzD187HuFIZEyeR7Xy6sJbJll2d4SybS90satC8SKIuaNRC05CxMvdzN7BUsfDQffcnabckRM5OIcfArjsZ0mg==}
@@ -13827,6 +13836,14 @@ snapshots:
       strip-ansi: 6.0.1
 
   tagged-tag@1.0.0: {}
+
+  tailwind-clamp@4.1.2(@csstools/css-parser-algorithms@3.0.5(@csstools/css-tokenizer@3.0.4))(@csstools/css-tokenizer@3.0.4):
+    dependencies:
+      '@csstools/css-calc': 2.1.4(@csstools/css-parser-algorithms@3.0.5(@csstools/css-tokenizer@3.0.4))(@csstools/css-tokenizer@3.0.4)
+      tailwindcss: 4.1.18
+    transitivePeerDependencies:
+      - '@csstools/css-parser-algorithms'
+      - '@csstools/css-tokenizer'
 
   tailwind-csstree@0.1.4: {}
 

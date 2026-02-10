@@ -4,6 +4,7 @@ import { Screen } from "@/type";
 
 import Logo from "../Logo";
 import PageActions from "../PageActions";
+import PageContainer from "../PageContainer";
 import PageDescription from "../PageDescription";
 import PageTitle from "../PageTitle";
 
@@ -15,7 +16,7 @@ function CharacterResponse({ config }: Props) {
     const screen = useScreen({ config });
 
     return (
-        <>
+        <PageContainer bgColor={config.bg_color}>
             <Logo
                 className="absolute top-5 left-5 size-10"
                 secondary={config.logo_secondary}
@@ -42,7 +43,7 @@ function CharacterResponse({ config }: Props) {
                 )}
             </div>
             <PageActions screen={screen} />
-        </>
+        </PageContainer>
     );
 }
 

@@ -18,7 +18,10 @@ function PageTitle({ className, color, fallback, text, translate = true }: Props
 
     return (
         <h1
-            className={cn("mb-8 w-full text-center text-3xl font-bold", className)}
+            className={cn(
+                `mb-8 w-full text-center clamp-[text,lg,3xl,@sm,@5xl] font-bold`,
+                className,
+            )}
             style={{ color }}
         >
             <Text

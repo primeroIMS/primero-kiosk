@@ -18,7 +18,10 @@ function PageDescription({ className, color, fallback, text, translate = true }:
 
     return (
         <p
-            className={cn("mb-5 w-full text-center text-xl", className)}
+            className={cn(
+                "mb-5 w-full text-center clamp-[text,sm,xl,@sm,@5xl]",
+                className,
+            )}
             style={{ color }}
         >
             <Text
