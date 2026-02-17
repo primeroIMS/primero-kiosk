@@ -8,6 +8,7 @@ class ApiConnector::PrimeroConnector < ApiConnector::AbstractConnector
     'incident' => '/api/v2/incidents',
     'registry' => '/api/v2/registry_records'
   }.freeze
+  SUCCESSFUL_STATUSES = [200, 201, 202, 203, 204, 205, 206, 207, 208, 226].freeze
   RETRY_INTERVAL = 60
   RETRY_MAX = 3
   RETRY_BACKOFF_FACTOR = 2
@@ -23,21 +24,23 @@ class ApiConnector::PrimeroConnector < ApiConnector::AbstractConnector
   end
 
   def initialize(options = {})
-    super(with_retry(options))
+    config_retry_options(options)
+    super(options)
   end
 
-  def with_retry(options = {})
+  def config_retry_options(options = {})
     options[:retry_max] = options[:retry_max]&.to_i || RETRY_MAX
     options[:retry_interval] = options[:retry_interval]&.to_i || RETRY_INTERVAL
     options[:retry_backoff_factor] = options[:retry_backoff_factor]&.to_i || RETRY_BACKOFF_FACTOR
     options[:retry_methods] = RETRY_METHODS
     options[:retry_statuses] = RETRY_STATUSES
     options[:retry_exceptions] = RETRY_EXCEPTIONS
-    options
   end
 
   def create(record)
     status, response = connection.post(record_api_path(record), params(record))
+    raise ApiConnector::UnsuccessfulResponseError.new(status, response) if SUCCESSFUL_STATUSES.exclude?(status)
+
     { status:, response: }
   end
 

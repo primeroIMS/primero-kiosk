@@ -10,11 +10,8 @@ class ApiConnector::Connection
     self.driver = Faraday.new(url: url(options), headers: headers(options), ssl: ssl(options)) do |faraday|
       faraday.adapter(:net_http_persistent)
       faraday.response(:raise_error)
-      faraday.request(:retry, retry_config(options)) if options.key?(:retry_max)
-      if options['basic_auth'].present?
-        username, password = options['basic_auth'].split(':')
-        faraday.request(:authorization, :basic, username, password)
-      end
+      with_retry(faraday, options)
+      with_basic_auth(faraday, options)
     end
   end
 
@@ -41,6 +38,19 @@ class ApiConnector::Connection
 
   private
 
+  def with_basic_auth(faraday, options = {})
+    return unless options['basic_auth'].present?
+
+    username, password = options['basic_auth'].split(':')
+    faraday.request(:authorization, :basic, username, password)
+  end
+
+  def with_retry(faraday, options = {})
+    return unless options.key?(:retry_max)
+
+    faraday.request(:retry, retry_options(options))
+  end
+
   def ssl(options = {})
     tls_client_key = options['tls_client_key']
     tls_client_cert = options['tls_client_cert']
@@ -52,7 +62,7 @@ class ApiConnector::Connection
     end || {}
   end
 
-  def retry_config(options = {})
+  def retry_options(options = {})
     {
       max: options[:retry_max],
       interval: options[:retry_interval],
