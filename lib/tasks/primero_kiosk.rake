@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require_relative '../../config/environment'
-require 'solid_queue/cli'
-
 namespace :primero_kiosk do
   desc 'Export translations to JS file(s)'
   task :i18n_js do
@@ -12,10 +9,35 @@ namespace :primero_kiosk do
   end
 
   desc 'Re-run failed PrimeroSyncJob'
-  task :rerun_failed_sync_jobs do
-    puts 'Rerunning failed jobs...'
-    # Only retries jobs with a FailedExecution
-    SolidQueue::Job.joins(:failed_execution).where(class_name: 'PrimeroSyncJob', finished_at: nil).each(&:retry)
-    puts 'Done!'
+  task :primero_sync_jobs, %i[rerun] => :environment do |_, args|
+    rerun = args[:rerun] == 'true'
+    running_job_ids = SolidQueue::ClaimedExecution.pluck(:job_id)
+
+    puts "#{running_job_ids.size} currently running."
+
+    failed_jobs = SolidQueue::Job.joins(:failed_execution).where(
+      class_name: 'PrimeroSyncJob', finished_at: nil
+    ).where.not(id: running_job_ids)
+
+    puts "#{failed_jobs.size} have failed and are not running."
+
+    retryable_exception_names = ApiConnector::PrimeroConnector::RETRY_EXCEPTIONS.map do |exception|
+      exception.is_a?(String) ? exception : exception.name
+    end
+
+    retryable_statuses = "server responded with status #{ApiConnector::PrimeroConnector::RETRY_STATUSES.join('|')}"
+
+    # Only retries jobs with a FailedExecution and when the exception_class or status is retryable
+    retryable_jobs = failed_jobs.where(
+      'error ~ ? OR error ~ ?', retryable_exception_names.join('|'), retryable_statuses
+    )
+
+    if rerun
+      puts 'Rerunning failed jobs...'
+      puts "#{retryable_jobs.size} will be retried..."
+      retryable_jobs.each(&:retry)
+    else
+      puts "#{retryable_jobs.size} are retryable."
+    end
   end
 end

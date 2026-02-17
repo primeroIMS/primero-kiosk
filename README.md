@@ -235,10 +235,17 @@ To run ESLint:
 pnpm run lint
 ```
 
-# Re-running Failed Jobs (PrimeroSyncJob)
+# Re-running Failed Sync Jobs (PrimeroSyncJob)
 
-If you need to re-run failed jobs, you can use the following rake task:
+If you just want to see the stats for failed jobs, run the following rake task:
 
 ```shell
-rails primero_kiosk:rerun_failed_sync_jobs
+rails primero_kiosk:primero_sync_jobs
 ```
+
+If you need to re-run failed jobs, pass `true` as an argument:
+
+```shell
+rails primero_kiosk:primero_sync_jobs[true]
+```
+
