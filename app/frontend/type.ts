@@ -94,8 +94,15 @@ export type ScreenField = {
     lookup?: string;
     placeholder?: I18nTranslation;
     record_definition?: string;
+    risk?: ScreenFieldRisk;
     scope: ScreenFieldScope;
     type: string; // Todo add types when building user info screen
+};
+
+export type ScreenFieldRisk = {
+    [key: string]: Record<string, any>;
+} & {
+    risk: string;
 };
 
 export type ScreenFieldScope = "global" | "records";
@@ -144,6 +151,7 @@ export type UseScreenArgs = {
     config: Screen;
     onNext?: (event: React.MouseEvent<HTMLButtonElement>) => void;
     onSubmit?: (data: FormValues) => void;
+    persist?: boolean;
     shouldComputeNextScreen?: boolean;
 };
 

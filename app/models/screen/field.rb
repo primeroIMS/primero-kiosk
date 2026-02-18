@@ -13,6 +13,7 @@ class Screen::Field
   attribute :label, default: {}
   attribute :record_definition, :string
   attribute :lookup, :string
+  attribute :risk, default: {}
 
   localize_jsonb_properties %i[placeholder label]
 

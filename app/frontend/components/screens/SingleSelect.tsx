@@ -14,9 +14,7 @@ type Props = {
 };
 
 function SingleSelect({ config }: Props) {
-    const screen = useScreen({
-        config,
-    });
+    const screen = useScreen({ config });
 
     return (
         <PageContainer bgColor={config.bg_color}>

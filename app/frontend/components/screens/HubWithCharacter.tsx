@@ -18,7 +18,7 @@ type Props = {
 };
 
 function HubWithCharacter({ config }: Props) {
-    const screen = useScreen({ config, onSubmit: () => {} });
+    const screen = useScreen({ config });
     const character = useStore("form", "global.character");
 
     return (

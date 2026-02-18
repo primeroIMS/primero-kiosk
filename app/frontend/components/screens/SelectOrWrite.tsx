@@ -15,10 +15,7 @@ type Props = {
 };
 
 function SelectOrWrite({ config }: Props) {
-    const screen = useScreen({
-        config,
-        onSubmit: (data) => {},
-    });
+    const screen = useScreen({ config });
 
     return (
         <PageContainer bgColor={config.bg_color}>

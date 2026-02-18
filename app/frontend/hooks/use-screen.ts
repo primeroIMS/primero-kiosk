@@ -3,6 +3,8 @@ import { get } from "lodash-es";
 
 import { RouteStrings, Strings } from "@/constants";
 import evaluateCondition from "@/lib/evaluate-conditions";
+import riskComparator from "@/lib/risk-comparator";
+import FormStore from "@/stores/form";
 import { FormValues, ScreenField, UseScreenArgs, UseScreenReturn } from "@/type";
 import { ScreenFieldScope } from "@/type";
 
@@ -14,6 +16,7 @@ function useScreen({
     config,
     onNext,
     onSubmit,
+    persist = true,
     shouldComputeNextScreen = true,
 }: UseScreenArgs): UseScreenReturn {
     const flow = useStore(Strings.systemSettings, Strings.flow);
@@ -42,6 +45,27 @@ function useScreen({
         return config.flow.next_screen?.default as string;
     }
 
+    function computeRisk(data: FormValues): FormValues {
+        // TODO: This method will need refactoring once we handle various records.
+        const currentRisk = FormStore.getState().data.records?.[0]?.risk as string;
+        if (data?.records?.[0]) {
+            const record: Record<string, any> = data.records[0];
+            config.fields.forEach((field) => {
+                const { risk, ...condition } = field?.risk || {};
+
+                if (
+                    risk &&
+                    riskComparator(risk, currentRisk) > 0 &&
+                    evaluateCondition(record, condition)
+                ) {
+                    record.risk = risk;
+                }
+            });
+        }
+
+        return data;
+    }
+
     function computeScope(scope: ScreenFieldScope) {
         if (scope === Strings.records) {
             return "records.0";
@@ -59,10 +83,16 @@ function useScreen({
     }
 
     function handleSubmit(data: FormValues) {
-        onSubmit?.(data);
+        const submitData = computeRisk(data);
+
+        onSubmit?.(submitData);
+
+        if (persist) {
+            FormStore.set(submitData);
+        }
 
         if (shouldComputeNextScreen) {
-            const nextScreenID = computeNextScreen(data);
+            const nextScreenID = computeNextScreen(submitData);
             navigate({
                 params: { flow, id: nextScreenID },
                 to: RouteStrings.screensByID,

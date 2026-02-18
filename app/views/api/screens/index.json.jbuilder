@@ -19,6 +19,7 @@ json.data do
       json.record_definition field.record_definition
       json.scope field.scope
       json.type field.type
+      json.risk field.risk
     end
     json.title do
       json.color screen.data.title.color
