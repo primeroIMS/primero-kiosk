@@ -2,7 +2,7 @@ import { Strings } from "@/constants";
 import useScreen from "@/hooks/use-screen";
 import useStore from "@/hooks/use-store";
 import i18n from "@/translations";
-import { type Screen } from "@/type";
+import { ScreenConfig } from "@/type";
 
 import RadioGroupInput from "../form/fields/RadioGroupInput";
 import Form from "../form/Form";
@@ -14,7 +14,7 @@ import PageDescription from "../PageDescription";
 import PageTitle from "../PageTitle";
 
 type Props = {
-    config: Screen;
+    config: ScreenConfig;
 };
 
 function HubWithCharacter({ config }: Props) {
@@ -22,10 +22,11 @@ function HubWithCharacter({ config }: Props) {
     const character = useStore("form", "global.character");
 
     return (
-        <PageContainer bgColor={config.bg_color}>
+        <PageContainer bgColor={config.screen.bg_color}>
             <Logo
                 className="absolute top-5 left-5 size-10"
-                secondary={config.logo_secondary}
+                flowID={config.appFlow.handle}
+                secondary={config.screen.logo_secondary}
                 showPictorial
             />
             <div className="mb-10 flex w-full justify-center">
@@ -39,12 +40,12 @@ function HubWithCharacter({ config }: Props) {
                 </div>
             </div>
             <PageTitle
-                color={config.title.color}
-                text={config.title.text}
+                color={config.screen.title.color}
+                text={config.screen.title.text}
             />
             <PageDescription
-                color={config.description?.color}
-                text={config.description?.text}
+                color={config.screen.description?.color}
+                text={config.screen.description?.text}
             />
             <div
                 className="
@@ -56,7 +57,7 @@ function HubWithCharacter({ config }: Props) {
                 {i18n.t("divider.pick_one")}
             </div>
             <Form
-                allowSkip={config.flow.allow_skip}
+                allowSkip={config.screen.flow.allow_skip}
                 onSubmit={screen.onSubmit}
             >
                 <RadioGroupInput
@@ -64,7 +65,7 @@ function HubWithCharacter({ config }: Props) {
                     cols={2}
                     iconLarge
                     name={screen.name(Strings.input_1)}
-                    optionColors={config.options}
+                    optionColors={config.screen.options}
                     options={{
                         key: screen.fieldProp(Strings.input_1, Strings.lookup),
                     }}

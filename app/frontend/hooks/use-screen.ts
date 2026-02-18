@@ -6,8 +6,6 @@ import evaluateCondition from "@/lib/evaluate-conditions";
 import { FormValues, ScreenField, UseScreenArgs, UseScreenReturn } from "@/type";
 import { ScreenFieldScope } from "@/type";
 
-import useStore from "./use-store";
-
 // NOTE: Might need to read form store to get all field if you need
 // a value from previous screens
 function useScreen({
@@ -16,30 +14,30 @@ function useScreen({
     onSubmit,
     shouldComputeNextScreen = true,
 }: UseScreenArgs): UseScreenReturn {
-    const flow = useStore(Strings.systemSettings, Strings.flow);
-    const startingScreenId = useStore(Strings.systemSettings, Strings.startingScreenID);
+    const flow = config.appFlow.handle;
+    const startingScreenId = config.appFlow.starting_screen_id;
     const navigate = useNavigate();
 
     const mappedFields = Object.fromEntries(
-        config.fields.map((field) => {
-            return [field.field_id, field];
+        config.screen.fields.map((field) => {
+            return [field.slot, field];
         }),
     );
 
     function computeNextScreen(data?: FormValues) {
-        if (config.flow.next_screen?.conditions && data) {
-            for (const condition of config.flow.next_screen.conditions) {
+        if (config.screen.flow.next_screen?.conditions && data) {
+            for (const condition of config.screen.flow.next_screen.conditions) {
                 if (evaluateCondition(data, condition)) {
                     return condition.path;
                 }
             }
         }
 
-        if (config.flow.end_of_flow) {
+        if (config.screen.flow.end_of_flow) {
             return startingScreenId;
         }
 
-        return config.flow.next_screen?.default as string;
+        return config.screen.flow.next_screen?.default as string;
     }
 
     function computeScope(scope: ScreenFieldScope) {
@@ -83,10 +81,10 @@ function useScreen({
     }
 
     return {
-        button: config.button,
+        button: config.screen.button,
         fieldProp: (id: string, prop: keyof ScreenField, defaultValue = Strings.empty) =>
             get(mappedFields, [id, prop], defaultValue),
-        flow: config.flow,
+        flow: config.screen.flow,
         name: buildName,
         nextScreenId: (data) => computeNextScreen(data),
         onNext: onClickNext,

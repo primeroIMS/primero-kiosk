@@ -1,5 +1,21 @@
 import { I18nLocale } from "./translations";
 
+export type AppFlow = {
+    handle: string;
+    logo: string;
+    logo_pictorial: string;
+    logo_pictorial_secondary: string;
+    record_definitions: AppFlowRecordDefinition[];
+    screens: Screen[];
+    starting_screen_id: string;
+};
+
+export type AppFlowRecordDefinition = {
+    id: string;
+    module_id: string;
+    type: string;
+};
+
 export type FormValues = {
     global?: Record<string, unknown>;
     records?: Record<string, unknown>[];
@@ -77,6 +93,8 @@ export type ScreenComponent =
     | "SingleSelect"
     | "TextArea";
 
+export type ScreenConfig = { appFlow: AppFlow; screen: Screen };
+
 export type ScreenElement = {
     bg_color?: string;
     bg_selected_color?: string;
@@ -89,12 +107,12 @@ export type ScreenElement = {
 
 export type ScreenField = {
     backend_id: string;
-    field_id: string;
     label?: I18nTranslation;
     lookup?: string;
     placeholder?: I18nTranslation;
     record_definition?: string;
     scope: ScreenFieldScope;
+    slot: string;
     type: string; // Todo add types when building user info screen
 };
 
@@ -115,33 +133,21 @@ export type ScreenFlow = {
 
 export type SystemSettings = {
     default_locale: I18nLocale;
-    flow: string;
     locale: I18nLocale;
     locales: I18nLocale[];
-    record_definitions: SystemSettingsRecordDefinition[];
     rtl_locales: I18nLocale[];
-    starting_screen_id: string;
-};
-
-export type SystemSettingsRecordDefinition = {
-    id: string;
-    module_id: string;
-    type: string;
 };
 
 export type Theme = {
     colors: Record<string, string>;
     copy: Record<string, I18nTranslation>;
     kiosk_name: string;
-    logo: string;
-    logo_pictorial: string;
-    logo_pictorial_secondary: string;
     site_description: I18nTranslation;
     site_title: string;
 };
 
 export type UseScreenArgs = {
-    config: Screen;
+    config: ScreenConfig;
     onNext?: (event: React.MouseEvent<HTMLButtonElement>) => void;
     onSubmit?: (data: FormValues) => void;
     shouldComputeNextScreen?: boolean;

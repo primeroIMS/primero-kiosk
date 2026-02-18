@@ -1,7 +1,7 @@
 import PageTitle from "@/components/PageTitle";
 import { Strings } from "@/constants";
 import useScreen from "@/hooks/use-screen";
-import { Screen } from "@/type";
+import { ScreenConfig } from "@/type";
 
 import Logo from "../Logo";
 import PageActions from "../PageActions";
@@ -9,7 +9,7 @@ import PageContainer from "../PageContainer";
 import PageDescription from "../PageDescription";
 
 type Props = {
-    config: Screen;
+    config: ScreenConfig;
 };
 
 function ResponseGoodBye({ config }: Props) {
@@ -19,28 +19,29 @@ function ResponseGoodBye({ config }: Props) {
 
     return (
         <PageContainer
-            bgColor={config.bg_color}
+            bgColor={config.screen.bg_color}
             centered
         >
             <Logo
                 className="absolute top-5 left-5 size-10"
-                secondary={config.logo_secondary}
+                flowID={config.appFlow.handle}
+                secondary={config.screen.logo_secondary}
                 showPictorial
             />
             <div className="mb-8 w-full">
                 <img
                     alt={Strings.featuredImage}
                     className="mx-auto clamp-[w,50,90,@sm,@5xl]"
-                    src={config.featured_image as string}
+                    src={config.screen.featured_image as string}
                 />
             </div>
             <PageTitle
-                color={config.title.color}
-                text={config.title.text}
+                color={config.screen.title.color}
+                text={config.screen.title.text}
             />
             <PageDescription
-                color={config.description?.color}
-                text={config.description?.text}
+                color={config.screen.description?.color}
+                text={config.screen.description?.text}
             />
             <PageActions screen={screen} />
         </PageContainer>
