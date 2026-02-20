@@ -1,7 +1,7 @@
 import { Strings } from "@/constants";
 import useStore from "@/hooks/use-store";
 import { cn } from "@/lib/utils";
-import AppFlowsStore from "@/stores/app-flow";
+import AppFlowStore from "@/stores/app-flow";
 
 type Props = {
     className?: string;
@@ -11,7 +11,7 @@ type Props = {
 };
 
 function Logo({ className, flowID, secondary, showPictorial = false }: Props) {
-    const logos = AppFlowsStore.getAppFlowByHandle(flowID);
+    const logos = AppFlowStore.getAppFlowByHandle(flowID);
 
     const kioskName = useStore(Strings.theme, Strings.kioskName);
     const pictorialToShow = Boolean(showPictorial && secondary)

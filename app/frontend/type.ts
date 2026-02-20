@@ -8,6 +8,7 @@ export type AppFlow = {
     record_definitions: AppFlowRecordDefinition[];
     screens: Screen[];
     starting_screen_id: string;
+    meta:
 };
 
 export type AppFlowRecordDefinition = {
@@ -32,7 +33,7 @@ export type LookupOption = {
     description?: I18nTranslation;
     icon?: string;
     label: I18nTranslation;
-    meta: ScreenElement;
+    meta: Meta;
     value: string;
 };
 
@@ -58,7 +59,7 @@ export type PrimitiveRecord = Record<string, Primitive>;
 
 export type Screen = {
     bg_color?: string;
-    button: ScreenElement;
+    button: Meta;
     component: ScreenComponent;
     description?: {
         color?: string;
@@ -69,7 +70,7 @@ export type Screen = {
     flow: ScreenFlow;
     id: string;
     logo_secondary?: boolean;
-    options: ScreenElement;
+    options: Meta;
     show_character?: boolean;
     start_new_record?: boolean;
     title: {
@@ -95,7 +96,7 @@ export type ScreenComponent =
 
 export type ScreenConfig = { appFlow: AppFlow; screen: Screen };
 
-export type ScreenElement = {
+export type Meta = {
     bg_color?: string;
     bg_selected_color?: string;
     border_color?: string;
@@ -154,7 +155,7 @@ export type UseScreenArgs = {
 };
 
 export type UseScreenReturn = {
-    button: ScreenElement;
+    button: Meta;
     fieldProp: (id: string, prop: keyof ScreenField, defaultValue?: any) => any;
     flow: ScreenFlow;
     name: (id: string, name?: string) => string;

@@ -8,4 +8,5 @@ class AppFlow::Data
   attribute :handle, :string
   attribute :starting_screen_id, :string
   attribute_array :record_definitions, AppFlow::RecordDefinition
+  attribute_hash :meta, AppFlow::Meta
 end

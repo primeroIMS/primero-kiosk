@@ -1,13 +1,13 @@
 import { ENDPOINTS } from "./constants";
 import apiClient from "./lib/api-client";
-import AppFlowsStore from "./stores/app-flow";
+import AppFlowStore from "./stores/app-flow";
 import LookupStore from "./stores/lookup-store";
 import SystemSettingsStore from "./stores/system-settings";
 import ThemeStore from "./stores/theme";
 
 async function loadAppFlows() {
     const response = await apiClient.get(ENDPOINTS.appFlows);
-    AppFlowsStore.setData(response.data.data);
+    AppFlowStore.setData(response.data.data);
 }
 
 async function loadLookups() {

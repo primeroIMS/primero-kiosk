@@ -10,6 +10,7 @@ json.data do
       json.type rd.type
       json.module_id rd.module_id
     end
+    json.meta af.data.meta
     json.logo rails_blob_path(af.logo, only_path: true) if af&.logo&.attached?
     json.logo_pictorial rails_blob_path(af.logo_pictorial, only_path: true) if af&.logo_pictorial&.attached?
     if af&.logo_pictorial_secondary&.attached?

@@ -1,10 +1,12 @@
 import { useDirection } from "@base-ui/react/direction-provider";
+import { useEffect, useState } from "react";
 import { useController } from "react-hook-form";
 
 import Icon from "@/components/Icon";
 import { Card, CardContent } from "@/components/ui/card";
 import {
     Carousel,
+    CarouselApi,
     CarouselContent,
     CarouselItem,
     CarouselNext,
@@ -13,12 +15,12 @@ import {
 import useOptions, { OptionsConfig } from "@/hooks/use-options";
 import { StoreDataMap } from "@/hooks/use-store";
 import i18n, { I18nLocale } from "@/translations";
-import { ScreenElement } from "@/type";
+import { Meta } from "@/type";
 
 type Props = {
     iconName: string;
     name: string;
-    optionColors?: ScreenElement;
+    optionColors?: Meta;
     options: OptionsConfig<keyof StoreDataMap>;
 };
 
@@ -29,13 +31,28 @@ function CarouselInput({ iconName, name, optionColors, options: optionsConfig }:
     });
     const { field: iconField } = useController({ defaultValue: "", name: iconName });
     const direction = useDirection();
-
+    const [api, setApi] = useState<CarouselApi>();
     const options = useOptions(optionsConfig);
 
-    function handleOnChange(value: string, icon: string) {
-        field.onChange(value);
-        iconField.onChange(icon);
-    }
+    useEffect(() => {
+        if (!api) {
+            return;
+        }
+
+        function setSlide(_api: CarouselApi) {
+            const slide = _api?.slidesInView()?.[0];
+            const selectedOption = options[slide || 0];
+            field.onChange(selectedOption.value);
+            iconField.onChange(selectedOption.icon as string);
+        }
+
+        setSlide(api);
+        api.on("slidesInView", setSlide);
+
+        return () => {
+            api.off("slidesInView", setSlide);
+        };
+    }, [api, field, iconField, options]);
 
     return (
         <Carousel
@@ -45,6 +62,7 @@ function CarouselInput({ iconName, name, optionColors, options: optionsConfig }:
                 direction: direction,
                 loop: true,
             }}
+            setApi={setApi}
         >
             <CarouselContent>
                 {options.map((option) => (
@@ -57,9 +75,6 @@ function CarouselInput({ iconName, name, optionColors, options: optionsConfig }:
                                   aria-selected:ring-4
                                   aria-selected:ring-(--selected-border)
                                 "
-                                onClick={() =>
-                                    handleOnChange(option.value, option.icon as string)
-                                }
                                 style={
                                     {
                                         "--option-bg": option.meta.bg_color,

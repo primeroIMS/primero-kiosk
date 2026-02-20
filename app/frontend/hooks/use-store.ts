@@ -2,7 +2,7 @@ import type { StoreApi, UseBoundStore } from "zustand";
 
 import get from "lodash-es/get";
 
-import AppFlowsStore from "@/stores/app-flow";
+import AppFlowStore from "@/stores/app-flow";
 import FormStore from "@/stores/form";
 import LookupStore from "@/stores/lookup-store";
 import SystemSettingsStore from "@/stores/system-settings";
@@ -13,7 +13,7 @@ type Store = UseBoundStore<StoreApi<object>>;
 type StorePath = keyof typeof Stores;
 
 const Stores = {
-    appFlow: AppFlowsStore,
+    appFlow: AppFlowStore,
     form: FormStore,
     lookup: LookupStore,
     systemSettings: SystemSettingsStore,
@@ -27,7 +27,7 @@ type ExtractStoreData<T> = T extends { store: UseBoundStore<StoreApi<infer S>> }
     : never;
 
 type StoreDataMap = {
-    appFlow: ExtractStoreData<typeof AppFlowsStore>;
+    appFlow: ExtractStoreData<typeof AppFlowStore>;
     form: ExtractStoreData<typeof FormStore>;
     lookup: ExtractStoreData<typeof LookupStore>;
     systemSettings: ExtractStoreData<typeof SystemSettingsStore>;

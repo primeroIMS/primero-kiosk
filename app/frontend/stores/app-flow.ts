@@ -12,6 +12,10 @@ class Store extends BaseStore<AppFlowState> {
         return this.getState().data.find((f) => f.handle === handle);
     }
 
+    getAppFlows(): AppFlow[] {
+        return this.getState().data;
+    }
+
     getFirstAppFlow(): AppFlow | undefined {
         return this.getState().data[0];
     }
@@ -31,9 +35,9 @@ class Store extends BaseStore<AppFlowState> {
     }
 }
 
-const AppFlowsStore = new Store({
+const AppFlowStore = new Store({
     defaultState: { data: [] as AppFlow[] },
     storage: { name: Strings.appFlow, provider: Strings.idb, version: 0 },
 });
 
-export default AppFlowsStore;
+export default AppFlowStore;
