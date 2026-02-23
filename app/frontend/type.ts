@@ -5,10 +5,10 @@ export type AppFlow = {
     logo: string;
     logo_pictorial: string;
     logo_pictorial_secondary: string;
+    meta: Meta;
     record_definitions: AppFlowRecordDefinition[];
     screens: Screen[];
     starting_screen_id: string;
-    meta:
 };
 
 export type AppFlowRecordDefinition = {
@@ -19,6 +19,7 @@ export type AppFlowRecordDefinition = {
 
 export type FormValues = {
     global?: Record<string, unknown>;
+    recordIndex?: number;
     records?: Record<string, unknown>[];
 };
 
@@ -35,6 +36,16 @@ export type LookupOption = {
     label: I18nTranslation;
     meta: Meta;
     value: string;
+};
+
+export type Meta = {
+    bg_color?: string;
+    bg_selected_color?: string;
+    border_color?: string;
+    border_selected_color?: string;
+    order: number;
+    text_color?: string;
+    text_selected_color?: string;
 };
 
 export type Path<T> = T extends (infer U)[]
@@ -96,16 +107,6 @@ export type ScreenComponent =
 
 export type ScreenConfig = { appFlow: AppFlow; screen: Screen };
 
-export type Meta = {
-    bg_color?: string;
-    bg_selected_color?: string;
-    border_color?: string;
-    border_selected_color?: string;
-    order: number;
-    text_color?: string;
-    text_selected_color?: string;
-};
-
 export type ScreenField = {
     backend_id: string;
     label?: I18nTranslation;
@@ -162,4 +163,5 @@ export type UseScreenReturn = {
     nextScreenId: (data: FormValues) => string;
     onNext: (event: React.MouseEvent<HTMLButtonElement>) => void;
     onSubmit: (data: FormValues) => void;
+    submitToRemote: () => void;
 };

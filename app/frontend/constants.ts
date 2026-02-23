@@ -73,6 +73,7 @@ export const BASE_URL = "/api";
 export const ENDPOINTS = {
     appFlows: "/app_flows",
     lookups: "/lookups",
+    records: "/records",
     systemSettings: "/system_settings",
     theme: "/theme",
 } as const;
