@@ -1,18 +1,18 @@
 import { get } from "lodash-es";
 
-import { FormValues } from "@/type";
+import { FormValueRecord, Path } from "@/type";
 
-type Condition = {
-    and?: Condition[];
+type Condition<T> = {
+    and?: Condition<T>[];
     eq?: Record<string, any>;
     gt?: Record<string, any>;
     gte?: Record<string, any>;
     in?: Record<string, any[]>;
     lt?: Record<string, any>;
     lte?: Record<string, any>;
-    not?: Condition[];
-    or?: Condition[];
-    path?: string;
+    not?: Condition<T>[];
+    or?: Condition<T>[];
+    path?: Path<T>;
 };
 
 /**
@@ -28,7 +28,10 @@ type Condition = {
  * @param condition - Condition tree to evaluate.
  * @returns `true` if the condition matches; otherwise `false`.
  */
-function evaluateCondition(data: FormValues, condition: Condition): boolean {
+function evaluateCondition<T extends FormValueRecord = FormValueRecord>(
+    data: T,
+    condition: Condition<T>,
+): boolean {
     if (condition.and) {
         return condition.and.every((c) => evaluateCondition(data, c));
     }

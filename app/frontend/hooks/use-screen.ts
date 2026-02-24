@@ -6,7 +6,7 @@ import { ENDPOINTS, RouteStrings, Strings } from "@/constants";
 import api from "@/lib/api-client";
 import evaluateCondition from "@/lib/evaluate-conditions";
 import FormStore from "@/stores/form";
-import { FormValues, ScreenField, UseScreenArgs, UseScreenReturn } from "@/type";
+import { FormValueRecord, ScreenField, UseScreenArgs, UseScreenReturn } from "@/type";
 import { ScreenFieldScope } from "@/type";
 
 import useStore from "./use-store";
@@ -22,6 +22,7 @@ function useScreen({
     const navigate = useNavigate();
     const recordIndex = useStore("form", "recordIndex");
     const records = useStore("form", "records");
+    const globalData = useStore("form", "global");
 
     useEffect(() => {
         if (startingScreenId === config.screen.id) {
@@ -29,13 +30,22 @@ function useScreen({
         }
     }, [startingScreenId, config.screen.id]);
 
+    useEffect(() => {
+        if (config.screen.flow.record_definition_id) {
+            FormStore.setRecordDefinitionFields(
+                config.screen.flow.record_definition_id,
+                config.appFlow,
+            );
+        }
+    }, [config.appFlow, config.screen.flow.record_definition_id]);
+
     const mappedFields = Object.fromEntries(
         config.screen.fields.map((field) => {
             return [field.slot, field];
         }),
     );
 
-    function computeNextScreen(data?: FormValues) {
+    function computeNextScreen(data?: FormValueRecord) {
         if (config.screen.flow.next_screen?.conditions && data) {
             for (const condition of config.screen.flow.next_screen.conditions) {
                 if (evaluateCondition(data, condition)) {
@@ -63,8 +73,8 @@ function useScreen({
         return `${computeScope(field.scope)}.${name ?? field.backend_id}`;
     }
 
-    function sharedNextScreenCallbacks(data?: FormValues) {
-        if (config.screen.flow.end_of_flow) {
+    function sharedNextScreenCallbacks(data?: FormValueRecord) {
+        if (config.screen.flow.start_new_record) {
             FormStore.incrementRecordIndex();
         }
 
@@ -77,7 +87,7 @@ function useScreen({
         }
     }
 
-    function handleSubmit(data: FormValues) {
+    function handleSubmit(data: FormValueRecord) {
         onSubmit?.(data);
         sharedNextScreenCallbacks(data);
     }
@@ -88,10 +98,19 @@ function useScreen({
     }
 
     function submitToRemote() {
-        console.log("Submit form to remote endpoint", records);
+        if (!config.screen.flow.end_of_flow) return;
         // TODO: Handle errors and show feedback to user, change to actual endpoint when ready
+        // and remove console.log
+        console.log(
+            "Submit form to remote endpoint",
+            records,
+            "with global data:",
+            globalData,
+        );
         if (records && records.length > 0) {
-            api.post(ENDPOINTS.records, { data: records });
+            api.post(ENDPOINTS.records, {
+                data: records.map((record) => ({ ...record, ...globalData })),
+            });
         }
     }
 

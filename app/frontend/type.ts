@@ -17,10 +17,17 @@ export type AppFlowRecordDefinition = {
     type: string;
 };
 
+export type FormValueRecord = {
+    [key: string]: unknown;
+    module_id: string;
+    record_type: string;
+};
+
 export type FormValues = {
-    global?: Record<string, unknown>;
-    recordIndex?: number;
-    records?: Record<string, unknown>[];
+    global: Record<string, unknown>;
+    kiosk: Record<string, unknown>;
+    recordIndex: number;
+    records: FormValueRecord[];
 };
 
 export type I18nTranslation = Record<I18nLocale, string>;
@@ -118,7 +125,7 @@ export type ScreenField = {
     type: string; // Todo add types when building user info screen
 };
 
-export type ScreenFieldScope = "global" | "records";
+export type ScreenFieldScope = "global" | "kiosk" | "records";
 
 export type ScreenFlow = {
     allow_back?: boolean;
@@ -131,6 +138,8 @@ export type ScreenFlow = {
         conditions?: Array<{ eq: Record<string, any>; path: string }>;
         default: string;
     };
+    record_definition_id?: string;
+    start_new_record?: boolean;
 };
 
 export type SystemSettings = {
@@ -151,7 +160,7 @@ export type Theme = {
 export type UseScreenArgs = {
     config: ScreenConfig;
     onNext?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-    onSubmit?: (data: FormValues) => void;
+    onSubmit?: (data: FormValueRecord | FormValues) => void;
     shouldComputeNextScreen?: boolean;
 };
 
@@ -160,8 +169,8 @@ export type UseScreenReturn = {
     fieldProp: (id: string, prop: keyof ScreenField, defaultValue?: any) => any;
     flow: ScreenFlow;
     name: (id: string, name?: string) => string;
-    nextScreenId: (data: FormValues) => string;
+    nextScreenId: (data: FormValueRecord) => string;
     onNext: (event: React.MouseEvent<HTMLButtonElement>) => void;
-    onSubmit: (data: FormValues) => void;
+    onSubmit: (data: FormValueRecord) => void;
     submitToRemote: () => void;
 };

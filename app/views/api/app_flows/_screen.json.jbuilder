@@ -26,6 +26,8 @@ json.description do
   json.text screen.data.description.text
 end
 json.flow do
+  json.record_definition_id screen.data.flow.record_definition_id
+  json.start_new_record screen.data.flow.start_new_record
   json.allow_skip screen.data.flow.allow_skip
   json.allow_back screen.data.flow.allow_back
   json.end_of_flow screen.data.flow.end_of_flow

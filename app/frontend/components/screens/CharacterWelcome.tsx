@@ -15,7 +15,7 @@ type Props = {
 
 function CharacterWelcome({ config }: Props) {
     const screen = useScreen({ config });
-    const character = useStore("form", "global.character");
+    const character = useStore("form", "kiosk.character");
 
     return (
         <PageContainer
