@@ -15,6 +15,7 @@ class Screen::Flow
 
   attribute :allow_skip, :boolean
   attribute :allow_back, :boolean
+  attribute :allow_exit, :boolean
   attribute_hash :next_screen, Screen::NextScreen
   attribute :end_of_flow, :boolean
   attribute :label_next, default: {}
