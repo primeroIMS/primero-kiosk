@@ -15,7 +15,7 @@ type Props = {
 
 function ComfortingResponse({ config }: Props) {
     const screen = useScreen({ config });
-    console.log(config.screen);
+
     return (
         <PageContainer
             bgColor={config.screen.bg_color}
