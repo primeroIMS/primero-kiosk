@@ -78,6 +78,7 @@ export type PrimitiveRecord = Record<string, Primitive>;
 export type Screen = {
     bg_color?: string;
     button: Meta;
+    character_lookup_id?: string;
     component: ScreenComponent;
     description?: {
         color?: string;
@@ -103,6 +104,7 @@ export type ScreenComponent =
     | "CharacterWelcome"
     | "ComfortingResponse"
     | "Hub"
+    | "HubWelcome"
     | "HubWithCharacter"
     | "LanguageSelect"
     | "MultiSelect"
@@ -129,6 +131,7 @@ export type ScreenFieldScope = "global" | "kiosk" | "records";
 
 export type ScreenFlow = {
     allow_back?: boolean;
+    allow_exit?: boolean;
     allow_skip?: boolean;
     end_of_flow?: boolean;
     label_back?: I18nTranslation;

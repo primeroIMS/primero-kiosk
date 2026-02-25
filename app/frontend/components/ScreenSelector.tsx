@@ -6,6 +6,7 @@ import CharacterSelection from "./screens/CharacterSelection";
 import CharacterWelcome from "./screens/CharacterWelcome";
 import ComfortingResponse from "./screens/ComfortingResponse";
 import Hub from "./screens/Hub";
+import HubWelcome from "./screens/HubWelcome";
 import HubWithCharacter from "./screens/HubWithCharacter";
 import LanguageSelect from "./screens/LanguageSelect";
 import MultiSelect from "./screens/MultiSelect";
@@ -29,6 +30,8 @@ function ScreenSelector({ config }: Props) {
             return <ComfortingResponse config={config} />;
         case Strings.hub:
             return <Hub config={config} />;
+        case Strings.hubWelcome:
+            return <HubWelcome config={config} />;
         case Strings.hubWithCharacter:
             return <HubWithCharacter config={config} />;
         case Strings.languageSelect:

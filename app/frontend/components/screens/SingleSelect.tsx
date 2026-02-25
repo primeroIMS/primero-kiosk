@@ -3,6 +3,7 @@ import { Strings } from "@/constants";
 import useScreen from "@/hooks/use-screen";
 import { ScreenConfig } from "@/type";
 
+import Character from "../Character";
 import RadioGroupInput from "../form/fields/RadioGroupInput";
 import Logo from "../Logo";
 import PageActions from "../PageActions";
@@ -25,6 +26,9 @@ function SingleSelect({ config }: Props) {
                 flowID={config.appFlow.handle}
                 secondary={config.screen.logo_secondary}
                 showPictorial
+            />
+            <Character
+                character_lookup_id={config.screen.character_lookup_id as string}
             />
             <PageTitle
                 className="mb-8"

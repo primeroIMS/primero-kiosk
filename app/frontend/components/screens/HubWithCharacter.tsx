@@ -1,12 +1,11 @@
 import { Strings } from "@/constants";
 import useScreen from "@/hooks/use-screen";
-import useStore from "@/hooks/use-store";
 import i18n from "@/translations";
 import { ScreenConfig } from "@/type";
 
+import Character from "../Character";
 import RadioGroupInput from "../form/fields/RadioGroupInput";
 import Form from "../form/Form";
-import Icon from "../Icon";
 import Logo from "../Logo";
 import PageActions from "../PageActions";
 import PageContainer from "../PageContainer";
@@ -19,7 +18,6 @@ type Props = {
 
 function HubWithCharacter({ config }: Props) {
     const screen = useScreen({ config, onSubmit: () => {} });
-    const character = useStore("form", "kiosk.character");
 
     return (
         <PageContainer bgColor={config.screen.bg_color}>
@@ -29,16 +27,9 @@ function HubWithCharacter({ config }: Props) {
                 secondary={config.screen.logo_secondary}
                 showPictorial
             />
-            <div className="mb-10 flex w-full justify-center">
-                <div
-                    className="
-                      flex clamp-[size,20,30,@sm,@5xl] overflow-hidden rounded-full
-                      bg-amber-100
-                    "
-                >
-                    <Icon src={character?.icon} />
-                </div>
-            </div>
+            <Character
+                character_lookup_id={config.screen.character_lookup_id as string}
+            />
             <PageTitle
                 color={config.screen.title.color}
                 text={config.screen.title.text}
@@ -62,9 +53,6 @@ function HubWithCharacter({ config }: Props) {
                 onSubmit={screen.onSubmit}
             >
                 <RadioGroupInput
-                    centerText
-                    cols={2}
-                    iconLarge
                     name={screen.name(Strings.input_1)}
                     optionColors={config.screen.options}
                     options={{
