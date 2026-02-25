@@ -24,6 +24,7 @@ class Screen::Data
   attribute :bg_color, :string
   attribute :logo_secondary, :boolean
   attribute :component, :string
+  attribute :character_lookup_id, :string
   attribute :show_character, :boolean, default: false
   attribute :start_new_record, :boolean, default: false
   attribute_array :fields, Screen::Field

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 json.id screen.data.id
+json.character_lookup_id screen.data.character_lookup_id
 json.bg_color screen.data.bg_color
 json.button screen.data.button
 json.logo_secondary screen.data.logo_secondary
@@ -26,6 +27,7 @@ json.description do
   json.text screen.data.description.text
 end
 json.flow do
+  json.allow_exit screen.data.flow.allow_exit
   json.record_definition_id screen.data.flow.record_definition_id
   json.start_new_record screen.data.flow.start_new_record
   json.allow_skip screen.data.flow.allow_skip
