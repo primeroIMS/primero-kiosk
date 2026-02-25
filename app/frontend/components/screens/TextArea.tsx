@@ -22,12 +22,13 @@ function TextArea({ config }: Props) {
     return (
         <PageContainer bgColor={config.screen.bg_color}>
             <Logo
-                className="absolute top-5 left-5 size-10"
+                className="absolute start-5 top-5 size-10"
                 flowID={config.appFlow.handle}
                 secondary={config.screen.logo_secondary}
                 showPictorial
             />
             <PageTitle
+                className="mb-8"
                 color={config.screen.title.color}
                 text={config.screen.title.text}
             />

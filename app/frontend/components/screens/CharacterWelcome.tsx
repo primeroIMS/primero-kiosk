@@ -23,7 +23,7 @@ function CharacterWelcome({ config }: Props) {
             centered
         >
             <Logo
-                className="absolute top-5 left-5 size-10"
+                className="absolute start-5 top-5 size-10"
                 flowID={config.appFlow.handle}
                 secondary={config.screen.logo_secondary}
                 showPictorial
@@ -32,19 +32,20 @@ function CharacterWelcome({ config }: Props) {
                 className="relative mb-5 h-90 rounded-lg p-4 pr-40"
                 style={{ backgroundColor: config.screen?.options.bg_color }}
             >
-                <div className="absolute top-4 left-5 z-50 w-3/5 rounded-lg bg-white p-5">
+                <div className="absolute start-5 top-4 z-50 w-3/5 rounded-lg bg-white p-5">
                     <PageTitle
-                        className="mb-5 text-left font-bold text-foreground"
+                        className="mb-5 text-start font-bold text-foreground"
                         color={config.screen?.title?.color}
                         text={config.screen.title.text}
                     />
                     <PageDescription
-                        className="text-left whitespace-pre-line text-foreground"
+                        className="text-start whitespace-pre-line text-foreground"
                         color={config.screen?.description?.color}
+                        html
                         text={config.screen?.description?.text}
                     />
                 </div>
-                <div className="absolute right-0 bottom-0 z-10">
+                <div className="absolute end-0 bottom-0 z-10">
                     <img
                         alt={Strings.featuredImageAlt}
                         className="w-45 md:w-60"

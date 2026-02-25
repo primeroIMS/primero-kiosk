@@ -63,8 +63,8 @@ function Form({
                 {!methods.formState.isValid && methods.formState.isSubmitted && (
                     <div
                         className="
-                          mb-5 rounded-3xl bg-red-400 py-3 clamp-[text,xs,xl,@sm,@5xl]
-                          font-semibold text-white
+                          mx-auto mb-10 w-4/5 rounded-sm bg-red-400 py-2 text-center
+                          clamp-[text,xs,base,@sm,@5xl] font-semibold text-white
                         "
                     >
                         {i18n.t("form.errors")}

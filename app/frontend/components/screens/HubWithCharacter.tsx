@@ -24,7 +24,7 @@ function HubWithCharacter({ config }: Props) {
     return (
         <PageContainer bgColor={config.screen.bg_color}>
             <Logo
-                className="absolute top-5 left-5 size-10"
+                className="absolute start-5 top-5 size-10"
                 flowID={config.appFlow.handle}
                 secondary={config.screen.logo_secondary}
                 showPictorial
@@ -32,7 +32,7 @@ function HubWithCharacter({ config }: Props) {
             <div className="mb-10 flex w-full justify-center">
                 <div
                     className="
-                      flex clamp-[size,30,40,@sm,@5xl] overflow-hidden rounded-full
+                      flex clamp-[size,20,30,@sm,@5xl] overflow-hidden rounded-full
                       bg-amber-100
                     "
                 >
@@ -70,7 +70,7 @@ function HubWithCharacter({ config }: Props) {
                     options={{
                         key: screen.fieldProp(Strings.input_1, Strings.lookup),
                     }}
-                    outlined
+                    variant="outlined"
                 />
             </Form>
             <PageActions

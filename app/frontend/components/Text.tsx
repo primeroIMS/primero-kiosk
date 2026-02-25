@@ -5,16 +5,18 @@ import I18nText from "./I18nText";
 
 type Props = {
     fallback?: string;
+    html?: boolean;
     text?: I18nTranslation | string;
     translate?: boolean;
 };
 
-function Text({ fallback, text, translate }: Props) {
+function Text({ fallback, html, text, translate }: Props) {
     return (
         <>
             {translate && typeof text !== "string" ? (
                 <I18nText
                     fallback={fallback}
+                    html={html}
                     text={text}
                 />
             ) : translate ? (

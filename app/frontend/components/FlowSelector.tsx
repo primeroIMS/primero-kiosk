@@ -91,12 +91,12 @@ function FlowSelector({ flows }: Props) {
                     ))}
                 </CarouselContent>
                 <CarouselPrevious
-                    className="top-41 left-3"
+                    className="start-3 top-41"
                     size="icon-lg"
                     variant="ghost"
                 />
                 <CarouselNext
-                    className="top-41 right-3"
+                    className="end-3 top-41"
                     size="icon-lg"
                     variant="ghost"
                 />
