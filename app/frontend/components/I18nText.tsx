@@ -7,10 +7,11 @@ import { I18nTranslation } from "@/type";
 type Props = {
     cycleText?: boolean;
     fallback?: string;
+    html?: boolean;
     text?: I18nTranslation;
 };
 
-function I18nText({ cycleText, fallback, text }: Props) {
+function I18nText({ cycleText, fallback, html, text }: Props) {
     const [keyIndex, setKeyIndex] = useState<number>(0);
     const keys = Object.keys(text || {});
 
@@ -38,6 +39,10 @@ function I18nText({ cycleText, fallback, text }: Props) {
     }
 
     const translatedText = text?.[i18n.locale as I18nLocale];
+
+    if (html && translatedText) {
+        return <div dangerouslySetInnerHTML={{ __html: translatedText }} />;
+    }
 
     if (translatedText) {
         return translatedText;

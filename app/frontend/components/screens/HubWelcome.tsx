@@ -1,6 +1,8 @@
 import { Strings } from "@/constants";
 import useCharacter from "@/hooks/use-character";
+import useOptions from "@/hooks/use-options";
 import useScreen from "@/hooks/use-screen";
+import useStore from "@/hooks/use-store";
 import { ScreenConfig } from "@/type";
 
 import Logo from "../Logo";
@@ -13,9 +15,14 @@ type Props = {
     config: ScreenConfig;
 };
 
-function CharacterWelcome({ config }: Props) {
+function HubWelcome({ config }: Props) {
     const screen = useScreen({ config });
-    const [character, name] = useCharacter(config.screen.character_lookup_id);
+    const hub = useStore("form", "kiosk.hub");
+    const [character] = useCharacter(config.screen.character_lookup_id);
+    const hubOptions = useOptions({
+        key: "hub",
+    });
+    const hubIcon = hubOptions?.find((option) => option.value === hub)?.icon;
 
     return (
         <PageContainer
@@ -30,15 +37,14 @@ function CharacterWelcome({ config }: Props) {
             />
             <div className="w-full">
                 <div className="relative mx-auto -mb-8 flex w-2/4 flex-col items-center">
-                    <PageTitle
-                        className="w-35 text-center text-xl font-bold text-foreground"
-                        color={config.screen?.title?.color}
-                        text={config.screen.title.text}
+                    <img
+                        className="size-20"
+                        src={hubIcon}
                     />
                     <PageTitle
-                        className="absolute bottom-42 text-6xl font-black text-foreground"
+                        className="w-35 text-center text-2xl font-bold text-foreground"
                         color={config.screen?.title?.color}
-                        text={name}
+                        text={config.screen.title.text}
                     />
                     <div className="">
                         <img
@@ -49,10 +55,7 @@ function CharacterWelcome({ config }: Props) {
                     </div>
                 </div>
             </div>
-            <div
-                className="relative mb-5 w-full rounded-lg p-4"
-                style={{ backgroundColor: config.screen?.options.bg_color }}
-            >
+            <div className="relative mb-5 w-full rounded-lg p-4 text-foreground">
                 <svg
                     className="absolute end-30 -top-3 h-10 w-10"
                     fill="none"
@@ -67,7 +70,6 @@ function CharacterWelcome({ config }: Props) {
                 <div className="w-full rounded-lg bg-white p-5">
                     <PageDescription
                         className="text-start whitespace-pre-line text-foreground"
-                        color={config.screen?.description?.color}
                         html
                         text={config.screen?.description?.text}
                     />
@@ -78,4 +80,4 @@ function CharacterWelcome({ config }: Props) {
     );
 }
 
-export default CharacterWelcome;
+export default HubWelcome;

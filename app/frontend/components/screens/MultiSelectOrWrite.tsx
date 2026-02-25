@@ -24,7 +24,7 @@ function MultiSelectOrWrite({ config }: Props) {
     return (
         <PageContainer bgColor={config.screen.bg_color}>
             <Logo
-                className="absolute top-5 left-5 size-10"
+                className="absolute start-5 top-5 size-10"
                 flowID={config.appFlow.handle}
                 secondary={config.screen.logo_secondary}
                 showPictorial

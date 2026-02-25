@@ -11,6 +11,7 @@ class Screen::Data
     ComfortingResponse
     Hub
     HubWithCharacter
+    HubWelcome
     LanguageSelect
     MultiSelect
     ResponseGoodBye

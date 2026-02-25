@@ -2,7 +2,6 @@ import { useDirection } from "@base-ui/react/direction-provider";
 import { useEffect, useState } from "react";
 import { useController } from "react-hook-form";
 
-import Icon from "@/components/Icon";
 import { Card, CardContent } from "@/components/ui/card";
 import {
     Carousel,
@@ -88,12 +87,10 @@ function CarouselInput({ iconName, name, optionColors, options: optionsConfig }:
                                     className="
                                       flex aspect-square h-80 items-center justify-center
                                     "
-                                >
-                                    <Icon
-                                        className="h-full"
-                                        src={option.icon as string}
-                                    />
-                                </CardContent>
+                                    style={{
+                                        background: `url(${option.icon}) center / cover no-repeat`,
+                                    }}
+                                ></CardContent>
                             </Card>
                             <div className="mt-5 text-2xl font-bold">
                                 {option.label?.[i18n.locale as I18nLocale]}
@@ -103,13 +100,13 @@ function CarouselInput({ iconName, name, optionColors, options: optionsConfig }:
                 ))}
             </CarouselContent>
             <CarouselPrevious
-                className="top-41 left-3"
+                className="start-3 top-41"
                 size="icon-lg"
                 style={{ backgroundColor: optionColors?.bg_color }}
                 variant="ghost"
             />
             <CarouselNext
-                className="top-41 right-3"
+                className="end-3 top-41"
                 size="icon-lg"
                 style={{ backgroundColor: optionColors?.bg_color }}
                 variant="ghost"

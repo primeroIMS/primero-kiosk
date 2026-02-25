@@ -16,6 +16,7 @@ export const Strings = {
     flow: "flow",
     form: "form",
     hub: "Hub",
+    hubWelcome: "HubWelcome",
     hubWithCharacter: "HubWithCharacter",
     idb: "idb",
     input_1: "input_1",

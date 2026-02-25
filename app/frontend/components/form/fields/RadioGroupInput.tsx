@@ -6,30 +6,24 @@ import { StoreDataMap } from "@/hooks/use-store";
 import { cn } from "@/lib/utils";
 import { Meta } from "@/type";
 
-import InputGroupItem from "./InputGroupItem";
+import { calculateSpan } from "../utils";
+import InputGroupItem, { RadioItemVariants } from "./InputGroupItem";
 
 type Props = {
-    centerText?: boolean;
     className?: string;
-    cols?: 2 | 3;
-    iconLarge?: boolean;
     itemClasses?: string;
     name: string;
     optionColors?: Meta;
     options: OptionsConfig<keyof StoreDataMap>;
-    outlined?: boolean;
-};
+} & RadioItemVariants;
 
 function RadioGroupInput({
-    centerText,
     children,
     className,
-    cols = 3,
-    iconLarge,
     name,
     optionColors,
     options: optionsConfig,
-    outlined,
+    variant,
 }: PropsWithChildren<Props>) {
     const { field } = useController({
         defaultValue: "",
@@ -44,21 +38,21 @@ function RadioGroupInput({
     return (
         <div
             className={cn(
-                "flex w-full flex-row flex-wrap justify-center gap-3",
+                "mx-auto flex w-8/12 flex-wrap justify-center gap-4",
                 className,
+                sortedOptions.length > 4 && "w-full justify-center",
             )}
         >
             {children}
-            {sortedOptions.map((option) => (
+            {sortedOptions.map((option, index) => (
                 <InputGroupItem
-                    centerText={centerText}
                     field={field}
-                    iconLarge={iconLarge}
                     key={option.value}
                     name={name}
                     option={option}
                     optionColors={optionColors}
-                    outlined={outlined}
+                    span={calculateSpan(index, variant, sortedOptions.length)}
+                    variant={variant}
                 />
             ))}
         </div>
