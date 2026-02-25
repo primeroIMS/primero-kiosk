@@ -1,0 +1,104 @@
+# frozen_string_literal: true
+
+# Wraps an HTTP connection with an external service.
+class ApiConnector::Connection
+  attr_accessor :options, :driver
+
+  def initialize(options = {})
+    self.options = options
+
+    self.driver = Faraday.new(url: url(options), headers: headers(options), ssl: ssl(options)) do |faraday|
+      faraday.adapter(:net_http_persistent)
+      faraday.response(:raise_error)
+      with_retry(faraday, options)
+      with_basic_auth(faraday, options)
+    end
+  end
+
+  def get(path, params = nil, headers = nil, &)
+    wrap { driver.get(path, to_query(params), headers, &) }
+  end
+
+  def patch(path, params = nil, headers = nil, &)
+    wrap { driver.patch(path, to_json(params), headers, &) }
+  end
+
+  def post(path, params = nil, headers = nil, &)
+    wrap { driver.post(path, to_json(params), headers, &) }
+  end
+
+  def put(path, params = nil, headers = nil, &)
+    wrap { driver.put(path, to_json(params), headers, &) }
+  end
+
+  def url(options = {})
+    tls = ::ActiveRecord::Type::Boolean.new.cast(options['tls'])
+    "#{tls ? 'https' : 'http'}://#{options['host']}:#{options['port']}"
+  end
+
+  private
+
+  def with_basic_auth(faraday, options = {})
+    return unless options['basic_auth'].present?
+
+    username, password = options['basic_auth'].split(':')
+    faraday.request(:authorization, :basic, username, password)
+  end
+
+  def with_retry(faraday, options = {})
+    return unless options.key?(:retry_max)
+
+    faraday.request(:retry, retry_options(options))
+  end
+
+  def ssl(options = {})
+    tls_client_key = options['tls_client_key']
+    tls_client_cert = options['tls_client_cert']
+    if options['tls'] == 'client' && File.exist?(tls_client_key) && File.exist?(tls_client_cert)
+      {
+        cert: OpenSSL::X509::Certificate.new(File.read(tls_client_cert)),
+        key: OpenSSL::PKey::RSA.new(File.read(tls_client_key))
+      }
+    end || {}
+  end
+
+  def retry_options(options = {})
+    {
+      max: options[:retry_max],
+      interval: options[:retry_interval],
+      retry_statuses: options[:retry_statuses],
+      backoff_factor: options[:retry_backoff_factor],
+      methods: options[:retry_methods],
+      exceptions: options[:retry_exceptions]
+    }.compact_blank
+  end
+
+  def headers(options = {})
+    headers = options['default_headers'] || {}
+    headers['x-api-key'] = options['api_key'] if options['api_key'].present?
+    headers
+  end
+
+  def wrap
+    response = yield
+    [response.status, parse_response_body(response.body)]
+  end
+
+  def parse_response_body(body)
+    JSON.parse(body)
+  rescue JSON::ParserError
+    body
+  end
+
+  def to_query(params)
+    return params unless params.is_a?(Hash)
+
+    params.map { |k, v| "#{k}=#{v}" }.join('&')
+  end
+
+  def to_json(params)
+    return params unless params.is_a?(Hash)
+
+    params.to_json
+  end
+end
