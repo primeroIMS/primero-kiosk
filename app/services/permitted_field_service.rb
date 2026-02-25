@@ -18,8 +18,10 @@ class PermittedFieldService
     permitted_field_ids_from_screens
   end
 
+  private
+
   def permitted_field_ids_from_cache(force = false)
-    last_updated_at = Screen.max(:updated_at).as_json
+    last_updated_at = Screen.maximum(:updated_at).as_json
     # The assumption here is that the cache will be updated if any changes took place to Screens
     cache_key = "permitted_field_service/#{last_updated_at}"
 
@@ -31,7 +33,8 @@ class PermittedFieldService
   def permitted_field_ids_from_screens
     Screen.all.each_with_object([]) do |screen, memo|
       screen.data.fields.each do |field|
-        next if field.scope == 'global' || memo.include?(field.backend_id)
+        # kiosk scope is not needed for backend
+        next if field.scope == 'kiosk' || memo.include?(field.backend_id)
 
         memo << field.backend_id
       end
