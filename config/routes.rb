@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     resources :system_settings, only: [:index]
     resources :screens, only: [:index]
     resources :lookups, only: [:index]
+    post :records, to: 'records#create'
   end
 
   # TanStack Router SPA - catch all other routes (except ActiveStorage which is auto-mounted)
