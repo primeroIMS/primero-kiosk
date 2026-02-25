@@ -6,7 +6,7 @@ import { Strings } from "@/constants";
 import { cn } from "@/lib/utils";
 import FormStore from "@/stores/form";
 import i18n from "@/translations";
-import { FormValues } from "@/type";
+import { FormValueRecord } from "@/type";
 
 import { hasAnyValue } from "./utils";
 
@@ -14,8 +14,9 @@ type Props = {
     allowSkip?: boolean;
     className?: string;
     debug?: boolean;
+    defaultValues?: Partial<FormValueRecord>;
     id?: string;
-    onSubmit: (data: FormValues) => void;
+    onSubmit: (data: FormValueRecord) => void;
     persist?: boolean;
 };
 
@@ -24,16 +25,18 @@ function Form({
     children,
     className,
     debug = false,
+    defaultValues,
     id = Strings.form,
     onSubmit,
     persist = true,
 }: PropsWithChildren<Props>) {
-    const methods = useForm<FormValues>({
+    const methods = useForm<FormValueRecord>({
+        defaultValues,
         shouldFocusError: false,
     });
     const { handleSubmit } = methods;
 
-    function submit(data: FormValues) {
+    function submit(data: FormValueRecord) {
         if (!allowSkip && !hasAnyValue(data)) {
             methods.setError("root.form", {
                 message: "Form cannot be empty",

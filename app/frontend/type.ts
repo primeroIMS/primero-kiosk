@@ -5,10 +5,10 @@ export type AppFlow = {
     logo: string;
     logo_pictorial: string;
     logo_pictorial_secondary: string;
+    meta: Meta;
     record_definitions: AppFlowRecordDefinition[];
     screens: Screen[];
     starting_screen_id: string;
-    meta:
 };
 
 export type AppFlowRecordDefinition = {
@@ -17,9 +17,17 @@ export type AppFlowRecordDefinition = {
     type: string;
 };
 
+export type FormValueRecord = {
+    [key: string]: unknown;
+    module_id: string;
+    record_type: string;
+};
+
 export type FormValues = {
-    global?: Record<string, unknown>;
-    records?: Record<string, unknown>[];
+    global: Record<string, unknown>;
+    kiosk: Record<string, unknown>;
+    recordIndex: number;
+    records: FormValueRecord[];
 };
 
 export type I18nTranslation = Record<I18nLocale, string>;
@@ -35,6 +43,16 @@ export type LookupOption = {
     label: I18nTranslation;
     meta: Meta;
     value: string;
+};
+
+export type Meta = {
+    bg_color?: string;
+    bg_selected_color?: string;
+    border_color?: string;
+    border_selected_color?: string;
+    order: number;
+    text_color?: string;
+    text_selected_color?: string;
 };
 
 export type Path<T> = T extends (infer U)[]
@@ -96,16 +114,6 @@ export type ScreenComponent =
 
 export type ScreenConfig = { appFlow: AppFlow; screen: Screen };
 
-export type Meta = {
-    bg_color?: string;
-    bg_selected_color?: string;
-    border_color?: string;
-    border_selected_color?: string;
-    order: number;
-    text_color?: string;
-    text_selected_color?: string;
-};
-
 export type ScreenField = {
     backend_id: string;
     label?: I18nTranslation;
@@ -117,7 +125,7 @@ export type ScreenField = {
     type: string; // Todo add types when building user info screen
 };
 
-export type ScreenFieldScope = "global" | "records";
+export type ScreenFieldScope = "global" | "kiosk" | "records";
 
 export type ScreenFlow = {
     allow_back?: boolean;
@@ -130,6 +138,8 @@ export type ScreenFlow = {
         conditions?: Array<{ eq: Record<string, any>; path: string }>;
         default: string;
     };
+    record_definition_id?: string;
+    start_new_record?: boolean;
 };
 
 export type SystemSettings = {
@@ -150,7 +160,7 @@ export type Theme = {
 export type UseScreenArgs = {
     config: ScreenConfig;
     onNext?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-    onSubmit?: (data: FormValues) => void;
+    onSubmit?: (data: FormValueRecord | FormValues) => void;
     shouldComputeNextScreen?: boolean;
 };
 
@@ -159,7 +169,8 @@ export type UseScreenReturn = {
     fieldProp: (id: string, prop: keyof ScreenField, defaultValue?: any) => any;
     flow: ScreenFlow;
     name: (id: string, name?: string) => string;
-    nextScreenId: (data: FormValues) => string;
+    nextScreenId: (data: FormValueRecord) => string;
     onNext: (event: React.MouseEvent<HTMLButtonElement>) => void;
-    onSubmit: (data: FormValues) => void;
+    onSubmit: (data: FormValueRecord) => void;
+    submitToRemote: () => void;
 };

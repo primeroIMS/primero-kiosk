@@ -19,7 +19,7 @@ type Props = {
 
 function HubWithCharacter({ config }: Props) {
     const screen = useScreen({ config, onSubmit: () => {} });
-    const character = useStore("form", "global.character");
+    const character = useStore("form", "kiosk.character");
 
     return (
         <PageContainer bgColor={config.screen.bg_color}>
@@ -58,6 +58,7 @@ function HubWithCharacter({ config }: Props) {
             </div>
             <Form
                 allowSkip={config.screen.flow.allow_skip}
+                debug
                 onSubmit={screen.onSubmit}
             >
                 <RadioGroupInput

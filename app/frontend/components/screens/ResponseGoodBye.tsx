@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import PageTitle from "@/components/PageTitle";
 import { Strings } from "@/constants";
 import useScreen from "@/hooks/use-screen";
@@ -16,6 +18,10 @@ function ResponseGoodBye({ config }: Props) {
     const screen = useScreen({
         config,
     });
+
+    useEffect(() => {
+        screen.submitToRemote();
+    }, [screen]);
 
     return (
         <PageContainer
