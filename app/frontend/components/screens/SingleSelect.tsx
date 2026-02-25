@@ -1,7 +1,7 @@
 import Form from "@/components/form/Form";
 import { Strings } from "@/constants";
 import useScreen from "@/hooks/use-screen";
-import { type Screen } from "@/type";
+import { ScreenConfig } from "@/type";
 
 import RadioGroupInput from "../form/fields/RadioGroupInput";
 import Logo from "../Logo";
@@ -10,7 +10,7 @@ import PageContainer from "../PageContainer";
 import PageTitle from "../PageTitle";
 
 type Props = {
-    config: Screen;
+    config: ScreenConfig;
 };
 
 function SingleSelect({ config }: Props) {
@@ -19,24 +19,26 @@ function SingleSelect({ config }: Props) {
     });
 
     return (
-        <PageContainer bgColor={config.bg_color}>
+        <PageContainer bgColor={config.screen.bg_color}>
             <Logo
                 className="absolute top-5 left-5 size-10"
-                secondary={config.logo_secondary}
+                flowID={config.appFlow.handle}
+                secondary={config.screen.logo_secondary}
                 showPictorial
             />
             <PageTitle
-                color={config.title.color}
-                text={config.title.text}
+                color={config.screen.title.color}
+                text={config.screen.title.text}
             />
             <Form
-                allowSkip={config.flow.allow_skip}
+                allowSkip={config.screen.flow.allow_skip}
+                debug
                 onSubmit={screen.onSubmit}
             >
                 <RadioGroupInput
                     cols={3}
                     name={screen.name(Strings.input_1)}
-                    optionColors={config.options}
+                    optionColors={config.screen.options}
                     options={{
                         key: screen.fieldProp(Strings.input_1, Strings.lookup),
                     }}

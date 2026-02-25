@@ -1,28 +1,29 @@
 import { Strings } from "@/constants";
 import useStore from "@/hooks/use-store";
 import { cn } from "@/lib/utils";
+import AppFlowStore from "@/stores/app-flow";
 
 type Props = {
     className?: string;
+    flowID: string;
     secondary?: boolean;
     showPictorial?: boolean;
 };
 
-function Logo({ className, secondary, showPictorial = false }: Props) {
-    const logo = useStore(Strings.theme, Strings.logo);
-    const pictorial = useStore(Strings.theme, Strings.logoPictorial);
-    const pictorialSecondary = useStore(Strings.theme, Strings.logoPictorialSecondary);
+function Logo({ className, flowID, secondary, showPictorial = false }: Props) {
+    const logos = AppFlowStore.getAppFlowByHandle(flowID);
+
     const kioskName = useStore(Strings.theme, Strings.kioskName);
     const pictorialToShow = Boolean(showPictorial && secondary)
-        ? pictorialSecondary
-        : pictorial;
+        ? logos?.logo_pictorial_secondary
+        : logos?.logo_pictorial;
 
     return (
         <div className={cn("mb-8", className)}>
-            {logo ? (
+            {logos?.logo ? (
                 <img
                     alt={Strings.logo}
-                    src={!showPictorial ? (logo as string) : pictorialToShow}
+                    src={!showPictorial ? (logos.logo as string) : pictorialToShow}
                 />
             ) : (
                 <div className="text-5xl font-black">{kioskName}</div>

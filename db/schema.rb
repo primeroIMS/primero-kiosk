@@ -42,6 +42,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_03_160715) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "app_flows", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.jsonb "data"
+    t.datetime "updated_at", null: false
+  end
+
   create_table "lookup_options", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.jsonb "data", default: {}
@@ -57,9 +63,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_03_160715) do
   end
 
   create_table "screens", force: :cascade do |t|
+    t.bigint "app_flow_id", null: false
     t.datetime "created_at", null: false
     t.jsonb "data", default: {}, null: false
     t.datetime "updated_at", null: false
+    t.index ["app_flow_id"], name: "index_screens_on_app_flow_id"
   end
 
   create_table "solid_cache_entries", force: :cascade do |t|
@@ -209,6 +217,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_03_160715) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "lookup_options", "lookups"
+  add_foreign_key "screens", "app_flows"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_failed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

@@ -5,7 +5,7 @@ import I18nText from "@/components/I18nText";
 import Icon from "@/components/Icon";
 import { Strings } from "@/constants";
 import { cn } from "@/lib/utils";
-import { LookupOption, ScreenElement } from "@/type";
+import { LookupOption, Meta } from "@/type";
 
 type Props = {
     centerText?: boolean;
@@ -14,7 +14,7 @@ type Props = {
     multiple?: boolean;
     name: string;
     option: LookupOption;
-    optionColors?: ScreenElement;
+    optionColors?: Meta;
     outlined?: boolean;
     type?: "checkbox" | "radio";
 };

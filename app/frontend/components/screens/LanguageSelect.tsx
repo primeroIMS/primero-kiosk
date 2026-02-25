@@ -6,21 +6,22 @@ import { Strings } from "@/constants";
 import useScreen from "@/hooks/use-screen";
 import useStore from "@/hooks/use-store";
 import i18n, { I18nLocale } from "@/translations";
-import { Screen } from "@/type";
+import { FormValueRecord, FormValues, ScreenConfig } from "@/type";
 
 import PageActions from "../PageActions";
 import PageContainer from "../PageContainer";
 
 type Props = {
-    config: Screen;
+    config: ScreenConfig;
 };
 
 function LanguageSelect({ config }: Props) {
     const rtlLanguages = useStore(Strings.systemSettings, Strings.rtlLocales);
     const screen = useScreen({
         config,
-        onSubmit: (data) => {
-            const selectedLocale = data.global?.language as I18nLocale;
+        onSubmit: (data: FormValueRecord | FormValues) => {
+            const selectedLocale = (data.kiosk as Record<string, unknown>)
+                ?.language as I18nLocale;
             i18n.locale = selectedLocale;
 
             if (rtlLanguages.includes(selectedLocale)) {
@@ -35,16 +36,19 @@ function LanguageSelect({ config }: Props) {
 
     return (
         <PageContainer
-            bgColor={config.bg_color}
+            bgColor={config.screen.bg_color}
             centered
         >
-            <Logo className="mb-20" />
+            <Logo
+                className="mb-20"
+                flowID={config.appFlow.handle}
+            />
             <PageTitle
-                color={config.title.color}
-                text={config.title.text}
+                color={config.screen.title.color}
+                text={config.screen.title.text}
             />
             <Form
-                allowSkip={config.flow.allow_skip}
+                allowSkip={config.screen.flow.allow_skip}
                 onSubmit={screen.onSubmit}
             >
                 <SelectInput

@@ -1,50 +1,65 @@
 import { useNavigate } from "@tanstack/react-router";
 import { get } from "lodash-es";
+import { useEffect } from "react";
 
-import { RouteStrings, Strings } from "@/constants";
+import { ENDPOINTS, RouteStrings, Strings } from "@/constants";
+import api from "@/lib/api-client";
 import evaluateCondition from "@/lib/evaluate-conditions";
-import { FormValues, ScreenField, UseScreenArgs, UseScreenReturn } from "@/type";
+import FormStore from "@/stores/form";
+import { FormValueRecord, ScreenField, UseScreenArgs, UseScreenReturn } from "@/type";
 import { ScreenFieldScope } from "@/type";
 
 import useStore from "./use-store";
 
-// NOTE: Might need to read form store to get all field if you need
-// a value from previous screens
 function useScreen({
     config,
     onNext,
     onSubmit,
     shouldComputeNextScreen = true,
 }: UseScreenArgs): UseScreenReturn {
-    const flow = useStore(Strings.systemSettings, Strings.flow);
-    const startingScreenId = useStore(Strings.systemSettings, Strings.startingScreenID);
+    const flow = config.appFlow.handle;
+    const startingScreenId = config.appFlow.starting_screen_id;
     const navigate = useNavigate();
+    const recordIndex = useStore("form", "recordIndex");
+    const records = useStore("form", "records");
+    const globalData = useStore("form", "global");
+
+    useEffect(() => {
+        if (startingScreenId === config.screen.id) {
+            FormStore.reset();
+        }
+    }, [startingScreenId, config.screen.id]);
+
+    useEffect(() => {
+        if (config.screen.flow.record_definition_id) {
+            FormStore.setRecordDefinitionFields(
+                config.screen.flow.record_definition_id,
+                config.appFlow,
+            );
+        }
+    }, [config.appFlow, config.screen.flow.record_definition_id]);
 
     const mappedFields = Object.fromEntries(
-        config.fields.map((field) => {
-            return [field.field_id, field];
+        config.screen.fields.map((field) => {
+            return [field.slot, field];
         }),
     );
 
-    function computeNextScreen(data?: FormValues) {
-        if (config.flow.next_screen?.conditions && data) {
-            for (const condition of config.flow.next_screen.conditions) {
+    function computeNextScreen(data?: FormValueRecord) {
+        if (config.screen.flow.next_screen?.conditions && data) {
+            for (const condition of config.screen.flow.next_screen.conditions) {
                 if (evaluateCondition(data, condition)) {
                     return condition.path;
                 }
             }
         }
 
-        if (config.flow.end_of_flow) {
-            return startingScreenId;
-        }
-
-        return config.flow.next_screen?.default as string;
+        return config.screen.flow.next_screen?.default as string;
     }
 
     function computeScope(scope: ScreenFieldScope) {
         if (scope === Strings.records) {
-            return "records.0";
+            return `records.${recordIndex}`;
         }
 
         return scope;
@@ -58,8 +73,10 @@ function useScreen({
         return `${computeScope(field.scope)}.${name ?? field.backend_id}`;
     }
 
-    function handleSubmit(data: FormValues) {
-        onSubmit?.(data);
+    function sharedNextScreenCallbacks(data?: FormValueRecord) {
+        if (config.screen.flow.start_new_record) {
+            FormStore.incrementRecordIndex();
+        }
 
         if (shouldComputeNextScreen) {
             const nextScreenID = computeNextScreen(data);
@@ -70,27 +87,43 @@ function useScreen({
         }
     }
 
+    function handleSubmit(data: FormValueRecord) {
+        onSubmit?.(data);
+        sharedNextScreenCallbacks(data);
+    }
+
     function onClickNext(event: React.MouseEvent<HTMLButtonElement>) {
         onNext?.(event);
+        sharedNextScreenCallbacks();
+    }
 
-        if (shouldComputeNextScreen) {
-            const nextScreenID = computeNextScreen();
-            navigate({
-                params: { flow, id: nextScreenID },
-                to: RouteStrings.screensByID,
+    function submitToRemote() {
+        if (!config.screen.flow.end_of_flow) return;
+        // TODO: Handle errors and show feedback to user, change to actual endpoint when ready
+        // and remove console.log
+        console.log(
+            "Submit form to remote endpoint",
+            records,
+            "with global data:",
+            globalData,
+        );
+        if (records && records.length > 0) {
+            api.post(ENDPOINTS.records, {
+                data: records.map((record) => ({ ...record, ...globalData })),
             });
         }
     }
 
     return {
-        button: config.button,
+        button: config.screen.button,
         fieldProp: (id: string, prop: keyof ScreenField, defaultValue = Strings.empty) =>
             get(mappedFields, [id, prop], defaultValue),
-        flow: config.flow,
+        flow: config.screen.flow,
         name: buildName,
         nextScreenId: (data) => computeNextScreen(data),
         onNext: onClickNext,
         onSubmit: handleSubmit,
+        submitToRemote,
     };
 }
 

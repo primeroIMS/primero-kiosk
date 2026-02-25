@@ -5,7 +5,7 @@ class SystemSettings < ApplicationRecord
   after_initialize :set_version
   before_save :set_version
 
-  store_accessor :system_options, :version, :record_definitions, :starting_screen_id
+  store_accessor :system_options, :version
 
   def set_version
     self.version = PrimeroKiosk::Application::VERSION

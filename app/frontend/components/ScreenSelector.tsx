@@ -1,5 +1,5 @@
 import { Strings } from "@/constants";
-import { Screen } from "@/type";
+import { ScreenConfig } from "@/type";
 
 import CharacterInformation from "./screens/CharacterInformation";
 import CharacterSelection from "./screens/CharacterSelection";
@@ -15,10 +15,10 @@ import SelectOrWrite from "./screens/SelectOrWrite";
 import SingleSelect from "./screens/SingleSelect";
 import TextArea from "./screens/TextArea";
 
-type Props = { config: Screen };
+type Props = { config: ScreenConfig };
 
 function ScreenSelector({ config }: Props) {
-    switch (config.component) {
+    switch (config.screen.component) {
         case Strings.characterInformation:
             return <CharacterInformation config={config} />;
         case Strings.characterSelection:

@@ -1,5 +1,6 @@
 export const Strings = {
     app: "app",
+    appFlow: "appFlow",
     buttonsBack: "buttons.back",
     buttonsContinue: "buttons.continue",
     buttonsSkip: "buttons.skip",
@@ -70,8 +71,9 @@ export const RouteStrings = {
 export const BASE_URL = "/api";
 
 export const ENDPOINTS = {
+    appFlows: "/app_flows",
     lookups: "/lookups",
-    screens: "/screens",
+    records: "/records",
     systemSettings: "/system_settings",
     theme: "/theme",
 } as const;

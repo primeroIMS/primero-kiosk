@@ -1,8 +1,33 @@
 import { I18nLocale } from "./translations";
 
+export type AppFlow = {
+    handle: string;
+    logo: string;
+    logo_pictorial: string;
+    logo_pictorial_secondary: string;
+    meta: Meta;
+    record_definitions: AppFlowRecordDefinition[];
+    screens: Screen[];
+    starting_screen_id: string;
+};
+
+export type AppFlowRecordDefinition = {
+    id: string;
+    module_id: string;
+    type: string;
+};
+
+export type FormValueRecord = {
+    [key: string]: unknown;
+    module_id: string;
+    record_type: string;
+};
+
 export type FormValues = {
-    global?: Record<string, unknown>;
-    records?: Record<string, unknown>[];
+    global: Record<string, unknown>;
+    kiosk: Record<string, unknown>;
+    recordIndex: number;
+    records: FormValueRecord[];
 };
 
 export type I18nTranslation = Record<I18nLocale, string>;
@@ -16,8 +41,18 @@ export type LookupOption = {
     description?: I18nTranslation;
     icon?: string;
     label: I18nTranslation;
-    meta: ScreenElement;
+    meta: Meta;
     value: string;
+};
+
+export type Meta = {
+    bg_color?: string;
+    bg_selected_color?: string;
+    border_color?: string;
+    border_selected_color?: string;
+    order: number;
+    text_color?: string;
+    text_selected_color?: string;
 };
 
 export type Path<T> = T extends (infer U)[]
@@ -42,7 +77,7 @@ export type PrimitiveRecord = Record<string, Primitive>;
 
 export type Screen = {
     bg_color?: string;
-    button: ScreenElement;
+    button: Meta;
     component: ScreenComponent;
     description?: {
         color?: string;
@@ -53,7 +88,7 @@ export type Screen = {
     flow: ScreenFlow;
     id: string;
     logo_secondary?: boolean;
-    options: ScreenElement;
+    options: Meta;
     show_character?: boolean;
     start_new_record?: boolean;
     title: {
@@ -77,28 +112,20 @@ export type ScreenComponent =
     | "SingleSelect"
     | "TextArea";
 
-export type ScreenElement = {
-    bg_color?: string;
-    bg_selected_color?: string;
-    border_color?: string;
-    border_selected_color?: string;
-    order: number;
-    text_color?: string;
-    text_selected_color?: string;
-};
+export type ScreenConfig = { appFlow: AppFlow; screen: Screen };
 
 export type ScreenField = {
     backend_id: string;
-    field_id: string;
     label?: I18nTranslation;
     lookup?: string;
     placeholder?: I18nTranslation;
     record_definition?: string;
     scope: ScreenFieldScope;
+    slot: string;
     type: string; // Todo add types when building user info screen
 };
 
-export type ScreenFieldScope = "global" | "records";
+export type ScreenFieldScope = "global" | "kiosk" | "records";
 
 export type ScreenFlow = {
     allow_back?: boolean;
@@ -111,48 +138,39 @@ export type ScreenFlow = {
         conditions?: Array<{ eq: Record<string, any>; path: string }>;
         default: string;
     };
+    record_definition_id?: string;
+    start_new_record?: boolean;
 };
 
 export type SystemSettings = {
     default_locale: I18nLocale;
-    flow: string;
     locale: I18nLocale;
     locales: I18nLocale[];
-    record_definitions: SystemSettingsRecordDefinition[];
     rtl_locales: I18nLocale[];
-    starting_screen_id: string;
-};
-
-export type SystemSettingsRecordDefinition = {
-    id: string;
-    module_id: string;
-    type: string;
 };
 
 export type Theme = {
     colors: Record<string, string>;
     copy: Record<string, I18nTranslation>;
     kiosk_name: string;
-    logo: string;
-    logo_pictorial: string;
-    logo_pictorial_secondary: string;
     site_description: I18nTranslation;
     site_title: string;
 };
 
 export type UseScreenArgs = {
-    config: Screen;
+    config: ScreenConfig;
     onNext?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-    onSubmit?: (data: FormValues) => void;
+    onSubmit?: (data: FormValueRecord | FormValues) => void;
     shouldComputeNextScreen?: boolean;
 };
 
 export type UseScreenReturn = {
-    button: ScreenElement;
+    button: Meta;
     fieldProp: (id: string, prop: keyof ScreenField, defaultValue?: any) => any;
     flow: ScreenFlow;
     name: (id: string, name?: string) => string;
-    nextScreenId: (data: FormValues) => string;
+    nextScreenId: (data: FormValueRecord) => string;
     onNext: (event: React.MouseEvent<HTMLButtonElement>) => void;
-    onSubmit: (data: FormValues) => void;
+    onSubmit: (data: FormValueRecord) => void;
+    submitToRemote: () => void;
 };
