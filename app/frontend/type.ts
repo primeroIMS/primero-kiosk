@@ -50,6 +50,7 @@ export type Meta = {
     bg_selected_color?: string;
     border_color?: string;
     border_selected_color?: string;
+    hide_label?: boolean;
     order: number;
     text_color?: string;
     text_selected_color?: string;
@@ -112,7 +113,8 @@ export type ScreenComponent =
     | "ResponseGoodBye"
     | "SelectOrWrite"
     | "SingleSelect"
-    | "TextArea";
+    | "TextArea"
+    | "TextInput";
 
 export type ScreenConfig = { appFlow: AppFlow; screen: Screen };
 

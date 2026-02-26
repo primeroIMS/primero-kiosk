@@ -19,6 +19,7 @@ class Screen::Data
     MultiSelectOrWrite
     SingleSelect
     TextArea
+    TextInput
   ].freeze
 
   attribute :id, :string
