@@ -2,6 +2,8 @@ import { get } from "lodash-es";
 
 import { FormValueRecord, Path } from "@/type";
 
+import { parseConditionPath } from "./parse-condition-path";
+
 type Condition<T> = {
     and?: Condition<T>[];
     eq?: Record<string, any>;
@@ -28,55 +30,57 @@ type Condition<T> = {
  * @param condition - Condition tree to evaluate.
  * @returns `true` if the condition matches; otherwise `false`.
  */
+
 function evaluateCondition<T extends FormValueRecord = FormValueRecord>(
     data: T,
     condition: Condition<T>,
+    recordIndex: number | undefined = undefined,
 ): boolean {
     if (condition.and) {
-        return condition.and.every((c) => evaluateCondition(data, c));
+        return condition.and.every((c) => evaluateCondition(data, c, recordIndex));
     }
 
     if (condition.or) {
-        return condition.or.some((c) => evaluateCondition(data, c));
+        return condition.or.some((c) => evaluateCondition(data, c, recordIndex));
     }
 
     if (condition.not) {
-        return !condition.not.some((c) => evaluateCondition(data, c));
+        return !condition.not.some((c) => evaluateCondition(data, c, recordIndex));
     }
 
     if (condition.eq) {
         return Object.entries(condition.eq).every(
-            ([path, value]) => get(data, path) === value,
+            ([path, value]) => get(data, parseConditionPath(path, recordIndex)) === value,
         );
     }
 
     if (condition.gt) {
         return Object.entries(condition.gt).every(
-            ([path, value]) => get(data, path) > value,
+            ([path, value]) => get(data, parseConditionPath(path, recordIndex)) > value,
         );
     }
 
     if (condition.gte) {
         return Object.entries(condition.gte).every(
-            ([path, value]) => get(data, path) >= value,
+            ([path, value]) => get(data, parseConditionPath(path, recordIndex)) >= value,
         );
     }
 
     if (condition.lt) {
         return Object.entries(condition.lt).every(
-            ([path, value]) => get(data, path) < value,
+            ([path, value]) => get(data, parseConditionPath(path, recordIndex)) < value,
         );
     }
 
     if (condition.lte) {
         return Object.entries(condition.lte).every(
-            ([path, value]) => get(data, path) <= value,
+            ([path, value]) => get(data, parseConditionPath(path, recordIndex)) <= value,
         );
     }
 
     if (condition.in) {
         return Object.entries(condition.in).every(([path, values]) =>
-            values.includes(get(data, path)),
+            values.includes(get(data, parseConditionPath(path, recordIndex))),
         );
     }
 

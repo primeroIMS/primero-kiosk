@@ -43,7 +43,7 @@ const radioItemVariants = cva(
         variants: {
             variant: {
                 default: `
-                  aspect-square bg-white/70! outline-2 outline-white/70
+                  aspect-square bg-white/70! outline-4 outline-white/70
                   peer-checked:outline-(--selected-border)
                 `,
                 outlined: `
@@ -142,6 +142,7 @@ function InputGroupItem({
                             className={cn(
                                 "flex w-full",
                                 variant === "outlined" && "justify-center",
+                                span && "justify-center",
                             )}
                         >
                             <Icon
@@ -158,6 +159,7 @@ function InputGroupItem({
                             className={cn(
                                 "w-full clamp-[text,xs,sm,@sm,@5xl]",
                                 variant !== "outlined" && "h-10",
+                                option.meta?.hide_label && "sr-only",
                             )}
                         >
                             <I18nText text={option.label} />
