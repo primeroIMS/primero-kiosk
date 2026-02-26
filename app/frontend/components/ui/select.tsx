@@ -96,7 +96,7 @@ function SelectItem({ children, className, ...props }: SelectPrimitive.Item.Prop
                 render={
                     <span
                         className="
-                          pointer-events-none absolute right-2 flex size-4 items-center
+                          pointer-events-none absolute end-2 flex size-4 items-center
                           justify-center
                         "
                     />
@@ -223,7 +223,7 @@ function SelectTrigger({
 function SelectValue({ className, ...props }: SelectPrimitive.Value.Props) {
     return (
         <SelectPrimitive.Value
-            className={cn("flex flex-1 text-left", className)}
+            className={cn("flex flex-1 text-start", className)}
             data-slot="select-value"
             {...props}
         />

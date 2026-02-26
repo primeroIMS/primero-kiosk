@@ -9,23 +9,32 @@ type Props = {
     className?: string;
     color?: string;
     fallback?: string;
+    html?: boolean;
     text?: I18nTranslation | string;
     translate?: boolean;
 };
 
-function PageDescription({ className, color, fallback, text, translate = true }: Props) {
+function PageDescription({
+    className,
+    color,
+    fallback,
+    html,
+    text,
+    translate = true,
+}: Props) {
     if (isEmpty(text)) return null;
 
     return (
         <p
             className={cn(
-                "mb-5 w-full text-center clamp-[text,sm,xl,@sm,@5xl]",
+                "mb-5 w-full text-center clamp-[text,sm,lg,@sm,@5xl]",
                 className,
             )}
             style={{ color }}
         >
             <Text
                 fallback={fallback}
+                html={html}
                 text={text}
                 translate={translate}
             />

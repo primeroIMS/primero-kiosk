@@ -1,7 +1,7 @@
 import Form from "@/components/form/Form";
 import { Strings } from "@/constants";
 import useScreen from "@/hooks/use-screen";
-import { type Screen } from "@/type";
+import { ScreenConfig } from "@/type";
 
 import CheckboxGroup from "../form/fields/CheckboxGroup";
 import Logo from "../Logo";
@@ -11,36 +11,37 @@ import PageDescription from "../PageDescription";
 import PageTitle from "../PageTitle";
 
 type Props = {
-    config: Screen;
+    config: ScreenConfig;
 };
 
 function MultiSelect({ config }: Props) {
     const screen = useScreen({ config });
 
     return (
-        <PageContainer bgColor={config.bg_color}>
+        <PageContainer bgColor={config.screen.bg_color}>
             <Logo
-                className="absolute top-5 left-5 size-10"
-                secondary={config.logo_secondary}
+                className="absolute start-5 top-5 size-10"
+                flowID={config.appFlow.handle}
+                secondary={config.screen.logo_secondary}
                 showPictorial
             />
             <PageTitle
-                color={config.title.color}
-                text={config.title.text}
+                color={config.screen.title.color}
+                text={config.screen.title.text}
             />
             <PageDescription
-                color={config.description?.color}
-                text={config.description?.text}
+                color={config.screen.description?.color}
+                text={config.screen.description?.text}
             />
             <Form
-                allowSkip={config.flow.allow_skip}
+                allowSkip={config.screen.flow.allow_skip}
                 className="flex flex-col"
                 onSubmit={screen.onSubmit}
             >
                 <CheckboxGroup
                     className="mb-15 justify-start"
                     name={screen.name(Strings.input_1)}
-                    optionColors={config.options}
+                    optionColors={config.screen.options}
                     options={{
                         key: screen.fieldProp(Strings.input_1, Strings.lookup),
                     }}

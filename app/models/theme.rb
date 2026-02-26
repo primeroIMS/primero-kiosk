@@ -17,9 +17,6 @@ class Theme < ApplicationRecord
   store_accessor :data, :site_description, :site_title,
                  :revision, :kiosk_name, :colors, :copy
 
-  has_one_attached :logo
-  has_one_attached :logo_pictorial
-  has_one_attached :logo_pictorial_secondary
   has_one_attached :logo_pictorial_144
   has_one_attached :logo_pictorial_192
   has_one_attached :logo_pictorial_256
@@ -27,11 +24,10 @@ class Theme < ApplicationRecord
   has_one_attached :favicon
 
   validate :valid_html_colors
-  validates :logo, presence: true, unless: :bypass_logos
-  validates :logo_pictorial, presence: true, unless: :bypass_logos
   validates :logo_pictorial_144, presence: true, unless: :bypass_logos
   validates :logo_pictorial_192, presence: true, unless: :bypass_logos
   validates :logo_pictorial_256, presence: true, unless: :bypass_logos
+  validates :logo_pictorial_512, presence: true, unless: :bypass_logos
   validates :favicon, presence: true, unless: :bypass_logos
 
   # rubocop:enable Naming/VariableNumber

@@ -1,10 +1,11 @@
 import { useDirection } from "@base-ui/react/direction-provider";
+import { useEffect, useState } from "react";
 import { useController } from "react-hook-form";
 
-import Icon from "@/components/Icon";
 import { Card, CardContent } from "@/components/ui/card";
 import {
     Carousel,
+    CarouselApi,
     CarouselContent,
     CarouselItem,
     CarouselNext,
@@ -13,12 +14,12 @@ import {
 import useOptions, { OptionsConfig } from "@/hooks/use-options";
 import { StoreDataMap } from "@/hooks/use-store";
 import i18n, { I18nLocale } from "@/translations";
-import { ScreenElement } from "@/type";
+import { Meta } from "@/type";
 
 type Props = {
     iconName: string;
     name: string;
-    optionColors?: ScreenElement;
+    optionColors?: Meta;
     options: OptionsConfig<keyof StoreDataMap>;
 };
 
@@ -29,13 +30,28 @@ function CarouselInput({ iconName, name, optionColors, options: optionsConfig }:
     });
     const { field: iconField } = useController({ defaultValue: "", name: iconName });
     const direction = useDirection();
-
+    const [api, setApi] = useState<CarouselApi>();
     const options = useOptions(optionsConfig);
 
-    function handleOnChange(value: string, icon: string) {
-        field.onChange(value);
-        iconField.onChange(icon);
-    }
+    useEffect(() => {
+        if (!api) {
+            return;
+        }
+
+        function setSlide(_api: CarouselApi) {
+            const slide = _api?.slidesInView()?.[0];
+            const selectedOption = options[slide || 0];
+            field.onChange(selectedOption.value);
+            iconField.onChange(selectedOption.icon as string);
+        }
+
+        setSlide(api);
+        api.on("slidesInView", setSlide);
+
+        return () => {
+            api.off("slidesInView", setSlide);
+        };
+    }, [api, field, iconField, options]);
 
     return (
         <Carousel
@@ -45,6 +61,7 @@ function CarouselInput({ iconName, name, optionColors, options: optionsConfig }:
                 direction: direction,
                 loop: true,
             }}
+            setApi={setApi}
         >
             <CarouselContent>
                 {options.map((option) => (
@@ -57,9 +74,6 @@ function CarouselInput({ iconName, name, optionColors, options: optionsConfig }:
                                   aria-selected:ring-4
                                   aria-selected:ring-(--selected-border)
                                 "
-                                onClick={() =>
-                                    handleOnChange(option.value, option.icon as string)
-                                }
                                 style={
                                     {
                                         "--option-bg": option.meta.bg_color,
@@ -73,12 +87,10 @@ function CarouselInput({ iconName, name, optionColors, options: optionsConfig }:
                                     className="
                                       flex aspect-square h-80 items-center justify-center
                                     "
-                                >
-                                    <Icon
-                                        className="h-full"
-                                        src={option.icon as string}
-                                    />
-                                </CardContent>
+                                    style={{
+                                        background: `url(${option.icon}) center / cover no-repeat`,
+                                    }}
+                                ></CardContent>
                             </Card>
                             <div className="mt-5 text-2xl font-bold">
                                 {option.label?.[i18n.locale as I18nLocale]}
@@ -88,13 +100,13 @@ function CarouselInput({ iconName, name, optionColors, options: optionsConfig }:
                 ))}
             </CarouselContent>
             <CarouselPrevious
-                className="top-41 left-3"
+                className="start-3 top-41"
                 size="icon-lg"
                 style={{ backgroundColor: optionColors?.bg_color }}
                 variant="ghost"
             />
             <CarouselNext
-                className="top-41 right-3"
+                className="end-3 top-41"
                 size="icon-lg"
                 style={{ backgroundColor: optionColors?.bg_color }}
                 variant="ghost"

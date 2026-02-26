@@ -3,15 +3,16 @@ import { useController } from "react-hook-form";
 import useOptions, { OptionsConfig } from "@/hooks/use-options";
 import { StoreDataMap } from "@/hooks/use-store";
 import { cn } from "@/lib/utils";
-import { ScreenElement } from "@/type";
+import { Meta } from "@/type";
 
+import { calculateSpan } from "../utils";
 import InputGroupItem from "./InputGroupItem";
 
 type Props = {
     className?: string;
     cols?: 2 | 3;
     name: string;
-    optionColors?: ScreenElement;
+    optionColors?: Meta;
     options: OptionsConfig<keyof StoreDataMap>;
 };
 
@@ -27,16 +28,18 @@ function CheckboxGroup({
         name,
     });
     const options = useOptions(optionsConfig);
-
+    const sortedOptions = [...options].sort(
+        (a, b) => (a.meta?.order || 0) - (b.meta?.order || 0),
+    );
     return (
         <div
             className={cn(
-                "grid grid-flow-row-dense gap-4",
-                cols === 2 ? "grid-cols-2" : "grid-cols-2 md:grid-cols-3",
+                "mx-auto flex w-8/12 flex-wrap justify-center gap-4",
                 className,
+                sortedOptions.length > 4 && "w-full justify-center",
             )}
         >
-            {options.map((option) => (
+            {sortedOptions.map((option, index) => (
                 <InputGroupItem
                     field={field}
                     key={option.value}
@@ -44,6 +47,7 @@ function CheckboxGroup({
                     name={name}
                     option={option}
                     optionColors={optionColors}
+                    span={calculateSpan(index, "", sortedOptions.length)}
                     type="checkbox"
                 />
             ))}

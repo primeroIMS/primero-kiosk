@@ -5,7 +5,7 @@ class Screen::Field
   include JsonNestedModel
   include LocalizableJsonProperty
 
-  attribute :field_id, :string
+  attribute :slot, :string
   attribute :scope, :string
   attribute :backend_id, :string
   attribute :type, :string
@@ -17,6 +17,6 @@ class Screen::Field
 
   localize_jsonb_properties %i[placeholder label]
 
-  validates :field_id, presence: true
+  validates :slot, presence: true
   validates :scope, presence: true, if: -> { backend_id.present? }
 end

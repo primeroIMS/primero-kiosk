@@ -11,3 +11,17 @@ export const hasAnyValue = (value: unknown): boolean => {
 
     return value != null && value !== "";
 };
+
+export function calculateSpan(
+    index: number,
+    variant: null | string | undefined = "",
+    optionsLength: number,
+) {
+    if (variant !== "outlined" && optionsLength === 3 && index === optionsLength - 1) {
+        return true;
+    }
+
+    if (optionsLength > 6 && index === optionsLength - 1) return true;
+
+    return false;
+}

@@ -17,8 +17,9 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     get :theme, to: 'themes#index'
     resources :system_settings, only: [:index]
-    resources :screens, only: [:index]
     resources :lookups, only: [:index]
+    resources :app_flows, only: [:index]
+    post :records, to: 'records#create'
   end
 
   # TanStack Router SPA - catch all other routes (except ActiveStorage which is auto-mounted)

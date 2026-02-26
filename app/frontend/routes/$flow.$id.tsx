@@ -2,24 +2,24 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import ScreenSelector from "@/components/ScreenSelector";
 import { Strings } from "@/constants";
-import ScreenStore from "@/stores/screen";
+import AppFlowStore from "@/stores/app-flow";
 
 export const Route = createFileRoute("/$flow/$id")({
     component: Page,
 });
 
 function Page() {
-    const { id } = Route.useParams();
+    const { flow, id } = Route.useParams();
 
-    const screen = ScreenStore.getScreenById(id);
+    const [screen, appFlow] = AppFlowStore.getScreenById(flow, id);
 
-    if (!screen) {
+    if (!screen || !appFlow) {
         return <div>{Strings.screenNotFound}</div>;
     }
 
     return (
         <>
-            <ScreenSelector config={screen} />
+            <ScreenSelector config={{ appFlow, screen }} />
         </>
     );
 }

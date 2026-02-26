@@ -1,8 +1,9 @@
 import Form from "@/components/form/Form";
 import { Strings } from "@/constants";
 import useScreen from "@/hooks/use-screen";
-import { type Screen } from "@/type";
+import { ScreenConfig } from "@/type";
 
+import Character from "../Character";
 import TextAreaInput from "../form/fields/TextAreaInput";
 import Logo from "../Logo";
 import PageActions from "../PageActions";
@@ -10,25 +11,30 @@ import PageContainer from "../PageContainer";
 import PageTitle from "../PageTitle";
 
 type Props = {
-    config: Screen;
+    config: ScreenConfig;
 };
 
 function TextArea({ config }: Props) {
     const screen = useScreen({ config });
 
     return (
-        <PageContainer bgColor={config.bg_color}>
+        <PageContainer bgColor={config.screen.bg_color}>
             <Logo
-                className="absolute top-5 left-5 size-10"
-                secondary={config.logo_secondary}
+                className="absolute start-5 top-5 size-10"
+                flowID={config.appFlow.handle}
+                secondary={config.screen.logo_secondary}
                 showPictorial
             />
+            <Character
+                character_lookup_id={config.screen.character_lookup_id as string}
+            />
             <PageTitle
-                color={config.title.color}
-                text={config.title.text}
+                className="mb-8"
+                color={config.screen.title.color}
+                text={config.screen.title.text}
             />
             <Form
-                allowSkip={config.flow.allow_skip}
+                allowSkip={config.screen.flow.allow_skip}
                 onSubmit={screen.onSubmit}
             >
                 <TextAreaInput

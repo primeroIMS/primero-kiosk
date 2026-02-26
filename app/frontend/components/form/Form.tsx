@@ -5,7 +5,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { Strings } from "@/constants";
 import { cn } from "@/lib/utils";
 import i18n from "@/translations";
-import { FormValues } from "@/type";
+import { FormValueRecord } from "@/type";
 
 import { hasAnyValue } from "./utils";
 
@@ -13,8 +13,9 @@ type Props = {
     allowSkip?: boolean;
     className?: string;
     debug?: boolean;
+    defaultValues?: Partial<FormValueRecord>;
     id?: string;
-    onSubmit: (data: FormValues) => void;
+    onSubmit: (data: FormValueRecord) => void;
     persist?: boolean;
 };
 
@@ -23,15 +24,17 @@ function Form({
     children,
     className,
     debug = false,
+    defaultValues,
     id = Strings.form,
     onSubmit,
 }: PropsWithChildren<Props>) {
-    const methods = useForm<FormValues>({
+    const methods = useForm<FormValueRecord>({
+        defaultValues,
         shouldFocusError: false,
     });
     const { handleSubmit } = methods;
 
-    function submit(data: FormValues) {
+    function submit(data: FormValueRecord) {
         if (!allowSkip && !hasAnyValue(data)) {
             methods.setError("root.form", {
                 message: "Form cannot be empty",
@@ -54,8 +57,8 @@ function Form({
                 {!methods.formState.isValid && methods.formState.isSubmitted && (
                     <div
                         className="
-                          mb-5 rounded-3xl bg-red-400 py-3 clamp-[text,xs,xl,@sm,@5xl]
-                          font-semibold text-white
+                          mx-auto mb-10 w-4/5 rounded-sm bg-red-400 py-2 text-center
+                          clamp-[text,xs,base,@sm,@5xl] font-semibold text-white
                         "
                     >
                         {i18n.t("form.errors")}
