@@ -6,6 +6,7 @@ import usePreviousLocation from "@/hooks/use-previous-location";
 import { cn } from "@/lib/utils";
 import { UseScreenReturn } from "@/type";
 
+import ExitFlow from "./ExitFlow";
 import I18nText from "./I18nText";
 
 type Props = {
@@ -23,52 +24,62 @@ function PageActions({ isForm, screen }: Props) {
     } as React.ButtonHTMLAttributes<HTMLButtonElement>;
 
     return (
-        <div
-            className={cn(
-                "mt-10 flex flex-row items-center justify-between",
-                !screen.flow.allow_back && !screen.flow.allow_skip && "justify-center",
-            )}
-        >
-            {screen.flow.allow_back ||
-                (screen.flow.allow_skip && (
-                    <div className="flex grow flex-row gap-3">
-                        {screen.flow.allow_back && (
-                            <Button
-                                onClick={() => navigate({ to: previousLocation })}
-                                variant={Strings.outline}
-                            >
-                                <I18nText
-                                    fallback={Strings.buttonsBack}
-                                    text={screen.flow.label_back}
-                                />
-                            </Button>
-                        )}
-                        {screen.flow.allow_skip && (
-                            <Button
-                                onClick={screen.onNext}
-                                variant={Strings.outline}
-                            >
-                                <I18nText
-                                    fallback={Strings.buttonsSkip}
-                                    text={screen.flow.label_skip}
-                                />
-                            </Button>
-                        )}
-                    </div>
-                ))}
-            <div>
-                <Button
-                    {...nextButtonProps}
-                    bgColor={screen.button.bg_color}
-                    textColor={screen.button.text_color}
-                    variant={Strings.secondary}
-                >
-                    <I18nText
-                        fallback={Strings.buttonsContinue}
-                        text={screen.flow.label_next}
-                    />
-                </Button>
+        <div>
+            <div
+                className={cn(
+                    "mt-10 mb-3 flex flex-row items-center justify-between",
+                    !screen.flow.allow_back &&
+                        !screen.flow.allow_skip &&
+                        "justify-center",
+                )}
+            >
+                {screen.flow.allow_back ||
+                    (screen.flow.allow_skip && (
+                        <div className="flex grow flex-row gap-3">
+                            {screen.flow.allow_back && (
+                                <Button
+                                    onClick={() => navigate({ to: previousLocation })}
+                                    variant={Strings.outline}
+                                >
+                                    <I18nText
+                                        fallback={Strings.buttonsBack}
+                                        text={screen.flow.label_back}
+                                    />
+                                </Button>
+                            )}
+                            {screen.flow.allow_skip && (
+                                <Button
+                                    onClick={screen.onNext}
+                                    variant={Strings.outline}
+                                >
+                                    <I18nText
+                                        fallback={Strings.buttonsSkip}
+                                        text={screen.flow.label_skip}
+                                    />
+                                </Button>
+                            )}
+                        </div>
+                    ))}
+                <div>
+                    <Button
+                        {...nextButtonProps}
+                        bgColor={screen.button.bg_color}
+                        textColor={screen.button.text_color}
+                        variant={Strings.secondary}
+                    >
+                        <I18nText
+                            fallback={Strings.buttonsContinue}
+                            text={screen.flow.label_next}
+                        />
+                    </Button>
+                </div>
             </div>
+            {screen.flow.allow_exit && (
+                <ExitFlow
+                    bgColor={screen.meta.exit_flow_bg_color}
+                    buttonColor={screen.button.bg_color}
+                />
+            )}
         </div>
     );
 }

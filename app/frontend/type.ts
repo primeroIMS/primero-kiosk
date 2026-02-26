@@ -50,6 +50,7 @@ export type Meta = {
     bg_selected_color?: string;
     border_color?: string;
     border_selected_color?: string;
+    exit_flow_bg_color?: string;
     hide_label?: boolean;
     order: number;
     text_color?: string;
@@ -173,6 +174,7 @@ export type UseScreenReturn = {
     button: Meta;
     fieldProp: (id: string, prop: keyof ScreenField, defaultValue?: any) => any;
     flow: ScreenFlow;
+    meta: Meta;
     name: (id: string, name?: string) => string;
     nextScreenId: (data: FormValueRecord) => string;
     onNext: (event: React.MouseEvent<HTMLButtonElement>) => void;
