@@ -49,7 +49,6 @@ function HubWithCharacter({ config }: Props) {
             </div>
             <Form
                 allowSkip={config.screen.flow.allow_skip}
-                debug
                 onSubmit={screen.onSubmit}
             >
                 <RadioGroupInput

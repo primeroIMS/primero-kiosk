@@ -42,7 +42,6 @@ function TextInput({ config }: Props) {
             />
             <Form
                 allowSkip={config.screen.flow.allow_skip}
-                debug
                 onSubmit={screen.onSubmit}
             >
                 <FormTextInput
