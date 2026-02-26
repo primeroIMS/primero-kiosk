@@ -40,4 +40,20 @@ namespace :primero_kiosk do
       puts "#{retryable_jobs.size} are retryable."
     end
   end
+
+  # Exports Screen and Lookup translations to a YAML file.
+  # USAGE: rails kiosk:export_i18n[locale]
+  # Args:
+  #   locale - (ex. 'en', 'es', 'fr', 'ar') DEFAULT: 'en'
+  desc 'Export screens and lookups to a yaml file for translation'
+  task :export_config_translations_i18n, %i[locale] => :environment do |_, args|
+    puts 'Exporting Screen and Lookup i18n configurations to YAML...'
+
+    locale = args[:locale].presence || 'en'
+
+    exporter = Exporters::ConfigTranslationExporter.new(locale: locale)
+    exporter.export
+
+    puts "Done! Exported to #{exporter.export_directory}/"
+  end
 end
