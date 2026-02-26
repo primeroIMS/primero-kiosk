@@ -1,0 +1,10 @@
+[main]
+host = https://www.transifex.com
+
+[o:primero-v2:p:primero-kiosk:r:appstrings]
+file_filter            = config/locales/<lang>.yml
+source_file            = config/locales/en.yml
+type                   = YML
+minimum_perc           = 0
+resource_name          = Application Strings
+
