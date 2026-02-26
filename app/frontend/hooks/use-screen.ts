@@ -122,6 +122,7 @@ function useScreen({
         fieldProp: (id: string, prop: keyof ScreenField, defaultValue = Strings.empty) =>
             get(mappedFields, [id, prop], defaultValue),
         flow: config.screen.flow,
+        meta: { ...config.appFlow.meta },
         name: buildName,
         nextScreenId: (data) => computeNextScreen(data),
         onNext: onClickNext,

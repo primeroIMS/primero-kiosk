@@ -17,6 +17,10 @@ function useOptions<T extends keyof StoreDataMap>({
 }: OptionsConfig<T>): LookupOption[] {
     const optionsFromStore = useStore(store ?? (Strings.lookup as T), key);
 
+    if (optionsFromStore === undefined) {
+        return [];
+    }
+
     if (
         Array.isArray(optionsFromStore) &&
         optionsFromStore.every((item) => typeof item === Strings.string)
