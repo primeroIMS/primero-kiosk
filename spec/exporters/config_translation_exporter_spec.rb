@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Exporters::ConfigTranslationExporter do
+RSpec.describe ConfigTranslationExporter do
   let(:export_directory) { Dir.mktmpdir }
   let(:locale) { 'es' }
   let(:exporter) { described_class.new(export_directory: export_directory, locale: locale) }
@@ -41,13 +41,13 @@ RSpec.describe Exporters::ConfigTranslationExporter do
     it 'exports localized data for the given locale to multiple YAML files' do
       exporter.export
 
-      screen_file = File.join(export_directory, 'test_screen.yml')
+      screen_file = File.join(export_directory, 'buddy_bot.yml')
       expect(File.exist?(screen_file)).to be(true)
 
       screen_yaml = YAML.load_file(screen_file)
       expect(screen_yaml.keys.first).to eq('es')
 
-      test_screen = screen_yaml['es']['screens.test_screen']
+      test_screen = screen_yaml['es']['screens']['test_screen']
       expect(test_screen['title']['text']).to eq('Hola')
 
       expect(test_screen['fields']).to be_a(Hash)

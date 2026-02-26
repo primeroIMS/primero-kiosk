@@ -51,7 +51,7 @@ namespace :primero_kiosk do
 
     locale = args[:locale].presence || 'en'
 
-    exporter = Exporters::ConfigTranslationExporter.new(locale: locale)
+    exporter = ConfigTranslationExporter.new(locale: locale)
     exporter.export
 
     puts "Done! Exported to #{exporter.export_directory}/"

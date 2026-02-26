@@ -3,7 +3,7 @@
 require 'yaml'
 
 # Exports all screens and lookups as YAML for translation
-class Exporters::ConfigTranslationExporter
+class ConfigTranslationExporter
   NESTED_ATTRIBUTES = {
     Screen::Data => %i[fields title description flow]
   }.freeze
@@ -34,7 +34,35 @@ class Exporters::ConfigTranslationExporter
   private
 
   def export_screens
-    Screen.find_each.filter_map { |screen| write_screen_file(screen) }
+    app_flow_data = group_screens_by_app_flow
+
+    app_flow_data.filter_map do |app_flow_id, screens_data|
+      write_app_flow_file(app_flow_id, screens_data)
+    end
+  end
+
+  def group_screens_by_app_flow
+    Screen.includes(:app_flow).find_each.with_object(Hash.new { |h, k| h[k] = {} }) do |screen, app_flow_data|
+      add_screen_to_app_flow_data(screen, app_flow_data)
+    end
+  end
+
+  def add_screen_to_app_flow_data(screen, app_flow_data)
+    extracted = extract_i18n(screen.data)
+
+    extracted.delete('id') if extracted.is_a?(Hash)
+
+    app_flow_id = screen.app_flow.data.unique_id
+    app_flow_data[app_flow_id]['screens'] ||= {}
+    app_flow_data[app_flow_id]['screens'][screen.data.id] = extracted
+  end
+
+  def write_app_flow_file(app_flow_id, screens_data)
+    return nil if screens_data.blank?
+
+    file_path = File.join(@export_directory, "#{app_flow_id}.yml")
+    File.write(file_path, { @locale => screens_data }.to_yaml)
+    file_path
   end
 
   def export_lookups
@@ -103,9 +131,7 @@ class Exporters::ConfigTranslationExporter
   end
 
   def convert_array_results(array_results)
-    return nil if array_results.blank?
-
-    %w[slot field_id backend_id id].each do |key|
+    %w[slot field_id id].each do |key|
       return array_results.to_h { |h| [h.delete(key), h] } if array_results.all? { |h| h.is_a?(Hash) && h.key?(key) }
     end
 
@@ -113,7 +139,7 @@ class Exporters::ConfigTranslationExporter
   end
 
   def extractable_nested?(key, value, nested_keys)
-    return true if %w[slot field_id backend_id id].include?(key.to_s)
+    return true if %w[slot field_id id].include?(key.to_s)
 
     value.is_a?(Hash) || value.is_a?(Array) || nested_keys.include?(key.to_sym)
   end
@@ -136,15 +162,5 @@ class Exporters::ConfigTranslationExporter
     return nil if locale_value.blank?
 
     [key, locale_value]
-  end
-
-  def write_screen_file(screen)
-    screen_id = screen.data.id
-    extracted = extract_i18n(screen.data)
-    return nil if extracted.blank?
-
-    file_path = File.join(@export_directory, "#{screen_id}.yml")
-    File.write(file_path, { @locale => { "screens.#{screen_id}" => extracted } }.to_yaml)
-    file_path
   end
 end
