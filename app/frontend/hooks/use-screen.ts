@@ -1,12 +1,19 @@
 import { useNavigate } from "@tanstack/react-router";
-import { get } from "lodash-es";
+import { get, set } from "lodash-es";
 import { useEffect } from "react";
 
 import { ENDPOINTS, RouteStrings, Strings } from "@/constants";
 import api from "@/lib/api-client";
 import evaluateCondition from "@/lib/evaluate-conditions";
+import riskComparator from "@/lib/risk-comparator";
 import FormStore from "@/stores/form";
-import { FormValueRecord, ScreenField, UseScreenArgs, UseScreenReturn } from "@/type";
+import {
+    FormValueRecord,
+    ScreenCalculation,
+    ScreenField,
+    UseScreenArgs,
+    UseScreenReturn,
+} from "@/type";
 import { ScreenFieldScope } from "@/type";
 
 import useStore from "./use-store";
@@ -15,6 +22,7 @@ function useScreen({
     config,
     onNext,
     onSubmit,
+    persist = true,
     shouldComputeNextScreen = true,
 }: UseScreenArgs): UseScreenReturn {
     const flow = config.appFlow.handle;
@@ -57,6 +65,56 @@ function useScreen({
         return config.screen.flow.next_screen?.default as string;
     }
 
+    function performRiskCalculations(
+        data: FormValueRecord,
+        calculations: ScreenCalculation[],
+    ) {
+        let currentRiskLevel = FormStore.getState().data.records?.[recordIndex]
+            ?.risk_level as string;
+
+        for (const calculation of calculations) {
+            const { values, ...condition } = calculation;
+            const riskLevel = values?.records?.risk_level as string;
+            if (
+                evaluateCondition(data, condition, recordIndex) &&
+                riskComparator(riskLevel, currentRiskLevel) > 0
+            ) {
+                currentRiskLevel = riskLevel;
+            }
+        }
+
+        if (currentRiskLevel) {
+            set(data, `records.${recordIndex}.risk_level`, currentRiskLevel);
+        }
+    }
+
+    function performFieldCalculations(
+        data: FormValueRecord,
+        calculations: ScreenCalculation[],
+    ) {
+        for (const calculation of calculations) {
+            const { values, ...condition } = calculation;
+            if (evaluateCondition(data, condition, recordIndex)) {
+                for (const [scope, targets] of Object.entries(values)) {
+                    for (const [field, value] of Object.entries(targets)) {
+                        set(data, `${scope}.${recordIndex}.${field}`, value);
+                    }
+                }
+            }
+        }
+    }
+
+    // TODO: data is actually { [scope]: [{...}] }
+    function performCalculations(data: FormValueRecord) {
+        if (config.screen.calculations?.risk) {
+            performRiskCalculations(data, config.screen.calculations.risk);
+        }
+
+        if (config.screen.calculations?.fields) {
+            performFieldCalculations(data, config.screen.calculations.fields);
+        }
+    }
+
     function computeScope(scope: ScreenFieldScope) {
         if (scope === Strings.records) {
             return `records.${recordIndex}`;
@@ -88,7 +146,12 @@ function useScreen({
     }
 
     function handleSubmit(data: FormValueRecord) {
+        performCalculations(data);
+
         onSubmit?.(data);
+        if (persist) {
+            FormStore.set(data);
+        }
         sharedNextScreenCallbacks(data);
     }
 

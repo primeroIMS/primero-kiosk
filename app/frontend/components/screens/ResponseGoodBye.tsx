@@ -15,9 +15,7 @@ type Props = {
 };
 
 function ResponseGoodBye({ config }: Props) {
-    const screen = useScreen({
-        config,
-    });
+    const screen = useScreen({ config });
 
     useEffect(() => {
         screen.submitToRemote();

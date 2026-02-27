@@ -16,9 +16,7 @@ type Props = {
 };
 
 function SingleSelect({ config }: Props) {
-    const screen = useScreen({
-        config,
-    });
+    const screen = useScreen({ config });
 
     return (
         <PageContainer bgColor={config.screen.bg_color}>
@@ -43,7 +41,6 @@ function SingleSelect({ config }: Props) {
                 onSubmit={screen.onSubmit}
             >
                 <RadioGroupInput
-                    cols={3}
                     name={screen.name(Strings.input_1)}
                     optionColors={config.screen.options}
                     options={{

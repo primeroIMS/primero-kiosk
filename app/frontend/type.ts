@@ -58,13 +58,15 @@ export type Meta = {
     text_selected_color?: string;
 };
 
-export type Path<T> = T extends (infer U)[]
-    ? `${number}.${Path<U>}` | `${number}`
-    : T extends object
-      ? {
-            [K in keyof T & string]: `${K}.${Path<T[K]>}` | `${K}`;
-        }[keyof T & string]
-      : never;
+export type Path<T, Depth extends unknown[] = []> = Depth["length"] extends 8
+    ? never
+    : T extends (infer U)[]
+      ? `${number}.${Path<U, Depth>}` | `${number}`
+      : T extends object
+        ? {
+              [K in keyof T & string]: `${K}.${Path<T[K], [...Depth, unknown]>}` | `${K}`;
+          }[keyof T & string]
+        : never;
 
 export type PathValue<T, P extends string> = P extends `${infer K}.${infer R}`
     ? K extends keyof T
@@ -81,6 +83,10 @@ export type PrimitiveRecord = Record<string, Primitive>;
 export type Screen = {
     bg_color?: string;
     button: Meta;
+    calculations?: {
+        fields?: ScreenCalculation[];
+        risk?: ScreenCalculation[];
+    };
     character_at_bottom?: boolean;
     character_lookup_id?: string;
     component: ScreenComponent;
@@ -102,6 +108,12 @@ export type Screen = {
     };
 };
 
+export type ScreenCalculation = {
+    values: {
+        [key in ScreenFieldScope]?: Record<string, unknown>;
+    };
+} & ScreenCondition;
+
 export type ScreenComponent =
     | "CharacterInformation"
     | "CharacterSelection"
@@ -118,6 +130,18 @@ export type ScreenComponent =
     | "SingleSelect"
     | "TextArea"
     | "TextInput";
+
+export type ScreenCondition = {
+    and?: ScreenCondition[];
+    eq?: Record<string, any>;
+    gt?: Record<string, any>;
+    gte?: Record<string, any>;
+    in?: Record<string, any[]>;
+    lt?: Record<string, any>;
+    lte?: Record<string, any>;
+    not?: ScreenCondition[];
+    or?: ScreenCondition[];
+};
 
 export type ScreenConfig = { appFlow: AppFlow; screen: Screen };
 
@@ -168,6 +192,7 @@ export type UseScreenArgs = {
     config: ScreenConfig;
     onNext?: (event: React.MouseEvent<HTMLButtonElement>) => void;
     onSubmit?: (data: FormValueRecord | FormValues) => void;
+    persist?: boolean;
     shouldComputeNextScreen?: boolean;
 };
 

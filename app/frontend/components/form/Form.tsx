@@ -4,7 +4,6 @@ import { FormProvider, useForm } from "react-hook-form";
 
 import { Strings } from "@/constants";
 import { cn } from "@/lib/utils";
-import FormStore from "@/stores/form";
 import i18n from "@/translations";
 import { FormValueRecord } from "@/type";
 
@@ -28,7 +27,6 @@ function Form({
     defaultValues,
     id = Strings.form,
     onSubmit,
-    persist = true,
 }: PropsWithChildren<Props>) {
     const methods = useForm<FormValueRecord>({
         defaultValues,
@@ -43,10 +41,6 @@ function Form({
                 type: "manual",
             });
             return;
-        }
-
-        if (persist) {
-            FormStore.set(data);
         }
 
         onSubmit(data);

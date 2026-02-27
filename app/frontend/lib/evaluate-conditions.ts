@@ -79,9 +79,14 @@ function evaluateCondition<T extends FormValueRecord = FormValueRecord>(
     }
 
     if (condition.in) {
-        return Object.entries(condition.in).every(([path, values]) =>
-            values.includes(get(data, parseConditionPath(path, recordIndex))),
-        );
+        return Object.entries(condition.in).every(([path, values]) => {
+            const dataValue = get(data, parseConditionPath(path, recordIndex));
+            if (Array.isArray(dataValue)) {
+                return values.some((elem) => dataValue.includes(elem));
+            }
+
+            return values.includes(dataValue);
+        });
     }
 
     return false;

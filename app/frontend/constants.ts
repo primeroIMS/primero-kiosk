@@ -67,6 +67,12 @@ export const Strings = {
     type: "type",
 } as const;
 
+export const RISK_LEVELS: Record<string, number> = {
+    high: 3,
+    low: 1,
+    medium: 2,
+} as const;
+
 export const RouteStrings = {
     root: "/",
     screensByID: "/$flow/$id",

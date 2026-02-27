@@ -9,6 +9,7 @@ json.logo_secondary screen.data.logo_secondary
 json.component screen.data.component
 json.options screen.data.options
 json.featured_image rails_blob_path(screen.featured_image, only_path: true) if screen.featured_image.attached?
+json.calculations screen.data.calculations
 json.fields screen.data.fields do |field|
   json.backend_id field.backend_id
   json.slot field.slot

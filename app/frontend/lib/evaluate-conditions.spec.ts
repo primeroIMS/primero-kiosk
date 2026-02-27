@@ -41,6 +41,14 @@ describe("lib/evaluate-conditions", async () => {
         expect(evaluateCondition(data, { in: { status: ["open"] } })).toBe(false);
     });
 
+    it("supports in with array", () => {
+        const data = { status: ["open", "pending"] } as FormValues;
+        expect(evaluateCondition(data, { in: { status: ["open", "pending"] } })).toBe(
+            true,
+        );
+        expect(evaluateCondition(data, { in: { status: ["open"] } })).toBe(true);
+    });
+
     it("supports and", () => {
         const data = { age: 20, score: 70 } as FormValues;
         const condition = {
