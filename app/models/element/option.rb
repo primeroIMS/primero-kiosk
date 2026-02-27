@@ -11,6 +11,7 @@ class Element::Option
   attribute :text_selected_color, :string
   attribute :border_selected_color, :string
   attribute :order, :integer
+  attribute :hide_label, :boolean
 
   validates :bg_color, hex_color: true, allow_nil: true
   validates :text_color, hex_color: true, allow_nil: true

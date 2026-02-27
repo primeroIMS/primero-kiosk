@@ -50,7 +50,7 @@ function useScreen({
     function computeNextScreen(data?: FormValueRecord) {
         if (config.screen.flow.next_screen?.conditions && data) {
             for (const condition of config.screen.flow.next_screen.conditions) {
-                if (evaluateCondition(data, condition)) {
+                if (evaluateCondition(data, condition, recordIndex)) {
                     return condition.path;
                 }
             }
@@ -125,18 +125,21 @@ function useScreen({
 
     function submitToRemote() {
         if (!config.screen.flow.end_of_flow) return;
-        // TODO: Handle errors and show feedback to user, change to actual endpoint when ready
-        // and remove console.log
-        console.log(
-            "Submit form to remote endpoint",
-            records,
-            "with global data:",
-            globalData,
-        );
-        if (records && records.length > 0) {
-            api.post(ENDPOINTS.records, {
-                data: records.map((record) => ({ ...record, ...globalData })),
-            });
+
+        try {
+            if (records && records.length > 0) {
+                Promise.all(
+                    records.map((record) => {
+                        const { record_type, ...rest } = record;
+                        api.post(ENDPOINTS.records, {
+                            data: { ...rest, ...globalData },
+                            record_type,
+                        });
+                    }),
+                );
+            }
+        } catch (error) {
+            // TODO: Add error handling in future ticket
         }
     }
 
@@ -145,6 +148,7 @@ function useScreen({
         fieldProp: (id: string, prop: keyof ScreenField, defaultValue = Strings.empty) =>
             get(mappedFields, [id, prop], defaultValue),
         flow: config.screen.flow,
+        meta: { ...config.appFlow.meta },
         name: buildName,
         nextScreenId: (data) => computeNextScreen(data),
         onNext: onClickNext,

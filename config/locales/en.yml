@@ -53,8 +53,14 @@ en:
     back: "Back"
     skip: "Skip"
     get_started: "Get Started"
+    exit: "Exit"
   site_description: "Primero Kiosk is a kiosk platform."
   form:
     errors: "Pick or fill out something below"
+  exit_flow:
+    title: "Are you sure you want to exit?"
+    description: "Your progress will be lost if you leave now."
+    cancel: "No, stay and continue"
+    exit: "Yes, exit and lose progress"
   divider:
     pick_one: "Pick one to start!"

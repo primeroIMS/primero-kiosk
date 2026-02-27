@@ -25,7 +25,14 @@ class Store extends BaseStore<FormState> {
     reset() {
         this.update((state) => {
             state.data = DEFAULT_STATE as FormValues;
-            state.data.recordIndex = 0;
+        });
+    }
+
+    rollbackFlow() {
+        this.update((state) => {
+            if (state.data.records[state.data.recordIndex]) {
+                state.data.records.splice(state.data.recordIndex);
+            }
         });
     }
 

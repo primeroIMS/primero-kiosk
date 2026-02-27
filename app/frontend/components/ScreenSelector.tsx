@@ -15,6 +15,7 @@ import ResponseGoodBye from "./screens/ResponseGoodBye";
 import SelectOrWrite from "./screens/SelectOrWrite";
 import SingleSelect from "./screens/SingleSelect";
 import TextArea from "./screens/TextArea";
+import TextInput from "./screens/TextInput";
 
 type Props = { config: ScreenConfig };
 
@@ -48,6 +49,8 @@ function ScreenSelector({ config }: Props) {
             return <SingleSelect config={config} />;
         case Strings.textArea:
             return <TextArea config={config} />;
+        case Strings.textInput:
+            return <TextInput config={config} />;
         default:
             return <div>{Strings.notImplemented}</div>;
     }

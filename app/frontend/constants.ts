@@ -61,6 +61,7 @@ export const Strings = {
     svgType: "image/svg+xml",
     systemSettings: "systemSettings",
     textArea: "TextArea",
+    textInput: "TextInput",
     theme: "theme",
 } as const;
 

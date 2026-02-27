@@ -66,7 +66,7 @@ function Form({
                 )}
                 {children}
             </form>
-            {debug && <DevTool control={methods.control} />}
+            {debug && import.meta.env.DEV && <DevTool control={methods.control} />}
         </FormProvider>
     );
 }
