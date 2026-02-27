@@ -7,7 +7,13 @@ import api from "@/lib/api-client";
 import evaluateCondition from "@/lib/evaluate-conditions";
 import riskComparator from "@/lib/risk-comparator";
 import FormStore from "@/stores/form";
-import { FormValueRecord, ScreenField, UseScreenArgs, UseScreenReturn } from "@/type";
+import {
+    FormValueRecord,
+    ScreenCalculation,
+    ScreenField,
+    UseScreenArgs,
+    UseScreenReturn,
+} from "@/type";
 import { ScreenFieldScope } from "@/type";
 
 import useStore from "./use-store";
@@ -59,49 +65,54 @@ function useScreen({
         return config.screen.flow.next_screen?.default as string;
     }
 
-    function computeRiskLevel(data: FormValueRecord): string {
+    function performRiskCalculations(
+        data: FormValueRecord,
+        calculations: ScreenCalculation[],
+    ) {
         let currentRiskLevel = FormStore.getState().data.records?.[recordIndex]
             ?.risk_level as string;
-        const riskCalculations = config.screen.calculations?.risk;
-        if (riskCalculations) {
-            for (const riskCalculation of riskCalculations) {
-                const { values, ...condition } = riskCalculation;
-                const riskLevel = values?.records?.risk_level as string;
-                if (
-                    evaluateCondition(data, condition, recordIndex) &&
-                    riskComparator(riskLevel, currentRiskLevel) > 0
-                ) {
-                    currentRiskLevel = riskLevel;
-                }
+
+        for (const calculation of calculations) {
+            const { values, ...condition } = calculation;
+            const riskLevel = values?.records?.risk_level as string;
+            if (
+                evaluateCondition(data, condition, recordIndex) &&
+                riskComparator(riskLevel, currentRiskLevel) > 0
+            ) {
+                currentRiskLevel = riskLevel;
             }
         }
 
-        return currentRiskLevel;
+        if (currentRiskLevel) {
+            set(data, `records.${recordIndex}.risk_level`, currentRiskLevel);
+        }
     }
 
-    function performFieldCalculations(data: FormValueRecord) {
-        const fieldCalculations = config.screen.calculations?.fields;
-        if (fieldCalculations) {
-            for (const fieldCalculation of fieldCalculations) {
-                const { values, ...condition } = fieldCalculation;
-                if (evaluateCondition(data, condition, recordIndex)) {
-                    for (const [scope, fields] of Object.entries(values)) {
-                        for (const [field, value] of Object.entries(fields)) {
-                            set(data, `${scope}.${recordIndex}.${field}`, value);
-                        }
+    function performFieldCalculations(
+        data: FormValueRecord,
+        calculations: ScreenCalculation[],
+    ) {
+        for (const calculation of calculations) {
+            const { values, ...condition } = calculation;
+            if (evaluateCondition(data, condition, recordIndex)) {
+                for (const [scope, targets] of Object.entries(values)) {
+                    for (const [field, value] of Object.entries(targets)) {
+                        set(data, `${scope}.${recordIndex}.${field}`, value);
                     }
                 }
             }
         }
     }
 
+    // TODO: data is actually { [scope]: [{...}] }
     function performCalculations(data: FormValueRecord) {
-        const riskLevel = computeRiskLevel(data);
-        if (riskLevel) {
-            set(data, `records.${recordIndex}.risk_level`, riskLevel);
+        if (config.screen.calculations?.risk) {
+            performRiskCalculations(data, config.screen.calculations.risk);
         }
 
-        performFieldCalculations(data);
+        if (config.screen.calculations?.fields) {
+            performFieldCalculations(data, config.screen.calculations.fields);
+        }
     }
 
     function computeScope(scope: ScreenFieldScope) {
