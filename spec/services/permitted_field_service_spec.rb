@@ -65,14 +65,18 @@ describe PermittedFieldService do
     it 'returns the permitted field ids' do
       permitted_field_service = PermittedFieldService.instance
 
-      expect(permitted_field_service.permitted_field_ids).to eq(%w[field1 field2 field3])
+      expect(permitted_field_service.permitted_field_ids).to eq([{ field1: [] }, { field2: [] }, { field3: [] },
+                                                                 :owned_by,
+                                                                 :risk_level, { protection_concerns: [] }])
     end
 
     context 'when with_cache=true' do
       it 'returns the permitted field ids from cache' do
         permitted_field_service = PermittedFieldService.new(true)
 
-        expect(permitted_field_service.permitted_field_ids).to eq(%w[field1 field2 field3])
+        expect(permitted_field_service.permitted_field_ids).to eq([{ field1: [] }, { field2: [] }, { field3: [] },
+                                                                   :owned_by,
+                                                                   :risk_level, { protection_concerns: [] }])
       end
     end
   end
