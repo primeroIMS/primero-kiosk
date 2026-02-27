@@ -15,7 +15,7 @@ class Api::RecordsController < ApplicationApiController
   end
 
   def permitted_field_ids
-    @permitted_field_ids ||= @permitted_field_service.permitted_field_ids.map(&:to_sym)
+    @permitted_field_ids ||= @permitted_field_service.permitted_field_ids
   end
 
   def instantiate_app_services

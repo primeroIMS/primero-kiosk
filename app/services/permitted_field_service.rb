@@ -30,14 +30,39 @@ class PermittedFieldService
     end
   end
 
-  def permitted_field_ids_from_screens
+  def permitted_fields_without_screen
+    %w[owned_by risk_level].map(&:to_sym)
+  end
+
+  def permitted_array_fields
+    ['protection_concerns'].map { |field| { field.to_sym => [] } }
+  end
+
+  def permitted_channels
+    AppFlow.all.map do |af|
+      af.data.record_definitions.map do |rd|
+        rd.channel.keys
+      end
+    end.flatten.map(&:to_sym)
+  end
+
+  # TODO: Refactor this method. This is a temp fix to get all permitted fields.
+  def permitted_screen_fields # rubocop:disable Metrics/AbcSize
     Screen.all.each_with_object([]) do |screen, memo|
       screen.data.fields.each do |field|
-        # kiosk scope is not needed for backend
         next if field.scope == 'kiosk' || memo.include?(field.backend_id)
 
-        memo << field.backend_id
+        if Screen::Data::MULTISELECT_COMPONENTS.include?(screen.data.component)
+          memo << { field.backend_id.to_sym => [] }
+          next
+        end
+
+        memo << field.backend_id.to_sym
       end
     end
+  end
+
+  def permitted_field_ids_from_screens
+    permitted_screen_fields + permitted_channels + permitted_fields_without_screen + permitted_array_fields
   end
 end

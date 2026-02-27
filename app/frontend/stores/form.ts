@@ -28,6 +28,13 @@ class Store extends BaseStore<FormState> {
         });
     }
 
+    resetRecords() {
+        this.update((state) => {
+            state.data.records = [];
+            state.data.recordIndex = 0;
+        });
+    }
+
     rollbackFlow() {
         this.update((state) => {
             if (state.data.records[state.data.recordIndex]) {
