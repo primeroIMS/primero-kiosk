@@ -47,6 +47,7 @@ function TextInput({ config }: Props) {
                 <FormTextInput
                     name={screen.name(Strings.input_1)}
                     placeholder={screen.fieldProp(Strings.input_1, Strings.placeholder)}
+                    type={screen.fieldProp(Strings.input_1, Strings.type)}
                 />
             </Form>
             <PageActions

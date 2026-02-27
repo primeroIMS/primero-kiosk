@@ -8,6 +8,7 @@ import RadioGroupInput from "../form/fields/RadioGroupInput";
 import Logo from "../Logo";
 import PageActions from "../PageActions";
 import PageContainer from "../PageContainer";
+import PageDescription from "../PageDescription";
 import PageTitle from "../PageTitle";
 
 type Props = {
@@ -27,9 +28,11 @@ function SingleSelect({ config }: Props) {
                 secondary={config.screen.logo_secondary}
                 showPictorial
             />
-            <Character
-                character_lookup_id={config.screen.character_lookup_id as string}
-            />
+            {!config.screen.character_at_bottom && (
+                <Character
+                    character_lookup_id={config.screen.character_lookup_id as string}
+                />
+            )}
             <PageTitle
                 className="mb-8"
                 color={config.screen.title.color}
@@ -44,10 +47,40 @@ function SingleSelect({ config }: Props) {
                     name={screen.name(Strings.input_1)}
                     optionColors={config.screen.options}
                     options={{
-                        key: screen.fieldProp(Strings.input_1, Strings.lookup),
+                        key: screen.fieldProp(Strings.input_1, Strings.lookupID),
                     }}
+                    type={screen.fieldProp(Strings.input_1, Strings.type)}
                 />
             </Form>
+            {config.screen?.description?.text && config.screen.character_at_bottom && (
+                <div className="relative mt-30 flex h-40 flex-row">
+                    <Character
+                        character_lookup_id={config.screen.character_lookup_id as string}
+                        className="absolute start-5 top-3 size-16"
+                    />
+                    <div className="absolute start-30 -top-20">
+                        <div className="relative">
+                            <PageDescription
+                                className="
+                                  prose max-w-xs rounded-lg rounded-bl-none bg-(--bgColor)
+                                  p-5 text-start text-sm
+                                "
+                                html
+                                style={{ "--bgColor": "#C0CFFF" } as React.CSSProperties}
+                                text={config.screen?.description?.text}
+                            />
+                            <div
+                                className="
+                                  absolute start-0 -bottom-7 inline-block h-0 w-0
+                                  border-t-32 border-r-40 border-b-0 border-l-0
+                                  border-solid border-t-[#C0CFFF] border-r-transparent
+                                  border-b-transparent border-l-transparent
+                                "
+                            ></div>
+                        </div>
+                    </div>
+                </div>
+            )}
             <PageActions
                 isForm
                 screen={screen}

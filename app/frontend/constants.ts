@@ -31,6 +31,7 @@ export const Strings = {
     logoPictorial: "logo_pictorial",
     logoPictorialSecondary: "logo_pictorial_secondary",
     lookup: "lookup",
+    lookupID: "lookup_id",
     lookups: "lookups",
     ltr: "ltr",
     multiSelect: "MultiSelect",
@@ -63,6 +64,7 @@ export const Strings = {
     textArea: "TextArea",
     textInput: "TextInput",
     theme: "theme",
+    type: "type",
 } as const;
 
 export const RouteStrings = {

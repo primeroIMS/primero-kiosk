@@ -45,7 +45,7 @@ function CharacterSelection({ config }: Props) {
                     name={screen.name(Strings.input_1, Strings.character)}
                     optionColors={config.screen.options}
                     options={{
-                        key: screen.fieldProp(Strings.input_1, Strings.lookup),
+                        key: screen.fieldProp(Strings.input_1, Strings.lookupID),
                     }}
                 />
             </Form>
