@@ -79,8 +79,29 @@ function useScreen({
         return currentRiskLevel;
     }
 
-    function computeFields(data: FormValueRecord): string {
-        return "";
+    function performFieldCalculations(data: FormValueRecord) {
+        const fieldCalculations = config.screen.calculations?.fields;
+        if (fieldCalculations) {
+            for (const fieldCalculation of fieldCalculations) {
+                const { values, ...condition } = fieldCalculation;
+                if (evaluateCondition(data, condition, recordIndex)) {
+                    for (const [scope, fields] of Object.entries(values)) {
+                        for (const [field, value] of Object.entries(fields)) {
+                            set(data, `${scope}.${recordIndex}.${field}`, value);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    function performCalculations(data: FormValueRecord) {
+        const riskLevel = computeRiskLevel(data);
+        if (riskLevel) {
+            set(data, `records.${recordIndex}.risk_level`, riskLevel);
+        }
+
+        performFieldCalculations(data);
     }
 
     function computeScope(scope: ScreenFieldScope) {
@@ -114,10 +135,7 @@ function useScreen({
     }
 
     function handleSubmit(data: FormValueRecord) {
-        const riskLevel = computeRiskLevel(data);
-        if (riskLevel) {
-            set(data, `records.${recordIndex}.risk_level`, riskLevel);
-        }
+        performCalculations(data);
 
         onSubmit?.(data);
         if (persist) {

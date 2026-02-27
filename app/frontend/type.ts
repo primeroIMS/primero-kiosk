@@ -107,12 +107,10 @@ export type Screen = {
 };
 
 export type ScreenCalculation = {
-    values: ScreenCalculationValue;
+    values: {
+        [key in ScreenFieldScope]?: Record<string, unknown>;
+    };
 } & ScreenCondition;
-
-export type ScreenCalculationValue = {
-    [key in ScreenFieldScope]?: Record<string, unknown>;
-};
 
 export type ScreenComponent =
     | "CharacterInformation"
