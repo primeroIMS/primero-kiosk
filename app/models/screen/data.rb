@@ -22,6 +22,11 @@ class Screen::Data
     TextInput
   ].freeze
 
+  MULTISELECT_COMPONENTS = %w[
+    MultiSelect
+    MultiSelectOrWrite
+  ].freeze
+
   attribute :id, :string
   attribute :bg_color, :string
   attribute :logo_secondary, :boolean

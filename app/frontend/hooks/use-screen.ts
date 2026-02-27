@@ -173,7 +173,9 @@ function useScreen({
                             record_type,
                         });
                     }),
-                );
+                ).then(() => {
+                    FormStore.resetRecords();
+                });
             }
         } catch (error) {
             // TODO: Add error handling in future ticket
