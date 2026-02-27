@@ -66,6 +66,7 @@ class Store extends BaseStore<FormState> {
                 state.data.records[state.data.recordIndex] = deepMerge(record, {
                     module_id: recordDefinition.module_id,
                     record_type: recordDefinition.type,
+                    ...recordDefinition.channel,
                 }) as FormValueRecord;
             }
         });

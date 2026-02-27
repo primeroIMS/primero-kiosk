@@ -9,6 +9,7 @@ json.data do
       json.id rd.id
       json.type rd.type
       json.module_id rd.module_id
+      json.channel rd.channel
     end
     json.meta af.data.meta
     json.logo rails_blob_path(af.logo, only_path: true) if af&.logo&.attached?

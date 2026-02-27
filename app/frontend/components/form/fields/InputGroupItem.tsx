@@ -13,6 +13,7 @@ export type RadioItemVariants = VariantProps<typeof radioItemVariants>;
 type Props = {
     className?: string;
     field: ControllerRenderProps<FieldValues, string>;
+    inputType?: "number" | "text";
     multiple?: boolean;
     name: string;
     option: LookupOption;
@@ -58,6 +59,7 @@ const radioItemVariants = cva(
 function InputGroupItem({
     className,
     field,
+    inputType,
     multiple = false,
     name,
     option,
@@ -71,12 +73,20 @@ function InputGroupItem({
 
         if (multiple) {
             if (checked) {
-                field.onChange([...field.value, value]);
+                field.onChange([
+                    ...field.value,
+                    inputType === "number" ? Number(value) : value,
+                ]);
             } else {
-                field.onChange(field.value.filter((v: string) => v !== value));
+                field.onChange(
+                    field.value.filter(
+                        (v: string) =>
+                            v !== (inputType === "number" ? Number(value) : value),
+                    ),
+                );
             }
         } else {
-            field.onChange(value);
+            field.onChange(inputType === "number" ? Number(value) : value);
         }
     }
 
@@ -85,8 +95,13 @@ function InputGroupItem({
             <input
                 checked={
                     multiple
-                        ? field.value.includes(option.value)
-                        : field.value === option.value
+                        ? field.value.includes(
+                              inputType === "number"
+                                  ? Number(option.value)
+                                  : option.value,
+                          )
+                        : field.value ===
+                          (inputType === "number" ? Number(option.value) : option.value)
                 }
                 className="peer hidden"
                 id={option.value}

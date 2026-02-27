@@ -2,6 +2,7 @@
 
 json.id screen.data.id
 json.character_lookup_id screen.data.character_lookup_id
+json.character_at_bottom screen.data.character_at_bottom
 json.bg_color screen.data.bg_color
 json.button screen.data.button
 json.logo_secondary screen.data.logo_secondary
@@ -13,9 +14,8 @@ json.fields screen.data.fields do |field|
   json.backend_id field.backend_id
   json.slot field.slot
   json.label field.label
-  json.lookup field.lookup
+  json.lookup_id field.lookup_id
   json.placeholder field.placeholder
-  json.record_definition field.record_definition
   json.scope field.scope
   json.type field.type
 end

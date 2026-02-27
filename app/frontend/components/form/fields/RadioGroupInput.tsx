@@ -15,6 +15,7 @@ type Props = {
     name: string;
     optionColors?: Meta;
     options: OptionsConfig<keyof StoreDataMap>;
+    type?: "number" | "text";
 } & RadioItemVariants;
 
 function RadioGroupInput({
@@ -23,10 +24,11 @@ function RadioGroupInput({
     name,
     optionColors,
     options: optionsConfig,
+    type,
     variant,
 }: PropsWithChildren<Props>) {
     const { field } = useController({
-        defaultValue: "",
+        defaultValue: type === "number" ? null : "",
         name,
     });
 
@@ -47,6 +49,7 @@ function RadioGroupInput({
             {sortedOptions.map((option, index) => (
                 <InputGroupItem
                     field={field}
+                    inputType={type}
                     key={option.value}
                     name={name}
                     option={option}

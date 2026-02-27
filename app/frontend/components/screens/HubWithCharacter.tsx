@@ -55,7 +55,7 @@ function HubWithCharacter({ config }: Props) {
                     name={screen.name(Strings.input_1)}
                     optionColors={config.screen.options}
                     options={{
-                        key: screen.fieldProp(Strings.input_1, Strings.lookup),
+                        key: screen.fieldProp(Strings.input_1, Strings.lookupID),
                     }}
                     variant="outlined"
                 />

@@ -182,8 +182,13 @@ function useScreen({
 
     return {
         button: config.screen.button,
-        fieldProp: (id: string, prop: keyof ScreenField, defaultValue = Strings.empty) =>
-            get(mappedFields, [id, prop], defaultValue),
+        fieldProp: (
+            id: string,
+            prop: keyof ScreenField,
+            defaultValue = Strings.empty,
+        ) => {
+            return get(mappedFields, [id, prop], defaultValue);
+        },
         flow: config.screen.flow,
         meta: { ...config.appFlow.meta },
         name: buildName,

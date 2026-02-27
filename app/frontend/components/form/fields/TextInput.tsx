@@ -6,10 +6,10 @@ import { I18nTranslation } from "@/type";
 type Props = {
     name: string;
     placeholder?: I18nTranslation;
-    showIcon?: boolean;
+    type?: string;
 };
 
-function TextInput({ name, placeholder, showIcon = true }: Props) {
+function TextInput({ name, placeholder, type }: Props) {
     const { field } = useController({
         defaultValue: "",
         name,
@@ -26,6 +26,7 @@ function TextInput({ name, placeholder, showIcon = true }: Props) {
                 "
                 onChange={field.onChange}
                 placeholder={placeholder?.[i18n.locale as I18nLocale]}
+                type={type || "text"}
                 value={field.value}
             />
         </div>

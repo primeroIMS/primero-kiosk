@@ -12,6 +12,7 @@ export type AppFlow = {
 };
 
 export type AppFlowRecordDefinition = {
+    channel: Record<string, unknown>;
     id: string;
     module_id: string;
     type: string;
@@ -86,6 +87,7 @@ export type Screen = {
         fields?: ScreenCalculation[];
         risk?: ScreenCalculation[];
     };
+    character_at_bottom?: boolean;
     character_lookup_id?: string;
     component: ScreenComponent;
     description?: {
@@ -146,12 +148,11 @@ export type ScreenConfig = { appFlow: AppFlow; screen: Screen };
 export type ScreenField = {
     backend_id: string;
     label?: I18nTranslation;
-    lookup?: string;
+    lookup_id?: string;
     placeholder?: I18nTranslation;
-    record_definition?: string;
     scope: ScreenFieldScope;
     slot: string;
-    type: string; // Todo add types when building user info screen
+    type: string;
 };
 
 export type ScreenFieldScope = "global" | "kiosk" | "records";
