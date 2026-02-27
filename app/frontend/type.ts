@@ -57,13 +57,15 @@ export type Meta = {
     text_selected_color?: string;
 };
 
-export type Path<T> = T extends (infer U)[]
-    ? `${number}.${Path<U>}` | `${number}`
-    : T extends object
-      ? {
-            [K in keyof T & string]: `${K}.${Path<T[K]>}` | `${K}`;
-        }[keyof T & string]
-      : never;
+export type Path<T, Depth extends unknown[] = []> = Depth["length"] extends 8
+    ? never
+    : T extends (infer U)[]
+      ? `${number}.${Path<U, Depth>}` | `${number}`
+      : T extends object
+        ? {
+              [K in keyof T & string]: `${K}.${Path<T[K], [...Depth, unknown]>}` | `${K}`;
+          }[keyof T & string]
+        : never;
 
 export type PathValue<T, P extends string> = P extends `${infer K}.${infer R}`
     ? K extends keyof T

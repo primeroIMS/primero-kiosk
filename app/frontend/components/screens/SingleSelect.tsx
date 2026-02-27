@@ -38,7 +38,6 @@ function SingleSelect({ config }: Props) {
                 onSubmit={screen.onSubmit}
             >
                 <RadioGroupInput
-                    cols={3}
                     name={screen.name(Strings.input_1)}
                     optionColors={config.screen.options}
                     options={{
