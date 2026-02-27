@@ -7,6 +7,7 @@ class AppFlow::RecordDefinition
   attribute :id, :string
   attribute :type, :string
   attribute :module_id, :string
+  attribute :channel, hash: true
 
   validates :id, presence: true
   validates :type, presence: true

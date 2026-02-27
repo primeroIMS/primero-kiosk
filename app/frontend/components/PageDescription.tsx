@@ -10,6 +10,7 @@ type Props = {
     color?: string;
     fallback?: string;
     html?: boolean;
+    style?: React.CSSProperties;
     text?: I18nTranslation | string;
     translate?: boolean;
 };
@@ -19,6 +20,7 @@ function PageDescription({
     color,
     fallback,
     html,
+    style,
     text,
     translate = true,
 }: Props) {
@@ -30,7 +32,7 @@ function PageDescription({
                 "mb-5 w-full text-center clamp-[text,sm,lg,@sm,@5xl]",
                 className,
             )}
-            style={{ color }}
+            style={{ color, ...style }}
         >
             <Text
                 fallback={fallback}
