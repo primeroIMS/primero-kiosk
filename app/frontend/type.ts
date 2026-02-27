@@ -80,6 +80,10 @@ export type PrimitiveRecord = Record<string, Primitive>;
 export type Screen = {
     bg_color?: string;
     button: Meta;
+    calculations?: {
+        fields?: ScreenCalculation[];
+        risk?: ScreenCalculation[];
+    };
     character_lookup_id?: string;
     component: ScreenComponent;
     description?: {
@@ -100,6 +104,14 @@ export type Screen = {
     };
 };
 
+export type ScreenCalculation = {
+    values: ScreenCalculationValue;
+} & ScreenCondition;
+
+export type ScreenCalculationValue = {
+    [key in ScreenFieldScope]?: Record<string, unknown>;
+};
+
 export type ScreenComponent =
     | "CharacterInformation"
     | "CharacterSelection"
@@ -117,6 +129,18 @@ export type ScreenComponent =
     | "TextArea"
     | "TextInput";
 
+export type ScreenCondition = {
+    and?: ScreenCondition[];
+    eq?: Record<string, any>;
+    gt?: Record<string, any>;
+    gte?: Record<string, any>;
+    in?: Record<string, any[]>;
+    lt?: Record<string, any>;
+    lte?: Record<string, any>;
+    not?: ScreenCondition[];
+    or?: ScreenCondition[];
+};
+
 export type ScreenConfig = { appFlow: AppFlow; screen: Screen };
 
 export type ScreenField = {
@@ -125,16 +149,9 @@ export type ScreenField = {
     lookup?: string;
     placeholder?: I18nTranslation;
     record_definition?: string;
-    risk?: ScreenFieldRisk;
     scope: ScreenFieldScope;
     slot: string;
     type: string; // Todo add types when building user info screen
-};
-
-export type ScreenFieldRisk = {
-    [key: string]: Record<string, any>;
-} & {
-    risk: string;
 };
 
 export type ScreenFieldScope = "global" | "kiosk" | "records";

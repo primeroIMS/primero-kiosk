@@ -1,5 +1,5 @@
 import { useNavigate } from "@tanstack/react-router";
-import { get } from "lodash-es";
+import { get, set } from "lodash-es";
 import { useEffect } from "react";
 
 import { ENDPOINTS, RouteStrings, Strings } from "@/constants";
@@ -59,25 +59,28 @@ function useScreen({
         return config.screen.flow.next_screen?.default as string;
     }
 
-    function computeRisk(data: FormValueRecord): FormValueRecord {
-        // TODO: Should we have a method to return the current record?
-        const currentRisk = FormStore.getState().data.records?.[recordIndex]
+    function computeRiskLevel(data: FormValueRecord): string {
+        let currentRiskLevel = FormStore.getState().data.records?.[recordIndex]
             ?.risk_level as string;
-        if (data) {
-            config.screen.fields.forEach((field) => {
-                const { risk, ...condition } = field?.risk || {};
-
+        const riskCalculations = config.screen.calculations?.risk;
+        if (riskCalculations) {
+            for (const riskCalculation of riskCalculations) {
+                const { values, ...condition } = riskCalculation;
+                const riskLevel = values?.records?.risk_level as string;
                 if (
-                    risk &&
-                    riskComparator(risk, currentRisk) > 0 &&
-                    evaluateCondition(data, condition)
+                    evaluateCondition(data, condition, recordIndex) &&
+                    riskComparator(riskLevel, currentRiskLevel) > 0
                 ) {
-                    data.risk_level = risk;
+                    currentRiskLevel = riskLevel;
                 }
-            });
+            }
         }
 
-        return data;
+        return currentRiskLevel;
+    }
+
+    function computeFields(data: FormValueRecord): string {
+        return "";
     }
 
     function computeScope(scope: ScreenFieldScope) {
@@ -111,6 +114,11 @@ function useScreen({
     }
 
     function handleSubmit(data: FormValueRecord) {
+        const riskLevel = computeRiskLevel(data);
+        if (riskLevel) {
+            set(data, `records.${recordIndex}.risk_level`, riskLevel);
+        }
+
         onSubmit?.(data);
         if (persist) {
             FormStore.set(data);
