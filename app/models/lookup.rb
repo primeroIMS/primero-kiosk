@@ -10,4 +10,16 @@ class Lookup < ApplicationRecord
     lookup.lookup_options = attributes[:lookup_options]
     lookup.save!
   end
+
+  def update_translations(locale, options_hash)
+    options_hash.each do |option_value, translated_label|
+      option = lookup_options.find { |opt| opt.data.value == option_value.to_s }
+      next if option.blank?
+
+      current_label = option.data.label || {}
+      option.data.label_i18n = current_label.merge(locale => translated_label)
+      option.data = option.data.attributes
+      option.save!
+    end
+  end
 end
