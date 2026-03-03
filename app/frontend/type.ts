@@ -28,7 +28,9 @@ export type FormValues = {
     global: Record<string, unknown>;
     kiosk: Record<string, unknown>;
     recordIndex: number;
-    records: FormValueRecord[];
+    records: FormValueRecord;
+    retryRecord: FormValueRecord;
+    retrySuccessNextScreen: string;
 };
 
 export type I18nTranslation = Record<I18nLocale, string>;
@@ -51,6 +53,7 @@ export type Meta = {
     bg_selected_color?: string;
     border_color?: string;
     border_selected_color?: string;
+    error_bg_color?: string;
     exit_flow_bg_color?: string;
     hide_label?: boolean;
     order: number;
@@ -101,7 +104,6 @@ export type Screen = {
     logo_secondary?: boolean;
     options: Meta;
     show_character?: boolean;
-    start_new_record?: boolean;
     title: {
         color?: string;
         text: I18nTranslation;
@@ -170,7 +172,6 @@ export type ScreenFlow = {
         default: string;
     };
     record_definition_id?: string;
-    start_new_record?: boolean;
 };
 
 export type SystemSettings = {
@@ -205,5 +206,4 @@ export type UseScreenReturn = {
     nextScreenId: (data: FormValueRecord) => string;
     onNext: (event: React.MouseEvent<HTMLButtonElement>) => void;
     onSubmit: (data: FormValueRecord) => void;
-    submitToRemote: () => void;
 };

@@ -54,6 +54,7 @@ en:
     skip: "Skip"
     get_started: "Get Started"
     exit: "Exit"
+    try_again: "Try again"
   site_description: "Primero Kiosk is a kiosk platform."
   form:
     errors: "Pick or fill out something below"
@@ -62,5 +63,8 @@ en:
     description: "Your progress will be lost if you leave now."
     cancel: "No, stay and continue"
     exit: "Yes, exit and lose progress"
+  error:
+    title: "Uh-oh... something went wrong."
+    description: "It looks like the app is offline or temporarily unavailable. Please try again in a little while."
   divider:
     pick_one: "Pick one to start!"

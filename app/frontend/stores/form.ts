@@ -11,35 +11,23 @@ type FormState = {
 const DEFAULT_STATE = {
     global: {},
     kiosk: {},
-    recordIndex: 0,
-    records: [],
+    records: {},
+    retryRecord: {},
+    retrySuccessNextScreen: "",
 } as FormValues;
 
 class Store extends BaseStore<FormState> {
-    incrementRecordIndex() {
-        this.update((state) => {
-            state.data.recordIndex += 1;
-        });
-    }
-
     reset() {
         this.update((state) => {
             state.data = DEFAULT_STATE as FormValues;
         });
     }
 
-    resetRecords() {
+    resetRecord() {
         this.update((state) => {
-            state.data.records = [];
-            state.data.recordIndex = 0;
-        });
-    }
-
-    rollbackFlow() {
-        this.update((state) => {
-            if (state.data.records[state.data.recordIndex]) {
-                state.data.records.splice(state.data.recordIndex);
-            }
+            state.data.records = {} as FormValueRecord;
+            state.data.retryRecord = {} as FormValueRecord;
+            state.data.retrySuccessNextScreen = "";
         });
     }
 
@@ -64,18 +52,18 @@ class Store extends BaseStore<FormState> {
                 return;
             }
 
-            if (!state.data.records?.[state.data.recordIndex]) {
-                state.data.records.push({} as FormValueRecord);
-            }
+            state.data.records = deepMerge(state.data.records, {
+                module_id: recordDefinition.module_id,
+                record_type: recordDefinition.type,
+                ...recordDefinition.channel,
+            }) as FormValueRecord;
+        });
+    }
 
-            const record = state.data.records?.[state.data.recordIndex];
-            if (state.data.records?.[state.data.recordIndex]) {
-                state.data.records[state.data.recordIndex] = deepMerge(record, {
-                    module_id: recordDefinition.module_id,
-                    record_type: recordDefinition.type,
-                    ...recordDefinition.channel,
-                }) as FormValueRecord;
-            }
+    setRetryRecord(data: Record<string, unknown>, successNextScreen: string) {
+        this.update((state) => {
+            state.data.retryRecord = data as FormValueRecord;
+            state.data.retrySuccessNextScreen = successNextScreen;
         });
     }
 }
