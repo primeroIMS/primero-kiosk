@@ -4,12 +4,19 @@ import { cn } from "@/lib/utils";
 import Icon from "./Icon";
 
 type Props = {
+    character_bg_color?: string;
+    character_default_id?: string;
     character_lookup_id: string;
     className?: string;
 };
 
-function Character({ character_lookup_id, className }: Props) {
-    const [icon] = useCharacter(character_lookup_id);
+function Character({
+    character_bg_color,
+    character_default_id,
+    character_lookup_id,
+    className,
+}: Props) {
+    const [icon] = useCharacter(character_lookup_id, character_default_id);
 
     if (!icon) {
         return null;
@@ -20,10 +27,15 @@ function Character({ character_lookup_id, className }: Props) {
             className={cn(
                 `
                   relative mx-auto mb-8 flex clamp-[size,20,30,@sm,@5xl] overflow-hidden
-                  rounded-full bg-white
+                  rounded-full bg-(--characterBgColor)
                 `,
                 className,
             )}
+            style={
+                {
+                    "--characterBgColor": character_bg_color || "#FFFFFF",
+                } as React.CSSProperties
+            }
         >
             <Icon
                 className="absolute bottom-0 aspect-square object-cover"

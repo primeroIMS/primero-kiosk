@@ -15,7 +15,7 @@ type Props = {
 
 function CharacterWelcome({ config }: Props) {
     const screen = useScreen({ config });
-    const [character, name] = useCharacter(config.screen.character_lookup_id);
+    const [character, name] = useCharacter(config.screen.character.lookup_id);
 
     return (
         <PageContainer

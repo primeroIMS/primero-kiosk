@@ -8,6 +8,7 @@ class Screen::Data
     CharacterInformation
     CharacterSelection
     CharacterWelcome
+    CharacterPurpose
     ComfortingResponse
     Hub
     HubWithCharacter
@@ -31,11 +32,9 @@ class Screen::Data
   attribute :bg_color, :string
   attribute :logo_secondary, :boolean
   attribute :component, :string
-  attribute :character_lookup_id, :string
-  attribute :character_at_bottom, :boolean, default: false
-  attribute :show_character, :boolean, default: false
   attribute :start_new_record, :boolean, default: false
   attribute_array :fields, Screen::Field
+  attribute_hash :character, Screen::Character
   attribute_hash :calculations, Screen::Calculations
   attribute_hash :button, Element::Option
   attribute_hash :title, Screen::Heading
