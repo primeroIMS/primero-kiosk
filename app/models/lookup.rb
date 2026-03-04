@@ -13,13 +13,23 @@ class Lookup < ApplicationRecord
 
   def update_translations(locale, options_hash)
     options_hash.each do |option_value, translated_label|
-      option = lookup_options.find { |opt| opt.data.value == option_value.to_s }
+      option = option_for_value(option_value)
       next if option.blank?
 
-      current_label = option.data.label || {}
-      option.data.label_i18n = current_label.merge(locale => translated_label)
-      option.data = option.data.attributes
-      option.save!
+      apply_label_translation(option, locale, translated_label)
     end
+  end
+
+  private
+
+  def option_for_value(option_value)
+    lookup_options.find { |opt| opt.data.value == option_value.to_s }
+  end
+
+  def apply_label_translation(option, locale, translated_label)
+    current_label = option.data.label || {}
+    option.data.label_i18n = current_label.merge(locale => translated_label)
+    option.data = option.data.attributes
+    option.save!
   end
 end

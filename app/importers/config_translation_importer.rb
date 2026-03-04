@@ -37,7 +37,9 @@ class ConfigTranslationImporter
   def valid_locale(config_data)
     locale = config_data.keys.first&.to_sym
     return log_error('Import Not Processed: locale not passed in') if locale.blank?
-    return log_error("Import Not Processed: locale #{locale} not in available locales") if I18n.available_locales.exclude?(locale)
+    if I18n.available_locales.exclude?(locale)
+      return log_error("Import Not Processed: locale #{locale} not in available locales")
+    end
 
     locale.to_s
   end
