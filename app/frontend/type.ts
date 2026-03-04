@@ -56,6 +56,8 @@ export type Meta = {
     error_bg_color?: string;
     exit_flow_bg_color?: string;
     hide_label?: boolean;
+    idle_timer_bg_color?: string;
+    idle_timer_button_color?: string;
     order: number;
     text_color?: string;
     text_selected_color?: string;

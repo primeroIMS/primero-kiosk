@@ -10,7 +10,7 @@ type BaseStoreParams<T> = {
     defaultState?: Partial<T>;
     storage?: { name: string; provider: StorageProvider; version: number };
 };
-type StorageProvider = "idb" | "localStorage";
+type StorageProvider = "idb" | "localStorage" | "sessionStorage";
 
 class BaseStore<T> {
     public defaultState: Partial<T>;
@@ -43,6 +43,9 @@ class BaseStore<T> {
         switch (provider) {
             case Strings.idb:
                 return idbStorage;
+
+            case Strings.sessionStorage:
+                return createJSONStorage(() => sessionStorage);
 
             default:
                 return createJSONStorage(() => localStorage);
