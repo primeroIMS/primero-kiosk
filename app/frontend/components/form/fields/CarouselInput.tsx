@@ -86,6 +86,7 @@ function CarouselInput({ iconName, name, optionColors, options: optionsConfig }:
                                 <CardContent
                                     className="
                                       flex aspect-square h-80 items-center justify-center
+                                      rtl:rotate-y-180
                                     "
                                     style={{
                                         background: `url(${option.icon}) center / cover no-repeat`,

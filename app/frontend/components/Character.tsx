@@ -21,6 +21,7 @@ function Character({ character_lookup_id, className }: Props) {
                 `
                   relative mx-auto mb-8 flex clamp-[size,20,30,@sm,@5xl] overflow-hidden
                   rounded-full bg-white
+                  rtl:rotate-y-180
                 `,
                 className,
             )}
