@@ -1,6 +1,6 @@
 import { useNavigate } from "@tanstack/react-router";
-import { get, set } from "lodash-es";
-import { useEffect } from "react";
+import { get, isEmpty, set } from "lodash-es";
+import { useCallback, useEffect } from "react";
 
 import { ENDPOINTS, RouteStrings, Strings } from "@/constants";
 import api from "@/lib/api-client";
@@ -14,7 +14,6 @@ import {
     UseScreenArgs,
     UseScreenReturn,
 } from "@/type";
-import { ScreenFieldScope } from "@/type";
 
 import useStore from "./use-store";
 
@@ -28,7 +27,6 @@ function useScreen({
     const flow = config.appFlow.handle;
     const startingScreenId = config.appFlow.starting_screen_id;
     const navigate = useNavigate();
-    const recordIndex = useStore("form", "recordIndex");
     const records = useStore("form", "records");
     const globalData = useStore("form", "global");
 
@@ -47,36 +45,87 @@ function useScreen({
         }
     }, [config.appFlow, config.screen.flow.record_definition_id]);
 
+    const computeNextScreen = useCallback(
+        (data?: FormValueRecord) => {
+            if (config.screen.flow.next_screen?.conditions && data) {
+                for (const condition of config.screen.flow.next_screen.conditions) {
+                    if (evaluateCondition(data, condition)) {
+                        return condition.path;
+                    }
+                }
+            }
+
+            return config.screen.flow.next_screen?.default as string;
+        },
+        [config.screen.flow.next_screen],
+    );
+
+    const submitToRemote = useCallback(async () => {
+        if (!config.screen.flow.end_of_flow) return;
+
+        try {
+            if (!isEmpty(records)) {
+                const { record_type, ...rest } = records;
+                const dataToSend = {
+                    data: { ...rest, ...globalData },
+                    record_type,
+                };
+                FormStore.setRetryRecord(
+                    dataToSend,
+                    computeNextScreen(records as FormValueRecord),
+                );
+                const response = await api.post(ENDPOINTS.records, dataToSend);
+
+                if (response.status === 204) {
+                    FormStore.resetRecord();
+                }
+            }
+        } catch (error) {
+            navigate({
+                params: { flow: config.appFlow.handle },
+                to: "/$flow/error",
+            });
+        }
+    }, [
+        computeNextScreen,
+        config.appFlow.handle,
+        config.screen.flow.end_of_flow,
+        globalData,
+        navigate,
+        records,
+    ]);
+
+    useEffect(() => {
+        if (!config.screen.flow.end_of_flow) return;
+
+        submitToRemote();
+    }, [
+        computeNextScreen,
+        config.appFlow.handle,
+        config.screen.flow.end_of_flow,
+        globalData,
+        navigate,
+        records,
+        submitToRemote,
+    ]);
+
     const mappedFields = Object.fromEntries(
         config.screen.fields.map((field) => {
             return [field.slot, field];
         }),
     );
 
-    function computeNextScreen(data?: FormValueRecord) {
-        if (config.screen.flow.next_screen?.conditions && data) {
-            for (const condition of config.screen.flow.next_screen.conditions) {
-                if (evaluateCondition(data, condition, recordIndex)) {
-                    return condition.path;
-                }
-            }
-        }
-
-        return config.screen.flow.next_screen?.default as string;
-    }
-
     function performRiskCalculations(
         data: FormValueRecord,
         calculations: ScreenCalculation[],
     ) {
-        let currentRiskLevel = FormStore.getState().data.records?.[recordIndex]
-            ?.risk_level as string;
+        let currentRiskLevel = FormStore.getState().data.records?.risk_level as string;
 
         for (const calculation of calculations) {
             const { values, ...condition } = calculation;
             const riskLevel = values?.records?.risk_level as string;
             if (
-                evaluateCondition(data, condition, recordIndex) &&
+                evaluateCondition(data, condition) &&
                 riskComparator(riskLevel, currentRiskLevel) > 0
             ) {
                 currentRiskLevel = riskLevel;
@@ -84,7 +133,7 @@ function useScreen({
         }
 
         if (currentRiskLevel) {
-            set(data, `records.${recordIndex}.risk_level`, currentRiskLevel);
+            set(data, "records.risk_level", currentRiskLevel);
         }
     }
 
@@ -94,10 +143,10 @@ function useScreen({
     ) {
         for (const calculation of calculations) {
             const { values, ...condition } = calculation;
-            if (evaluateCondition(data, condition, recordIndex)) {
+            if (evaluateCondition(data, condition)) {
                 for (const [scope, targets] of Object.entries(values)) {
                     for (const [field, value] of Object.entries(targets)) {
-                        set(data, `${scope}.${recordIndex}.${field}`, value);
+                        set(data, `${scope}.${field}`, value);
                     }
                 }
             }
@@ -115,27 +164,15 @@ function useScreen({
         }
     }
 
-    function computeScope(scope: ScreenFieldScope) {
-        if (scope === Strings.records) {
-            return `records.${recordIndex}`;
-        }
-
-        return scope;
-    }
-
     function buildName(id: string, name?: string) {
         const field = mappedFields[id];
         if (!field) {
             throw new Error(`Field with id ${id} not found`);
         }
-        return `${computeScope(field.scope)}.${name ?? field.backend_id}`;
+        return `${field.scope}.${name ?? field.backend_id}`;
     }
 
     function sharedNextScreenCallbacks(data?: FormValueRecord) {
-        if (config.screen.flow.start_new_record) {
-            FormStore.incrementRecordIndex();
-        }
-
         if (shouldComputeNextScreen) {
             const nextScreenID = computeNextScreen(data);
             navigate({
@@ -160,28 +197,6 @@ function useScreen({
         sharedNextScreenCallbacks();
     }
 
-    function submitToRemote() {
-        if (!config.screen.flow.end_of_flow) return;
-
-        try {
-            if (records && records.length > 0) {
-                Promise.all(
-                    records.map((record) => {
-                        const { record_type, ...rest } = record;
-                        api.post(ENDPOINTS.records, {
-                            data: { ...rest, ...globalData },
-                            record_type,
-                        });
-                    }),
-                ).then(() => {
-                    FormStore.resetRecords();
-                });
-            }
-        } catch (error) {
-            // TODO: Add error handling in future ticket
-        }
-    }
-
     return {
         button: config.screen.button,
         fieldProp: (
@@ -197,7 +212,6 @@ function useScreen({
         nextScreenId: (data) => computeNextScreen(data),
         onNext: onClickNext,
         onSubmit: handleSubmit,
-        submitToRemote,
     };
 }
 

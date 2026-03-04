@@ -1,5 +1,11 @@
-import { useNavigate, useParams } from "@tanstack/react-router";
+import {
+    RegisteredRouter,
+    useNavigate,
+    useParams,
+    ValidateLinkOptions,
+} from "@tanstack/react-router";
 
+import Button from "@/components/Button";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -11,20 +17,44 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import FormStore from "@/stores/form";
 import i18n from "@/translations";
 
 import Character from "./Character";
 
-function ExitFlow({ bgColor, buttonColor }: { bgColor?: string; buttonColor?: string }) {
+function ExitFlow({
+    bgColor,
+    buttonColor,
+    buttonProps = {},
+    onExit,
+    routeParamsFrom = "/$flow/$id",
+}: {
+    bgColor?: string;
+    buttonColor?: string;
+    buttonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
+    onExit?: () => void;
+    routeParamsFrom?: ValidateLinkOptions<RegisteredRouter, unknown>["from"];
+}) {
     const navigate = useNavigate();
-    const routeParams = useParams({ from: "/$flow/$id" });
+    const routeParams = useParams({ from: routeParamsFrom });
 
     function handleExit() {
-        FormStore.rollbackFlow();
-        navigate({ params: { flow: routeParams.flow, id: "hub" }, to: "/$flow/$id" });
+        FormStore.resetRecord();
+
+        if (onExit) {
+            onExit();
+            return;
+        }
+
+        navigate({
+            params: {
+                flow:
+                    (routeParams && "flow" in routeParams ? routeParams.flow : "") || "",
+                id: "hub",
+            },
+            to: "/$flow/$id",
+        });
     }
 
     return (
@@ -34,7 +64,9 @@ function ExitFlow({ bgColor, buttonColor }: { bgColor?: string; buttonColor?: st
                     <Button
                         className="text-base"
                         style={{ color: buttonColor }}
+                        textColor={buttonColor}
                         variant="link"
+                        {...buttonProps}
                     >
                         {i18n.t("buttons.exit")}
                     </Button>
@@ -42,7 +74,7 @@ function ExitFlow({ bgColor, buttonColor }: { bgColor?: string; buttonColor?: st
             />
             <AlertDialogContent
                 className="min-w-lg bg-transparent! text-white ring-0!"
-                overlayStyles={{ background: bgColor || "black", opacity: 0.9 }}
+                overlayStyles={{ background: bgColor || "black", opacity: 0.97 }}
                 size="sm"
             >
                 <AlertDialogHeader>
