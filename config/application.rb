@@ -34,6 +34,7 @@ module PrimeroKiosk
     config.api_only = true
     config.middleware.use ActionDispatch::Flash
     config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::ContentSecurityPolicy::Middleware
   end
 end
 # rubocop:enable Style/ClassAndModuleChildren
