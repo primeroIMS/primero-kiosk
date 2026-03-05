@@ -16,13 +16,13 @@ pool:
 
 jobs:
   - job: Test
-    displayName: 'Run Tests'
+    displayName: "Run Tests"
     pool: $(buildAgentPool)
     steps:
       - bash: echo "Installing dependencies"
 
   - job: Build
-    displayName: 'Build and push to ACR'
+    displayName: "Build and push to ACR"
     dependsOn: Test
     pool: $(buildAgentPool)
     steps:
@@ -46,14 +46,14 @@ jobs:
 
           echo "Using image tag: $IMAGE_TAG"
           echo "##vso[task.setvariable variable=IMAGE_TAG]$IMAGE_TAG"
-        displayName: 'Generate Image Tag'
+        displayName: "Generate Image Tag"
 
       - task: AzureCLI@2
-        displayName: 'Build and Push to ACR'
+        displayName: "Build and Push to ACR"
         inputs:
           azureSubscription: $(AZURE_SERVICE_CONNECTION)
-          scriptType: 'bash'
-          scriptLocation: 'inlineScript'
+          scriptType: "bash"
+          scriptLocation: "inlineScript"
           inlineScript: |
             set -euo pipefail
 
@@ -63,7 +63,7 @@ jobs:
             echo "Building Docker image: $IMAGE_NAME"
 
             docker build \
-              --build-arg APP_ROOT=/srv/kiosk \
+              --build-arg APP_ROOT=/srv/primero/application \
               --build-arg APP_UID=1000 \
               --build-arg APP_GID=1000 \
               -t "${IMAGE_NAME}:$(IMAGE_TAG)" \
@@ -85,4 +85,3 @@ jobs:
 
             # Cleanup image to free up space
             docker rmi "${IMAGE_NAME}:$(IMAGE_TAG)"
-
