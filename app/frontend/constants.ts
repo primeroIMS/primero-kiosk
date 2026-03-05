@@ -44,6 +44,8 @@ export const Strings = {
     radio: "radio",
     records: "records",
     responseGoodBye: "ResponseGoodBye",
+    retryRecord: "retryRecord",
+    retrySuccessNextScreen: "retrySuccessNextScreen",
     rtl: "rtl",
     rtlLocales: "rtl_locales",
     scope: "scope",

@@ -10,7 +10,7 @@ type Props = {
 };
 
 const App = ({ promise, router }: Props) => {
-    const data = use(promise);
+    use(promise);
 
     return (
         <DirectionProvider>
