@@ -1,5 +1,4 @@
 import { cva, VariantProps } from "class-variance-authority";
-import { isEmpty } from "lodash-es";
 import { ControllerRenderProps, FieldValues } from "react-hook-form";
 
 import I18nText from "@/components/I18nText";
@@ -25,14 +24,17 @@ type Props = {
 
 const radioItemVariants = cva(
     `
-      relative flex w-40 cursor-pointer flex-col justify-center gap-2 rounded-2xl
-      bg-(--bg-color) p-2 text-start text-(--text-color)
+      relative flex w-25 cursor-pointer flex-col content-center items-center
+      justify-between justify-center gap-2 rounded-2xl rounded-xl bg-(--bg-color) p-1 p-2
+      text-center text-start text-(--text-color)
       peer-checked:bg-(--selected-bg)
+      sm:justify-center
+      md:w-40 md:rounded-2xl md:p-2
     `,
     {
         compoundVariants: [
             {
-                class: "aspect-auto h-25 w-full items-center pt-8 text-center",
+                class: "aspect-auto h-18 w-full! items-center pt-3 text-center md:h-25 md:pt-5",
                 span: true,
                 variant: "default",
             },
@@ -44,12 +46,14 @@ const radioItemVariants = cva(
         variants: {
             variant: {
                 default: `
-                  aspect-square outline-4 outline-(--border-color)
+                  aspect-square outline-3 outline-(--border-color)
                   peer-checked:outline-(--selected-border)
+                  md:outline-4
                 `,
                 outlined: `
-                  text-center outline-2 outline-(--border-color)
+                  h-22 bg-transparent text-center outline-2 outline-(--border-color)
                   peer-checked:outline-(--selected-border)
+                  md:h-auto
                 `,
             },
         },
@@ -114,8 +118,9 @@ function InputGroupItem({
             {variant === "outlined" && (
                 <svg
                     className="
-                      absolute end-1 top-1 z-50 size-6 opacity-0
+                      absolute end-1 top-1 z-50 size-5 opacity-0
                       peer-checked:opacity-100
+                      md:size-6
                     "
                     fill="none"
                     viewBox="0 0 48 48"
@@ -152,19 +157,18 @@ function InputGroupItem({
                     } as React.CSSProperties
                 }
             >
-                <div className="flex flex-col gap-4 px-1">
+                <div
+                    className="
+                      flex grow flex-col justify-center gap-2 px-1
+                      md:justify-center md:gap-4
+                    "
+                >
                     {option.icon && (
-                        <div
-                            className={cn(
-                                "flex w-full",
-                                variant === "outlined" && "justify-center",
-                                span && "justify-center",
-                            )}
-                        >
+                        <div className={cn("flex w-full justify-center")}>
                             <Icon
                                 className={cn(
-                                    "size-10",
-                                    variant === "outlined" && "size-15",
+                                    "size-5 md:size-10",
+                                    variant === "outlined" && "size-10 md:size-15",
                                 )}
                                 src={option.icon}
                             />
@@ -173,18 +177,12 @@ function InputGroupItem({
                     <div className="block">
                         <div
                             className={cn(
-                                "w-full clamp-[text,xs,sm,@sm,@5xl]",
-                                variant !== "outlined" && "h-10",
+                                "w-full text-center clamp-[text,xs,sm,@sm,@5xl]",
                                 option.meta?.hide_label && "sr-only",
                             )}
                         >
                             <I18nText text={option.label} />
                         </div>
-                        {!isEmpty(option.description) && (
-                            <div className="w-full clamp-[text,xs,base,@sm,@5xl]">
-                                <I18nText text={option.description} />
-                            </div>
-                        )}
                     </div>
                 </div>
             </label>
