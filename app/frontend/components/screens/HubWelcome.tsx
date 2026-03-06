@@ -18,10 +18,12 @@ type Props = {
 function HubWelcome({ config }: Props) {
     const screen = useScreen({ config });
     const hub = useStore("form", "kiosk.hub");
-    const [character] = useCharacter(config.screen.character_lookup_id);
-    const hubOptions = useOptions({
-        key: "hub",
-    });
+    const hubLookupId = useStore("form", "kiosk.hub_lookup_id") as string | undefined;
+    const [character] = useCharacter(
+        config.screen.character.lookup_id,
+        config.screen.character.default_id,
+    );
+    const hubOptions = useOptions({ key: hubLookupId || "hub" });
     const hubIcon = hubOptions?.find((option) => option.value === hub)?.icon;
 
     return (

@@ -7,6 +7,7 @@ export const Strings = {
     character: "character.name",
     characterIcon: "character.icon",
     characterInformation: "CharacterInformation",
+    characterPurpose: "CharacterPurpose",
     characterSelection: "CharacterSelection",
     characterWelcome: "CharacterWelcome",
     comfortingResponse: "ComfortingResponse",

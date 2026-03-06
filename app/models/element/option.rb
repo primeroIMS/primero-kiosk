@@ -10,6 +10,8 @@ class Element::Option
   attribute :bg_selected_color, :string
   attribute :text_selected_color, :string
   attribute :border_selected_color, :string
+  attribute :check_border_color, :string
+  attribute :check_bg_color, :string
   attribute :order, :integer
   attribute :hide_label, :boolean
 

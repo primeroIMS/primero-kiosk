@@ -6,11 +6,18 @@ import AppFlowStore from "@/stores/app-flow";
 type Props = {
     className?: string;
     flowID: string;
+    imgClassName?: string;
     secondary?: boolean;
     showPictorial?: boolean;
 };
 
-function Logo({ className, flowID, secondary, showPictorial = false }: Props) {
+function Logo({
+    className,
+    flowID,
+    imgClassName,
+    secondary,
+    showPictorial = false,
+}: Props) {
     const logos = AppFlowStore.getAppFlowByHandle(flowID);
 
     const kioskName = useStore(Strings.theme, Strings.kioskName);
@@ -23,6 +30,7 @@ function Logo({ className, flowID, secondary, showPictorial = false }: Props) {
             {logos?.logo ? (
                 <img
                     alt={Strings.logo}
+                    className={imgClassName}
                     src={!showPictorial ? (logos.logo as string) : pictorialToShow}
                 />
             ) : (

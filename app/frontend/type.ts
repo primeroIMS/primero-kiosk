@@ -53,6 +53,8 @@ export type Meta = {
     bg_selected_color?: string;
     border_color?: string;
     border_selected_color?: string;
+    check_bg_color?: string;
+    check_border_color?: string;
     error_bg_color?: string;
     exit_flow_bg_color?: string;
     hide_label?: boolean;
@@ -90,8 +92,13 @@ export type Screen = {
         fields?: ScreenCalculation[];
         risk?: ScreenCalculation[];
     };
-    character_at_bottom?: boolean;
-    character_lookup_id?: string;
+    character: {
+        at_bottom?: boolean;
+        bg_color?: string;
+        default_id?: string;
+        lookup_id?: string;
+        show?: boolean;
+    };
     component: ScreenComponent;
     description?: {
         color?: string;
@@ -103,7 +110,6 @@ export type Screen = {
     id: string;
     logo_secondary?: boolean;
     options: Meta;
-    show_character?: boolean;
     title: {
         color?: string;
         text: I18nTranslation;
@@ -118,6 +124,7 @@ export type ScreenCalculation = {
 
 export type ScreenComponent =
     | "CharacterInformation"
+    | "CharacterPurpose"
     | "CharacterSelection"
     | "CharacterWelcome"
     | "ComfortingResponse"
