@@ -28,6 +28,7 @@ function Character({
                 `
                   relative mx-auto mb-8 flex clamp-[size,20,30,@sm,@5xl] overflow-hidden
                   rounded-full bg-(--characterBgColor)
+                  rtl:rotate-y-180
                 `,
                 className,
             )}

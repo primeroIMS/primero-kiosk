@@ -61,7 +61,7 @@ function SingleSelect({ config }: Props) {
                         <div className="relative">
                             <PageDescription
                                 className="
-                                  prose max-w-xs rounded-lg rounded-bl-none bg-(--bgColor)
+                                  prose max-w-xs rounded-lg rounded-es-none bg-(--bgColor)
                                   p-5 text-start text-sm
                                 "
                                 html
@@ -74,6 +74,7 @@ function SingleSelect({ config }: Props) {
                                   border-t-32 border-r-40 border-b-0 border-l-0
                                   border-solid border-t-[#C0CFFF] border-r-transparent
                                   border-b-transparent border-l-transparent
+                                  rtl:rotate-y-180
                                 "
                             ></div>
                         </div>

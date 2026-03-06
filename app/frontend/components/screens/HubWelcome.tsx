@@ -40,7 +40,7 @@ function HubWelcome({ config }: Props) {
             <div className="w-full">
                 <div className="relative mx-auto -mb-8 flex w-2/4 flex-col items-center">
                     <img
-                        className="size-20"
+                        className="size-20 rtl:rotate-y-180"
                         src={hubIcon}
                     />
                     <PageTitle
@@ -51,7 +51,7 @@ function HubWelcome({ config }: Props) {
                     <div className="">
                         <img
                             alt={Strings.featuredImageAlt}
-                            className="w-45 md:w-60"
+                            className="w-45 md:w-60 rtl:rotate-y-180"
                             src={character}
                         />
                     </div>
@@ -59,7 +59,7 @@ function HubWelcome({ config }: Props) {
             </div>
             <div className="relative mb-5 w-full rounded-lg p-4 text-foreground">
                 <svg
-                    className="absolute end-30 -top-3 h-10 w-10"
+                    className="absolute end-30 -top-3 h-10 w-10 rtl:rotate-y-180"
                     fill="none"
                     viewBox="0 0 59 44"
                     xmlns="http://www.w3.org/2000/svg"
