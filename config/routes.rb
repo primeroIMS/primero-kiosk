@@ -23,5 +23,7 @@ Rails.application.routes.draw do
   end
 
   # TanStack Router SPA - catch all other routes (except ActiveStorage which is auto-mounted)
-  get '*all', to: 'home#index', constraints: ->(req) { !req.path.start_with?('/rails/active_storage') }
+  get '*all', to: 'home#index', constraints: lambda { |req|
+    req.format.html? && !req.path.start_with?('/rails/active_storage')
+  }
 end

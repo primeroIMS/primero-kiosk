@@ -5,10 +5,13 @@
     <link rel="manifest" href="/manifest.json" />
     <link rel="icon" type="image/x-icon" href="<%= @theme&.favicon.present? ? rails_blob_path(@theme&.favicon, only_path: true) : '/favicon.ico' %>" />
     <title>Primero Kiosk</title>
+    <%= tag('meta', property: 'csp-nonce', content: content_security_policy_nonce) %>
     <%= csrf_meta_tags %>
-    <%= vite_client_tag %>
-    <%= vite_react_refresh_tag %>
-    <%= vite_typescript_tag "application.tsx" %>
+    <% if Rails.env.development? %>
+      <%= vite_client_tag %>
+      <%= vite_react_refresh_tag %>
+    <% end %>
+    <%= vite_typescript_tag "application.tsx", nonce: true %>
   </head>
   <body>
     <div id="app"></div>
