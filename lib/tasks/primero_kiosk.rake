@@ -56,4 +56,17 @@ namespace :primero_kiosk do
 
     puts "Done! Exported to #{exporter.export_directory}/"
   end
+
+  desc 'Import the screen or lookup translations yaml'
+  task :import_config_translations_i18n, %i[file_name] => :environment do |_, args|
+    file_name = args[:file_name]
+    if file_name.blank?
+      puts 'ERROR: No input file provided'
+      next
+    end
+
+    puts "Importing translations from #{file_name}"
+    importer = ConfigTranslationImporter.new(file_name: file_name)
+    importer.import
+  end
 end
