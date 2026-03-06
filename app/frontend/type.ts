@@ -110,7 +110,6 @@ export type Screen = {
     id: string;
     logo_secondary?: boolean;
     options: Meta;
-    start_new_record?: boolean;
     title: {
         color?: string;
         text: I18nTranslation;

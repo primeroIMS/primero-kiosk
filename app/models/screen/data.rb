@@ -32,7 +32,6 @@ class Screen::Data
   attribute :bg_color, :string
   attribute :logo_secondary, :boolean
   attribute :component, :string
-  attribute :start_new_record, :boolean, default: false
   attribute_array :fields, Screen::Field
   attribute_hash :character, Screen::Character
   attribute_hash :calculations, Screen::Calculations
