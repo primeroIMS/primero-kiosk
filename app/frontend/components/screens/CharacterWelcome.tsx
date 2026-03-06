@@ -31,14 +31,20 @@ function CharacterWelcome({ config }: Props) {
             <div className="w-full">
                 <div className="relative mx-auto -mb-8 flex w-2/4 flex-col items-center">
                     <PageTitle
-                        className="w-35 text-center text-xl font-bold text-foreground"
+                        className="
+                          w-35 text-center text-xs font-bold text-foreground
+                          md:text-xl
+                        "
                         color={config.screen?.title?.color}
                         text={config.screen.title.text}
                     />
                     <PageTitle
-                        className="absolute bottom-42 text-6xl font-black text-foreground"
+                        className="
+                          absolute bottom-35 text-2xl font-black text-foreground
+                          md:bottom-42 md:text-6xl
+                        "
                         color={config.screen?.title?.color}
-                        text={name}
+                        text={name as string}
                     />
                     <div className="">
                         <img

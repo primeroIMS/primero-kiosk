@@ -39,7 +39,7 @@ function MultiSelect({ config }: Props) {
                 onSubmit={screen.onSubmit}
             >
                 <CheckboxGroup
-                    className="mb-15 justify-start"
+                    className="mb-2 justify-start md:mb-15"
                     name={screen.name(Strings.input_1)}
                     optionColors={config.screen.options}
                     options={{

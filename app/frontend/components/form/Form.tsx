@@ -49,7 +49,7 @@ function Form({
     return (
         <FormProvider {...methods}>
             <form
-                className={cn("mb-10", className)}
+                className={cn("mb-5 md:mb-10", className)}
                 id={id}
                 noValidate
                 onSubmit={handleSubmit(submit)}
@@ -57,8 +57,9 @@ function Form({
                 {!methods.formState.isValid && methods.formState.isSubmitted && (
                     <div
                         className="
-                          mx-auto mb-10 w-4/5 rounded-sm bg-red-400 py-2 text-center
+                          mx-auto mb-5 w-4/5 rounded-sm bg-red-400 py-2 text-center
                           clamp-[text,xs,base,@sm,@5xl] font-semibold text-white
+                          md:mb-10
                         "
                     >
                         {i18n.t("form.errors")}

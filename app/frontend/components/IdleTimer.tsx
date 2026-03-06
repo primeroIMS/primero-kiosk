@@ -101,7 +101,7 @@ function IdleTimer({ bgColor, buttonColor }: { bgColor?: string; buttonColor?: s
             open={open}
         >
             <AlertDialogContent
-                className="min-w-lg bg-transparent! text-white ring-0!"
+                className="min-w-md bg-transparent! text-white ring-0! md:min-w-lg"
                 overlayStyles={{ background: bgColor || "black", opacity: 0.97 }}
                 size="sm"
             >

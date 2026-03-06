@@ -27,7 +27,7 @@ function PageActions({ isForm, screen }: Props) {
         <div>
             <div
                 className={cn(
-                    "mt-10 mb-3 flex flex-row items-center justify-between",
+                    "mt-5 mb-3 flex flex-row items-center justify-between md:mt-10",
                     !screen.flow.allow_back &&
                         !screen.flow.allow_skip &&
                         "justify-center",

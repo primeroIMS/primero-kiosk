@@ -34,7 +34,7 @@ function CheckboxGroup({
     return (
         <div
             className={cn(
-                "mx-auto flex w-8/12 flex-wrap justify-center gap-4",
+                "mx-auto flex w-8/12 flex-wrap justify-center gap-3 md:gap-4",
                 className,
                 sortedOptions.length > 4 && "w-full justify-center",
             )}

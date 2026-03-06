@@ -51,10 +51,11 @@ function HubWithCharacter({ config }: Props) {
             />
             <div
                 className="
-                  my-5 flex items-center py-3 text-lg font-light text-(--dividerColor)
+                  my-5 flex items-center py-3 text-sm font-light text-(--dividerColor)
                   before:me-6 before:flex-1 before:border-t
                   before:border-t-(--dividerColor)
                   after:ms-6 after:flex-1 after:border-t after:border-t-(--dividerColor)
+                  md:text-lg
                 "
                 style={
                     { "--dividerColor": config.screen.title.color } as React.CSSProperties
