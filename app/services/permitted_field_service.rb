@@ -35,7 +35,7 @@ class PermittedFieldService
   end
 
   def permitted_array_fields
-    ['protection_concerns'].map { |field| { field.to_sym => [] } }
+    %w[protection_concerns].map { |field| { field.to_sym => [] } }
   end
 
   def permitted_channels

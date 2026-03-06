@@ -72,7 +72,7 @@ const FormStore = new Store({
     defaultState: {
         data: DEFAULT_STATE,
     },
-    storage: { name: Strings.form, provider: Strings.localStorage, version: 0 },
+    storage: { name: Strings.form, provider: Strings.sessionStorage, version: 0 },
 });
 
 export default FormStore;

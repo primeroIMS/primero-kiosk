@@ -54,6 +54,7 @@ export const Strings = {
     secondary: "secondary",
     selectOrWrite: "SelectOrWrite",
     selectWithTextArea: "SelectWithTextArea",
+    sessionStorage: "sessionStorage",
     settings: "settings",
     singleSelect: "SingleSelect",
     span: "span",

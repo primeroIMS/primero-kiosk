@@ -26,6 +26,7 @@ class Screen::Data
   MULTISELECT_COMPONENTS = %w[
     MultiSelect
     MultiSelectOrWrite
+    LanguageSelect
   ].freeze
 
   attribute :id, :string
