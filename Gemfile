@@ -19,6 +19,7 @@ gem 'solid_queue'
 gem 'thruster', require: false
 gem 'tzinfo-data'
 gem 'vite_rails', '~> 3.0'
+gem 'json_schemer', '~> 2.5'
 
 group :development, :test do
   gem 'pry'
