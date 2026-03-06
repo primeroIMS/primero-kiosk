@@ -10,6 +10,8 @@ class AppFlow::Meta
   attribute :exit_flow_bg_color, :string
   attribute :error_bg_color, :string
   attribute :error_text_color, :string
+  attribute :idle_timer_bg_color, :string
+  attribute :idle_timer_button_color, :string
 
   validates :bg_color, hex_color: true, allow_nil: true
   validates :bg_selected_color, hex_color: true, allow_nil: true
@@ -17,4 +19,6 @@ class AppFlow::Meta
   validates :exit_flow_bg_color, hex_color: true, allow_nil: true
   validates :error_bg_color, hex_color: true, allow_nil: true
   validates :error_text_color, hex_color: true, allow_nil: true
+  validates :idle_timer_bg_color, hex_color: true, allow_nil: true
+  validates :idle_timer_button_color, hex_color: true, allow_nil: true
 end

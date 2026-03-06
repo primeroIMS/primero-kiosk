@@ -37,7 +37,10 @@ function ComfortingResponse({ config }: Props) {
                         />
                     )}
                     <Character
-                        character_lookup_id={config.screen.character_lookup_id as string}
+                        character_default_id={
+                            config.screen.character.default_id as string
+                        }
+                        character_lookup_id={config.screen.character.lookup_id as string}
                         className="absolute bottom-0 size-50! bg-transparent"
                     />
                 </div>

@@ -4,6 +4,6 @@
 class HomeController < ApplicationController
   def index
     @theme = Theme.current
-    render layout: 'application'
+    render :index, layout: 'application', formats: [:html]
   end
 end
