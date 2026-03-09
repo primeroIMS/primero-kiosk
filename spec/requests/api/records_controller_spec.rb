@@ -24,7 +24,7 @@ describe Api::RecordsController, type: :request do
         11.times { post '/api/records', params:, headers: { 'X-Forwarded-For' => '8.8.8.8' } }
         expect(response).to have_http_status(429)
 
-        post '/api/records', params:, headers: { 'X-Forwarded-For' => '192.168.1.2' }
+        post '/api/records', params:, headers: { 'X-Forwarded-For' => '9.9.9.9' }
         expect(response).to have_http_status(204)
       end
     end
