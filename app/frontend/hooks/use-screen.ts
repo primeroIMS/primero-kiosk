@@ -66,9 +66,8 @@ function useScreen({
         try {
             if (!isEmpty(records)) {
                 const { record_type, ...rest } = records;
-                const { language, ...restGlobalData } = globalData;
                 const dataToSend = {
-                    data: { ...rest, ...restGlobalData, language: [language] },
+                    data: { ...rest, ...globalData },
                     record_type,
                 };
                 FormStore.setRetryRecord(

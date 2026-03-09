@@ -9,7 +9,7 @@ declare let self: ServiceWorkerGlobalScope;
 const CACHE_NAME = "offline-fallback-v1";
 const OFFLINE_FALLBACK_PAGE = "/";
 
-self.addEventListener("install", (event) => {
+(self as any).addEventListener("install", (event: ExtendableEvent) => {
     console.log("Service Worker installing...");
     event.waitUntil(
         caches.open(CACHE_NAME).then((cache) => {
@@ -20,7 +20,7 @@ self.addEventListener("install", (event) => {
     self.skipWaiting();
 });
 
-self.addEventListener("activate", (event) => {
+(self as any).addEventListener("activate", (event: ExtendableEvent) => {
     console.log("Service Worker activating...");
     event.waitUntil(self.clients.claim());
 });

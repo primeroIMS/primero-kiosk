@@ -40,7 +40,7 @@ function CharacterWelcome({ config }: Props) {
                     />
                     <PageTitle
                         className="
-                          absolute bottom-35 text-2xl font-black text-foreground
+                          absolute bottom-35 z-50 text-2xl font-black text-foreground
                           md:bottom-42 md:text-6xl
                         "
                         color={config.screen?.title?.color}
@@ -50,7 +50,7 @@ function CharacterWelcome({ config }: Props) {
                         <img
                             alt={Strings.featuredImageAlt}
                             className="w-45 md:w-60 rtl:rotate-y-180"
-                            src={character}
+                            src={character as string}
                         />
                     </div>
                 </div>

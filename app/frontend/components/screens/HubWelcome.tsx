@@ -55,7 +55,7 @@ function HubWelcome({ config }: Props) {
                         <img
                             alt={Strings.featuredImageAlt}
                             className="w-45 md:w-60 rtl:rotate-y-180"
-                            src={character}
+                            src={character as string}
                         />
                     </div>
                 </div>

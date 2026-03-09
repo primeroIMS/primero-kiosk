@@ -23,6 +23,7 @@ export const Strings = {
     input_1: "input_1",
     input_2: "input_2",
     json: "json",
+    kioskLanguage: "kiosk.language",
     kioskName: "kiosk_name",
     language: "language",
     languageSelect: "LanguageSelect",
