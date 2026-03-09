@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/rack/rack-attack
+  revision: e938879178075afbf0dda4e99f0e11d408720b41
+  ref: e938879178075afbf0dda4e99f0e11d408720b41
+  specs:
+    rack-attack (6.8.0)
+      rack (>= 1.0, < 4)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -406,6 +414,7 @@ DEPENDENCIES
   pry
   pry-byebug
   puma (>= 5.0)
+  rack-attack!
   rails (~> 8.1.1)
   rspec-rails (~> 8.0)
   rubocop-rails-omakase
