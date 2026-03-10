@@ -21,7 +21,7 @@ function LanguageSelect({ config }: Props) {
     const screen = useScreen({
         config,
         onSubmit: (data: FormValueRecord | FormValues) => {
-            const selectedLocale = (data.global as Record<string, unknown>)
+            const selectedLocale = (data.kiosk as Record<string, unknown>)
                 ?.language as I18nLocale;
             i18n.locale = selectedLocale;
 

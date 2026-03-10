@@ -4,6 +4,7 @@ import {
     useParams,
     ValidateLinkOptions,
 } from "@tanstack/react-router";
+import { VariantProps } from "class-variance-authority";
 
 import Button from "@/components/Button";
 import {
@@ -32,7 +33,11 @@ function ExitFlow({
 }: {
     bgColor?: string;
     buttonColor?: string;
-    buttonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
+    buttonProps?: {
+        bgColor?: string;
+        textColor?: string;
+        variant?: VariantProps<typeof Button>["variant"];
+    } & React.ButtonHTMLAttributes<HTMLButtonElement>;
     onExit?: () => void;
     routeParamsFrom?: ValidateLinkOptions<RegisteredRouter, unknown>["from"];
 }) {

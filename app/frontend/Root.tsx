@@ -11,7 +11,7 @@ type Props = {
 
 function Root({ router }: Props) {
     return (
-        <RootErrorBoundary router={router}>
+        <RootErrorBoundary>
             <Suspense fallback={<div>Loading...</div>}>
                 <App
                     promise={preload}
