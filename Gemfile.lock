@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/rack/rack-attack
+  revision: e938879178075afbf0dda4e99f0e11d408720b41
+  ref: e938879178075afbf0dda4e99f0e11d408720b41
+  specs:
+    rack-attack (6.8.0)
+      rack (>= 1.0, < 4)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -89,10 +97,7 @@ GEM
     bundler-audit (0.9.3)
       bundler (>= 1.2.0)
       thor (~> 1.0)
-    byebug (13.0.0)
-      reline (>= 0.6.0)
     cgi (0.5.1)
-    coderay (1.1.3)
     concurrent-ruby (1.3.6)
     connection_pool (3.0.2)
     crass (1.0.6)
@@ -162,7 +167,6 @@ GEM
       net-pop
       net-smtp
     marcel (1.1.0)
-    method_source (1.1.0)
     mini_magick (5.3.1)
       logger
     mini_mime (1.1.5)
@@ -215,13 +219,6 @@ GEM
       prettyprint
     prettyprint (0.2.0)
     prism (1.7.0)
-    pry (0.16.0)
-      coderay (~> 1.1)
-      method_source (~> 1.0)
-      reline (>= 0.6.0)
-    pry-byebug (3.12.0)
-      byebug (~> 13.0)
-      pry (>= 0.13, < 0.17)
     psych (5.3.1)
       date
       stringio
@@ -403,9 +400,8 @@ DEPENDENCIES
   image_processing (~> 1.2)
   jbuilder (~> 2.14)
   pg (~> 1.1)
-  pry
-  pry-byebug
   puma (>= 5.0)
+  rack-attack!
   rails (~> 8.1.1)
   rspec-rails (~> 8.0)
   rubocop-rails-omakase
