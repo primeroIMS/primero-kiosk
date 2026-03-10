@@ -17,7 +17,7 @@ class JsonSchemaService
 
       fields.each_with_object(schema) do |field, schema_hash|
         properties = schema_hash['properties']['data']['properties']
-        if field.type == 'number'
+        if field.type == Screen::Field::NUMBER
           properties[field.backend_id] = number_schema(field)
         else
           case field.component
