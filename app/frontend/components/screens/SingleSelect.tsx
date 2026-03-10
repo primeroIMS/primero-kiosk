@@ -52,17 +52,18 @@ function SingleSelect({ config }: Props) {
                 />
             </Form>
             {config.screen?.description?.text && config.screen.character.at_bottom && (
-                <div className="relative mt-30 flex h-40 flex-row">
+                <div className="relative mt-30 flex h-25 flex-row md:h-40">
                     <Character
                         character_lookup_id={config.screen.character.lookup_id as string}
-                        className="absolute start-5 top-3 size-16"
+                        className="absolute start-12 top-5 size-16 md:start-5 md:top-3"
                     />
                     <div className="absolute start-30 -top-20">
                         <div className="relative">
                             <PageDescription
                                 className="
                                   prose max-w-xs rounded-lg rounded-es-none bg-(--bgColor)
-                                  p-5 text-start text-sm
+                                  p-3 text-start text-sm
+                                  md:p-5
                                 "
                                 html
                                 style={{ "--bgColor": "#C0CFFF" } as React.CSSProperties}

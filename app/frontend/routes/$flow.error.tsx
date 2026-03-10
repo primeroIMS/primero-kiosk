@@ -56,7 +56,7 @@ function Page() {
                 flowID={appFlow?.handle as string}
                 showPictorial
             />
-            <div className="mb-15">
+            <div className="mb-8 md:mb-15">
                 <div className="relative mx-auto aspect-square w-50">
                     <Character
                         character_lookup_id={"character_worried" as string}
@@ -68,7 +68,10 @@ function Page() {
                     text="error.title"
                 />
                 <PageDescription
-                    className="text-center text-lg whitespace-pre-line text-foreground"
+                    className="
+                      text-center text-sm whitespace-pre-line text-foreground
+                      md:text-lg
+                    "
                     color="#ffffff"
                     text="error.description"
                 />

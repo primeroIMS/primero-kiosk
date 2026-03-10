@@ -40,11 +40,14 @@ function HubWelcome({ config }: Props) {
             <div className="w-full">
                 <div className="relative mx-auto -mb-8 flex w-2/4 flex-col items-center">
                     <img
-                        className="size-20 rtl:rotate-y-180"
+                        className="size-15 md:size-20 rtl:rotate-y-180"
                         src={hubIcon}
                     />
                     <PageTitle
-                        className="w-35 text-center text-2xl font-bold text-foreground"
+                        className="
+                          w-35 text-center text-lg font-bold text-foreground
+                          md:text-2xl
+                        "
                         color={config.screen?.title?.color}
                         text={config.screen.title.text}
                     />
