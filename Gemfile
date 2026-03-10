@@ -28,8 +28,6 @@ group :development, :test do
   gem 'brakeman', require: false
   gem 'bundler-audit', require: false
   gem 'debug', platforms: %i[mri windows], require: 'debug/prelude'
-  gem 'pry'
-  gem 'pry-byebug'
   gem 'rspec-rails', '~> 8.0'
   gem 'rubocop-rails-omakase', require: false
 end
