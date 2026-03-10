@@ -25,6 +25,7 @@ export type FormValueRecord = {
 };
 
 export type FormValues = {
+    captchaResponse: string;
     global: Record<string, unknown>;
     kiosk: Record<string, unknown>;
     recordIndex: number;
@@ -184,7 +185,13 @@ export type ScreenFlow = {
     record_definition_id?: string;
 };
 
+export type SystemCaptcha = {
+    provider: string;
+    site_key: string;
+};
+
 export type SystemSettings = {
+    captcha: SystemCaptcha;
     default_locale: I18nLocale;
     locale: I18nLocale;
     locales: I18nLocale[];

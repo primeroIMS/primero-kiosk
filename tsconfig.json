@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "lib": ["DOM", "DOM.Iterable", "ES2020"],
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ES2020"
+    ],
     "jsx": "react-jsx",
     "module": "ESNext",
     "moduleResolution": "Bundler",
@@ -9,7 +13,10 @@
     "skipLibCheck": true,
     "noEmit": true,
     "isolatedModules": true,
-    "types": ["vite/client"],
+    "types": [
+      "vite/client",
+      "turnstile-types"
+    ],
     "paths": {
       "@/*": [
         "./*"
@@ -17,7 +24,10 @@
     },
     "baseUrl": "./app/frontend/.",
   },
-  "include": ["app/frontend/**/*", "vitest.config.ts"],
+  "include": [
+    "app/frontend/**/*",
+    "vitest.config.ts"
+  ],
   "parserOptions": {
     "project": "./vitest.config.ts"
   }
