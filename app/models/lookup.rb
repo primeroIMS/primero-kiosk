@@ -20,6 +20,10 @@ class Lookup < ApplicationRecord
     end
   end
 
+  def values
+    lookup_options.map { |option| option.data.value }
+  end
+
   private
 
   def option_for_value(option_value)
