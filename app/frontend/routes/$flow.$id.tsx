@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
+import Captcha from "@/components/Captcha";
 import IdleTimer from "@/components/IdleTimer";
 import ScreenSelector from "@/components/ScreenSelector";
 import { Strings } from "@/constants";
@@ -27,6 +28,7 @@ function Page() {
                     buttonColor={appFlow.meta.idle_timer_button_color}
                 />
             )}
+            {screen.flow.end_of_flow && <Captcha />}
         </>
     );
 }

@@ -22,6 +22,13 @@ class ErrorService
           detail: field_name.to_s
         )
       end
+    when Errors::InvalidCaptcha
+      code = 422
+      errors = [ApplicationError.new(code: 422, message: error.message, resource: request.path)]
+    when Errors::CaptchaServiceUnavailable
+      code = 503
+      errors = [ApplicationError.new(code: 503, message: error.message,
+                                     resource: request.path)]
     else
       code = 500
       errors = [

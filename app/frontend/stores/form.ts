@@ -9,6 +9,7 @@ type FormState = {
 };
 
 const DEFAULT_STATE = {
+    captchaResponse: "",
     global: {},
     kiosk: {},
     records: {},
@@ -28,12 +29,19 @@ class Store extends BaseStore<FormState> {
             state.data.records = {} as FormValueRecord;
             state.data.retryRecord = {} as FormValueRecord;
             state.data.retrySuccessNextScreen = "";
+            state.data.captchaResponse = "";
         });
     }
 
     set(data: FormValueRecord) {
         this.update((state) => {
             state.data = deepMerge(state.data, data) as FormValues;
+        });
+    }
+
+    setCaptchaResponse(response: string) {
+        this.update((state) => {
+            state.data.captchaResponse = response;
         });
     }
 

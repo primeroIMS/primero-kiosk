@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import Button from "@/components/Button";
+import Captcha from "@/components/Captcha";
 import Character from "@/components/Character";
 import ExitFlow from "@/components/ExitFlow";
 import Logo from "@/components/Logo";
@@ -23,10 +24,14 @@ function Page() {
     const dataToSend = useStore(Strings.form, Strings.retryRecord);
     const successNextScreen = useStore(Strings.form, Strings.retrySuccessNextScreen);
     const navigate = Route.useNavigate();
+    const captchaResponse = useStore(Strings.form, Strings.captchaResponse);
 
     async function handleTryAgain() {
         try {
-            const response = await api.post(ENDPOINTS.records, dataToSend);
+            const response = await api.post(ENDPOINTS.records, {
+                ...dataToSend,
+                ...(captchaResponse && { captcha_token: captchaResponse }),
+            });
             if (response.status === 204) {
                 navigate({
                     params: { flow, id: successNextScreen },
@@ -96,6 +101,7 @@ function Page() {
                     routeParamsFrom="/$flow/error"
                 />
             </div>
+            <Captcha />
         </PageContainer>
     );
 }
