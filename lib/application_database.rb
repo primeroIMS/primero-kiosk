@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require 'yaml'
+require 'erb'
+require 'active_support/core_ext/hash/indifferent_access'
 require 'pg'
 require 'singleton'
 require 'date'
@@ -15,17 +17,24 @@ class ApplicationDatabase
   attr_accessor :connection
 
   def initialize
-    self.connection = PG.connect(connection_string(File.open("#{File.dirname(__FILE__)}/../config/database.yml")))
+    self.connection = PG.connect(connection_string(load_settings("#{File.dirname(__FILE__)}/../config/database.yml")))
   end
 
-  def connection_string(file)
-    settings = YAML.safe_load(file)
-    rails_env = ENV['RAILS_ENV'] || 'development'
-    "host=#{settings[rails_env]['host']} " \
-      "dbname=#{settings[rails_env]['database']} " \
-      "user=#{settings[rails_env]['username']} " \
-      "password=#{settings[rails_env]['password']} " \
-      "sslmode=#{settings[rails_env]['sslmode'] || 'prefer'}"
+  def connection_string(settings)
+    rails_env = (ENV['RAILS_ENV'] || 'development').to_s
+    env_config = settings[rails_env]
+
+    "host=#{env_config['host']} " \
+      "dbname=#{env_config['database']} " \
+      "user=#{env_config['username']} " \
+      "password=#{env_config['password']} " \
+      "sslmode=#{env_config['sslmode'] || 'prefer'}"
+  end
+
+  def load_settings(file_path)
+    return {} unless File.exist?(file_path)
+
+    YAML.safe_load(ERB.new(File.read(file_path)).result, aliases: true).with_indifferent_access || {}
   end
 
   def seeded?

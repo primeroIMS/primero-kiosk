@@ -8,8 +8,7 @@ ENV NODE_VERSION=22.22.0-r0
 ENV BUILD_PACKAGES="bash curl wget curl-dev build-base tzdata git"
 ENV PYTHON_PACKAGES="python3 py3-pip"
 ENV BUILD_DEP_PACKAGES="postgresql-dev yaml-dev"
-ENV RUNTIME_PACKAGES="libc6-compat nodejs=~${NODE_VERSION} gettext libintl npm vips libsodium-dev"
-ENV DEV_PACKAGES="busybox-extras tree cairo pixman pixman-dev"
+ENV RUNTIME_PACKAGES="libc6-compat nodejs=~${NODE_VERSION} gettext libintl npm vips"
 ENV RAILS_ENV=production
 ENV PYTHON=/usr/bin/python
 
@@ -34,7 +33,6 @@ RUN set -euox pipefail \
         ; apk add --no-cache $PYTHON_PACKAGES \
         ; ln -sf python3 /usr/bin/python \
         ; apk add $BUILD_DEP_PACKAGES \
-        # ; apk add $DEV_PACKAGES \
         ; apk add --no-cache $RUNTIME_PACKAGES \
         ; rm -rf /var/cache/apk/*
 
@@ -93,7 +91,7 @@ ARG BUILD_REGISTRY
 FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-${ALPINE_VERSION}
 
 ENV BUILD_PACKAGES=bash
-ENV RUNTIME_PACKAGES="libpq gettext libintl vips libsodium-dev p7zip tini curl"
+ENV RUNTIME_PACKAGES="libpq gettext libintl vips tini curl"
 
 ARG APP_UID
 ARG APP_GID

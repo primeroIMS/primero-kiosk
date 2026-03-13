@@ -1,15 +1,17 @@
-development:
+default: &default
   adapter: postgresql
-  database: primero_kiosk_development
-  username: primero
-  password: primero
-  host: localhost
-  pool: 5
+  database: <%= ENV["POSTGRES_DATABASE"] %>
+  username: <%= ENV["POSTGRES_USER"] || 'primero' %>
+  password: <%= ENV["POSTGRES_PASSWORD"] %>
+  host: <%= ENV["POSTGRES_HOSTNAME"] %>
+  sslmode: <%= ENV["POSTGRES_SSL_MODE"] %>
+  pool: <%= ENV["POSTGRES_POOL_NUM"] || 5 %>
+
+development:
+  <<: *default
 
 test:
-  adapter: postgresql
-  database: primero_kiosk_test
-  username: primero
-  password: primero
-  host: localhost
-  pool: 5
+  <<: *default
+
+production:
+  <<: *default
