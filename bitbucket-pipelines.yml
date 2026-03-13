@@ -85,7 +85,7 @@ definitions:
               --platform linux/amd64 \
               "${IMAGES[@]}" \
               --file "./docker/application/Dockerfile" \
-              --build-arg APP_ROOT=/srv/kiosk \
+              --build-arg APP_ROOT=/srv/primero/application \
               --build-arg APP_UID=1000 \
               --build-arg APP_GID=1000 \
               ./

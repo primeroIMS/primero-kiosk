@@ -7,6 +7,6 @@ Rails.application.configure do
   manifest = Rails.root.join('config', 'i18n-manifest.txt')
   config.i18n_translations_file = File.exist?(manifest) ? File.read(manifest) : nil
 
-  kiosk_use_app_cache = ENV.fetch('KIOSK_USE_APP_CACHE', nil)
+  kiosk_use_app_cache = ENV.fetch('PRIMERO_USE_APP_CACHE', nil)
   config.use_app_cache = Rails.env.production? || ActiveRecord::Type::Boolean.new.cast(kiosk_use_app_cache)
 end
