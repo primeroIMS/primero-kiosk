@@ -2,6 +2,7 @@ import { Strings } from "@/constants";
 import { ScreenConfig } from "@/type";
 
 import CharacterInformation from "./screens/CharacterInformation";
+import CharacterPurpose from "./screens/CharacterPurpose";
 import CharacterSelection from "./screens/CharacterSelection";
 import CharacterWelcome from "./screens/CharacterWelcome";
 import ComfortingResponse from "./screens/ComfortingResponse";
@@ -23,6 +24,8 @@ function ScreenSelector({ config }: Props) {
     switch (config.screen.component) {
         case Strings.characterInformation:
             return <CharacterInformation config={config} />;
+        case Strings.characterPurpose:
+            return <CharacterPurpose config={config} />;
         case Strings.characterSelection:
             return <CharacterSelection config={config} />;
         case Strings.characterWelcome:

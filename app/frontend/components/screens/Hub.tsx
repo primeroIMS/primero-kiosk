@@ -29,10 +29,7 @@ function Hub({ config }: Props) {
                 onSubmit={screen.onSubmit}
             >
                 <RadioGroupInput
-                    centerText
                     className="w-full"
-                    cols={2}
-                    iconLarge
                     name={screen.name(Strings.input_1)}
                     optionColors={config.screen.options}
                     options={{

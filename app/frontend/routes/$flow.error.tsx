@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import Button from "@/components/Button";
+import Captcha from "@/components/Captcha";
 import Character from "@/components/Character";
 import ExitFlow from "@/components/ExitFlow";
 import Logo from "@/components/Logo";
@@ -23,10 +24,14 @@ function Page() {
     const dataToSend = useStore(Strings.form, Strings.retryRecord);
     const successNextScreen = useStore(Strings.form, Strings.retrySuccessNextScreen);
     const navigate = Route.useNavigate();
+    const captchaResponse = useStore(Strings.form, Strings.captchaResponse);
 
     async function handleTryAgain() {
         try {
-            const response = await api.post(ENDPOINTS.records, dataToSend);
+            const response = await api.post(ENDPOINTS.records, {
+                ...dataToSend,
+                ...(captchaResponse && { captcha_token: captchaResponse }),
+            });
             if (response.status === 204) {
                 navigate({
                     params: { flow, id: successNextScreen },
@@ -56,7 +61,7 @@ function Page() {
                 flowID={appFlow?.handle as string}
                 showPictorial
             />
-            <div className="mb-15">
+            <div className="mb-8 md:mb-15">
                 <div className="relative mx-auto aspect-square w-50">
                     <Character
                         character_lookup_id={"character_worried" as string}
@@ -68,7 +73,10 @@ function Page() {
                     text="error.title"
                 />
                 <PageDescription
-                    className="text-center text-lg whitespace-pre-line text-foreground"
+                    className="
+                      text-center text-sm whitespace-pre-line text-foreground
+                      md:text-lg
+                    "
                     color="#ffffff"
                     text="error.description"
                 />
@@ -93,6 +101,7 @@ function Page() {
                     routeParamsFrom="/$flow/error"
                 />
             </div>
+            <Captcha />
         </PageContainer>
     );
 }

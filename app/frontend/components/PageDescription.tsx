@@ -27,7 +27,7 @@ function PageDescription({
     if (isEmpty(text)) return null;
 
     return (
-        <p
+        <div
             className={cn(
                 "mb-5 w-full text-center clamp-[text,sm,lg,@sm,@5xl]",
                 className,
@@ -40,7 +40,7 @@ function PageDescription({
                 text={text}
                 translate={translate}
             />
-        </p>
+        </div>
     );
 }
 

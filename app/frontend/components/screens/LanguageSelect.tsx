@@ -5,6 +5,7 @@ import PageTitle from "@/components/PageTitle";
 import { Strings } from "@/constants";
 import useScreen from "@/hooks/use-screen";
 import useStore from "@/hooks/use-store";
+import { cn } from "@/lib/utils";
 import i18n, { I18nLocale } from "@/translations";
 import { FormValueRecord, FormValues, ScreenConfig } from "@/type";
 
@@ -20,7 +21,7 @@ function LanguageSelect({ config }: Props) {
     const screen = useScreen({
         config,
         onSubmit: (data: FormValueRecord | FormValues) => {
-            const selectedLocale = (data.global as Record<string, unknown>)
+            const selectedLocale = (data.kiosk as Record<string, unknown>)
                 ?.language as I18nLocale;
             i18n.locale = selectedLocale;
 
@@ -40,8 +41,9 @@ function LanguageSelect({ config }: Props) {
             centered
         >
             <Logo
-                className="mb-20"
+                className={cn("mb-20", "flex", "justify-center")}
                 flowID={config.appFlow.handle}
+                imgClassName="max-w-2xs"
             />
             <PageTitle
                 color={config.screen.title.color}

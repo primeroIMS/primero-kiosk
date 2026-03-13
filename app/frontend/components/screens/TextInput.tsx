@@ -30,7 +30,7 @@ function TextInput({ config }: Props) {
                 showPictorial
             />
             <Character
-                character_lookup_id={config.screen.character_lookup_id as string}
+                character_lookup_id={config.screen.character.lookup_id as string}
             />
             <PageTitle
                 color={config.screen.title.color}

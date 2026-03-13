@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 json.id screen.data.id
-json.character_lookup_id screen.data.character_lookup_id
-json.character_at_bottom screen.data.character_at_bottom
+json.character screen.data.character
 json.bg_color screen.data.bg_color
 json.button screen.data.button
 json.logo_secondary screen.data.logo_secondary

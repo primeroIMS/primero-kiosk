@@ -51,7 +51,10 @@ function SelectInput({ cyclePlaceholder, name, optionsConfig, placeholder }: Pro
                     }
                 </SelectValue>
             </SelectTrigger>
-            <SelectContent className="w-50">
+            <SelectContent
+                alignItemWithTrigger={false}
+                className="min-w-full"
+            >
                 <SelectGroup>
                     {options.map((item) => (
                         <SelectItem

@@ -27,8 +27,10 @@ function useScreen({
     const flow = config.appFlow.handle;
     const startingScreenId = config.appFlow.starting_screen_id;
     const navigate = useNavigate();
-    const records = useStore("form", "records");
-    const globalData = useStore("form", "global");
+    const records = useStore(Strings.form, Strings.records);
+    const captchaResponse = useStore(Strings.form, Strings.captchaResponse);
+    const globalData = useStore(Strings.form, Strings.global);
+    const captchaConfig = useStore(Strings.systemSettings, Strings.captcha);
 
     useEffect(() => {
         if (startingScreenId === config.screen.id) {
@@ -67,6 +69,7 @@ function useScreen({
             if (!isEmpty(records)) {
                 const { record_type, ...rest } = records;
                 const dataToSend = {
+                    ...(captchaResponse && { captcha_token: captchaResponse }),
                     data: { ...rest, ...globalData },
                     record_type,
                 };
@@ -93,10 +96,15 @@ function useScreen({
         globalData,
         navigate,
         records,
+        captchaResponse,
     ]);
 
     useEffect(() => {
         if (!config.screen.flow.end_of_flow) return;
+
+        if (!captchaResponse && !isEmpty(captchaConfig)) {
+            return;
+        }
 
         submitToRemote();
     }, [
@@ -107,6 +115,8 @@ function useScreen({
         navigate,
         records,
         submitToRemote,
+        captchaResponse,
+        captchaConfig,
     ]);
 
     const mappedFields = Object.fromEntries(
@@ -133,7 +143,7 @@ function useScreen({
         }
 
         if (currentRiskLevel) {
-            set(data, "records.risk_level", currentRiskLevel);
+            set(data, Strings.recordRiskLevel, currentRiskLevel);
         }
     }
 

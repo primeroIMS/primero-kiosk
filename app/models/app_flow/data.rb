@@ -7,6 +7,7 @@ class AppFlow::Data
   attribute :unique_id, :string
   attribute :handle, :string
   attribute :starting_screen_id, :string
+  attribute :hub_id, :string
   attribute_array :record_definitions, AppFlow::RecordDefinition
   attribute_hash :meta, AppFlow::Meta
 end

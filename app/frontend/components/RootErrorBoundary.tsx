@@ -40,7 +40,8 @@ class RootErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState
                         />
                         <PageDescription
                             className="
-                              text-center text-lg whitespace-pre-line text-foreground
+                              text-center text-sm whitespace-pre-line text-foreground
+                              md:text-lg
                             "
                             color="#ffffff"
                             text="error.description"

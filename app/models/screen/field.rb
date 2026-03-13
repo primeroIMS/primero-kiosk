@@ -5,6 +5,13 @@ class Screen::Field
   include JsonNestedModel
   include LocalizableJsonProperty
 
+  NUMBER = 'number'
+
+  # option_ids: ids for the lookup options
+  # component: screen component
+  # nullable: whether the field is nullable
+  attr_accessor :option_ids, :component, :nullable
+
   attribute :slot, :string
   attribute :scope, :string
   attribute :backend_id, :string

@@ -23,5 +23,17 @@ Rails.application.routes.draw do
   end
 
   # TanStack Router SPA - catch all other routes (except ActiveStorage which is auto-mounted)
-  get '*all', to: 'home#index', constraints: ->(req) { !req.path.start_with?('/rails/active_storage') }
+  get '*all', to: 'home#index', constraints: lambda { |req|
+    req.format.html? && !req.path.start_with?(ActiveStorage.routes_prefix)
+  }
+
+  # Lock down Active Storage routes
+  scope ActiveStorage.routes_prefix do
+    get '/blobs/proxy/:signed_id/*filename', to: 'forbidden#forbid!'
+    get '/representations/redirect/:signed_blob_id/:variation_key/*filename', to: 'forbidden#forbid!'
+    get '/representations/proxy/:signed_blob_id/:variation_key/*filename', to: 'forbidden#forbid!'
+    get '/representations/:signed_blob_id/:variation_key/*filename', to: 'forbidden#forbid!'
+    put  '/disk/:encoded_token', to: 'forbidden#forbid!'
+    post '/direct_uploads', to: 'forbidden#forbid!'
+  end
 end

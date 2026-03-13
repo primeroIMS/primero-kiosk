@@ -17,7 +17,16 @@ type Props = {
 };
 
 function HubWithCharacter({ config }: Props) {
-    const screen = useScreen({ config, onSubmit: () => {} });
+    const screen = useScreen({ config });
+    const handleSubmit = (values: any) => {
+        screen.onSubmit({
+            ...values,
+            kiosk: {
+                ...values.kiosk,
+                hub_lookup_id: screen.fieldProp(Strings.input_1, Strings.lookupID),
+            },
+        });
+    };
 
     return (
         <PageContainer bgColor={config.screen.bg_color}>
@@ -28,7 +37,9 @@ function HubWithCharacter({ config }: Props) {
                 showPictorial
             />
             <Character
-                character_lookup_id={config.screen.character_lookup_id as string}
+                character_bg_color={config.screen.character.bg_color as string}
+                character_default_id={config.screen.character.default_id as string}
+                character_lookup_id={config.screen.character.lookup_id as string}
             />
             <PageTitle
                 color={config.screen.title.color}
@@ -40,16 +51,21 @@ function HubWithCharacter({ config }: Props) {
             />
             <div
                 className="
-                  my-5 flex items-center py-3 text-lg font-light text-white
-                  before:me-6 before:flex-1 before:border-t before:border-white
-                  after:ms-6 after:flex-1 after:border-t after:border-white
+                  my-5 flex items-center py-3 text-sm font-light text-(--dividerColor)
+                  before:me-6 before:flex-1 before:border-t
+                  before:border-t-(--dividerColor)
+                  after:ms-6 after:flex-1 after:border-t after:border-t-(--dividerColor)
+                  md:text-lg
                 "
+                style={
+                    { "--dividerColor": config.screen.title.color } as React.CSSProperties
+                }
             >
                 {i18n.t("divider.pick_one")}
             </div>
             <Form
                 allowSkip={config.screen.flow.allow_skip}
-                onSubmit={screen.onSubmit}
+                onSubmit={handleSubmit}
             >
                 <RadioGroupInput
                     name={screen.name(Strings.input_1)}

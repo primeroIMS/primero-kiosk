@@ -18,10 +18,12 @@ type Props = {
 function HubWelcome({ config }: Props) {
     const screen = useScreen({ config });
     const hub = useStore("form", "kiosk.hub");
-    const [character] = useCharacter(config.screen.character_lookup_id);
-    const hubOptions = useOptions({
-        key: "hub",
-    });
+    const hubLookupId = useStore("form", "kiosk.hub_lookup_id") as string | undefined;
+    const [character] = useCharacter(
+        config.screen.character.lookup_id,
+        config.screen.character.default_id,
+    );
+    const hubOptions = useOptions({ key: hubLookupId || "hub" });
     const hubIcon = hubOptions?.find((option) => option.value === hub)?.icon;
 
     return (
@@ -38,26 +40,29 @@ function HubWelcome({ config }: Props) {
             <div className="w-full">
                 <div className="relative mx-auto -mb-8 flex w-2/4 flex-col items-center">
                     <img
-                        className="size-20"
+                        className="size-15 md:size-20 rtl:rotate-y-180"
                         src={hubIcon}
                     />
                     <PageTitle
-                        className="w-35 text-center text-2xl font-bold text-foreground"
+                        className="
+                          w-35 text-center text-lg font-bold text-foreground
+                          md:text-2xl
+                        "
                         color={config.screen?.title?.color}
                         text={config.screen.title.text}
                     />
                     <div className="">
                         <img
                             alt={Strings.featuredImageAlt}
-                            className="w-45 md:w-60"
-                            src={character}
+                            className="w-45 md:w-60 rtl:rotate-y-180"
+                            src={character as string}
                         />
                     </div>
                 </div>
             </div>
             <div className="relative mb-5 w-full rounded-lg p-4 text-foreground">
                 <svg
-                    className="absolute end-30 -top-3 h-10 w-10"
+                    className="absolute end-30 -top-3 h-10 w-10 rtl:rotate-y-180"
                     fill="none"
                     viewBox="0 0 59 44"
                     xmlns="http://www.w3.org/2000/svg"

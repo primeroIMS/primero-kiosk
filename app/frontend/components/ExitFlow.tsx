@@ -4,6 +4,7 @@ import {
     useParams,
     ValidateLinkOptions,
 } from "@tanstack/react-router";
+import { VariantProps } from "class-variance-authority";
 
 import Button from "@/components/Button";
 import {
@@ -32,7 +33,11 @@ function ExitFlow({
 }: {
     bgColor?: string;
     buttonColor?: string;
-    buttonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
+    buttonProps?: {
+        bgColor?: string;
+        textColor?: string;
+        variant?: VariantProps<typeof Button>["variant"];
+    } & React.ButtonHTMLAttributes<HTMLButtonElement>;
     onExit?: () => void;
     routeParamsFrom?: ValidateLinkOptions<RegisteredRouter, unknown>["from"];
 }) {
@@ -73,7 +78,7 @@ function ExitFlow({
                 }
             />
             <AlertDialogContent
-                className="min-w-lg bg-transparent! text-white ring-0!"
+                className="min-w-sm bg-transparent! text-white ring-0! md:min-w-lg"
                 overlayStyles={{ background: bgColor || "black", opacity: 0.97 }}
                 size="sm"
             >
@@ -86,12 +91,13 @@ function ExitFlow({
                         {i18n.t("exit_flow.description")}
                     </AlertDialogDescription>
                 </AlertDialogHeader>
-                <AlertDialogFooter className="justify-items-center gap-1">
+                <AlertDialogFooter className="flex-wrap justify-items-center gap-1">
                     <AlertDialogAction
                         className="
-                          flex h-18 w-50 flex-row gap-0 rounded-md bg-white px-3
+                          flex h-18 w-40 flex-row gap-0 rounded-md bg-white px-2
                           text-black
                           hover:bg-white/90
+                          md:w-50 md:px-3
                         "
                         onClick={handleExit}
                     >
@@ -131,8 +137,10 @@ function ExitFlow({
                     </AlertDialogAction>
                     <AlertDialogCancel
                         className="
-                          h-18 w-50 rounded-md bg-white px-3 text-black
+                          flex h-18 w-40 flex-row gap-0 rounded-md bg-white px-2
+                          text-black
                           hover:bg-white/90
+                          md:w-50 md:px-3
                         "
                     >
                         <span className="flex max-w-45 flex-row items-center gap-3">

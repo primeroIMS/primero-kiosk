@@ -1,6 +1,6 @@
 development:
   default_locale: "en"
-  locales: [en, es, ar]
+  locales: [en, tr, ar]
 
 test:
   default_locale: "en"

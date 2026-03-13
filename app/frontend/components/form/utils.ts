@@ -6,7 +6,7 @@ export const hasAnyValue = (value: unknown): boolean => {
     }
 
     if (isPlainObject(value)) {
-        return Object.values(value).some(hasAnyValue);
+        return Object.values(value as Record<string, unknown>).some(hasAnyValue);
     }
 
     return value != null && value !== "";
