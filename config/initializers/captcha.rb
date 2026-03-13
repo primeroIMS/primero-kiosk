@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Rails.application.config.captcha_enabled = ActiveRecord::Type::Boolean.new.cast(ENV.fetch('KIOSK_CAPTCHA_ENABLED',
+Rails.application.config.captcha_enabled = ActiveRecord::Type::Boolean.new.cast(ENV.fetch('PRIMERO_CAPTCHA_ENABLED',
                                                                                           false))
 return unless Rails.application.config.captcha_enabled
 
@@ -11,6 +11,6 @@ def load_settings
   YAML.safe_load(ERB.new(File.read(settings_file)).result).with_indifferent_access || {}
 end
 
-@captcha_settings = load_settings if ENV.fetch('KIOSK_CAPTCHA_PROVIDER', nil).present?
-Rails.application.config.x.captcha_provider = ENV.fetch('KIOSK_CAPTCHA_PROVIDER', nil)
+@captcha_settings = load_settings if ENV.fetch('PRIMERO_CAPTCHA_PROVIDER', nil).present?
+Rails.application.config.x.captcha_provider = ENV.fetch('PRIMERO_CAPTCHA_PROVIDER', nil)
 Rails.application.config.x.captcha = @captcha_settings&.dig(Rails.application.config.x.captcha_provider) || {}
