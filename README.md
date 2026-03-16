@@ -104,11 +104,7 @@ Afterward you need [pnpm](https://pnpm.io/) Pnpm has a few different methods of 
 curl -fsSL https://get.pnpm.io/install.sh | sh -
 ```
 
-## For more docker instructions
-
-For detailed Docker setup instructions, see the [Docker README](docker/README.md).
-
-# Configuring  for Local Development
+## Configuring for Local Development
 
 Primero-kiosk is partially configured with a number of yaml files. There are example versions of these files provided for local development. They need to be copied to the correct locations in order for Primero-kiosk to function.
 
@@ -122,13 +118,13 @@ mkdir log
 You will also need to install some system-wide dependencies required to build and run Primero-kiosk.
 
 ```bash
-sudo apt install libpq-dev libvips42 libsodium-dev p7zip
+mkdir -p log tmp/storage
 ```
 
-Note that versions of Primero-kiosk previous to v2.15.0 used `imagemagick` instead of `libvips42` for image processing. If you wish to maintain older versions, you will need to install it.
+You will also need to install the OS packages required by the build. On Ubuntu:
 
 ```bash
-sudo apt install imagemagick
+sudo apt install libpq-dev libvips42
 ```
 
 Execute the following to install Primero-kiosk's ruby and node dependencies:
@@ -178,9 +174,9 @@ Ruby/Rails unit tests:
 rspec spec
 ```
 
-Typescript/NPM unit tests:
+Typescript/PNPM unit tests:
 ```shell
-npm run test
+pnpm run test
 ```
 
 
@@ -201,7 +197,7 @@ rails s
 
 Visit http://localhost:3000/ in your browser.
 
-Alternatively you can install [overmind](https://github.com/DarthSim/overmind) and run `overmind s`. This will start both the front-end and back-end. 
+Alternatively you can install [overmind](https://github.com/DarthSim/overmind) and run `overmind s`. This will start both the front-end and back-end.
 
 Overmind requires tmux. In another terminal tab, you can use `overmind connect [process-name]`  example: `overmind connect web` to connect to the tmux window for that task. Use `Ctrl + b` then `d` to disconnect.
 
@@ -248,4 +244,3 @@ If you need to re-run failed jobs, pass `true` as an argument:
 ```shell
 rails primero_kiosk:primero_sync_jobs[true]
 ```
-
