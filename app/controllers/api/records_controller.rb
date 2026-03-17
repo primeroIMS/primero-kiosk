@@ -12,8 +12,12 @@ class Api::RecordsController < ApplicationApiController
 
   def record_params
     params.require(:record_type)
-    params.expect(data: :module_id)
-    @record_params ||= params.permit(:record_type, :captcha_token, data: [:module_id] + permitted_params)
+    params.require(:data).require(:module_id)
+    @record_params ||= params.permit(:record_type, data: [:module_id] + permitted_params)
+  end
+
+  def captcha_token
+    @captcha_token ||= params.extract!(:captcha_token).expect(:captcha_token)
   end
 
   def validate_record_json!(data)
@@ -47,8 +51,10 @@ class Api::RecordsController < ApplicationApiController
   def verify_captcha
     return true unless PrimeroKiosk::Application.config.captcha_enabled
 
-    CaptchaService.verify(provider: PrimeroKiosk::Application.config.x.captcha_provider,
-                          token: params[:captcha_token],
-                          remote_ip: request.remote_ip)
+    CaptchaService.verify(
+      provider: PrimeroKiosk::Application.config.x.captcha_provider,
+      token: captcha_token,
+      remote_ip: request.remote_ip
+    )
   end
 end

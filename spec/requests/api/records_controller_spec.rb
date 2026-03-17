@@ -130,6 +130,16 @@ describe Api::RecordsController, type: :request do
         expect(PrimeroSyncJob).not_to have_been_enqueued
       end
 
+      it 'does not enqueue a job and returns 422 for missing module_id' do
+        post '/api/records', params: params.merge(data: params[:data].except(:module_id))
+
+        expect(response).to have_http_status(422)
+        expect(json['errors'][0]['message']).to eq(
+          'param is missing or the value is empty or invalid: module_id'
+        )
+        expect(PrimeroSyncJob).not_to have_been_enqueued
+      end
+
       context 'when the lookup assignment_users is not defined' do
         it 'refuses to create a record with owned_by and returns 422' do
           post '/api/records', params: params.merge(data: params[:data].merge({ owned_by: 'user' }))
@@ -171,6 +181,32 @@ describe Api::RecordsController, type: :request do
           expect(PrimeroSyncJob).to have_been_enqueued.with(
             record_type: 'case',
             data: { module_id: 'primeromodule-cp', owned_by: 'user1', risk_level: 'high', name: 'Test', age: '10' }
+          )
+        end
+      end
+
+      context 'when captcha is enabled' do
+        before do
+          allow(PrimeroKiosk::Application.config).to receive(:captcha_enabled).and_return(true)
+        end
+
+        it 'refuses to create a record without a captcha token' do
+          post '/api/records', params: params
+
+          expect(response).to have_http_status(422)
+          expect(json['errors'][0]['message']).to eq(
+            'param is missing or the value is empty or invalid: captcha_token'
+          )
+          expect(PrimeroSyncJob).not_to have_been_enqueued
+        end
+
+        it 'enqueues a job to create a record and return 200 for valid captcha token' do
+          post '/api/records', params: params.merge(captcha_token: 'some-captcha-token')
+
+          expect(response).to have_http_status(204)
+          expect(PrimeroSyncJob).to have_been_enqueued.with(
+            record_type: 'case',
+            data: { module_id: 'primeromodule-cp', risk_level: 'high', name: 'Test', age: '10' }
           )
         end
       end
