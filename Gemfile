@@ -10,6 +10,7 @@ gem 'faraday-retry', '~> 2.4'
 gem 'i18n-js', '~> 4.2'
 gem 'image_processing', '~> 1.2'
 gem 'jbuilder', '~> 2.14'
+gem 'json_schemer', '~> 2.5'
 gem 'pg', '~> 1.1'
 gem 'puma', '>= 5.0'
 # TODO: We are using the latest rack-attack commit on the 'main' branch in order to have access to the
@@ -23,7 +24,6 @@ gem 'solid_queue'
 gem 'thruster', require: false
 gem 'tzinfo-data'
 gem 'vite_rails', '~> 3.0'
-gem 'json_schemer', '~> 2.5'
 
 group :development, :test do
   gem 'brakeman', require: false

@@ -22,7 +22,8 @@ def locale_settings
   settings_file = Rails.root.join('config', 'locales.yml')
   return {} unless File.exist?(settings_file)
 
-  @locale_settings = YAML.load_file(settings_file)[Rails.env] || {}
+  settings = YAML.safe_load(ERB.new(File.read(settings_file)).result, aliases: true)&.with_indifferent_access || {}
+  @locale_settings = settings[Rails.env] || {}
 end
 
 I18n.default_locale = locale_settings['default_locale'] || PrimeroKiosk::Application::LOCALE_ENGLISH
