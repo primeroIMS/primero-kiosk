@@ -103,6 +103,9 @@ function useScreen({
         if (!config.screen.flow.end_of_flow) return;
 
         if (!captchaResponse && !isEmpty(captchaConfig)) {
+            console.warn(
+                "Captcha response is required but not available, cannot submit to remote",
+            );
             return;
         }
 

@@ -22,7 +22,7 @@ class ErrorService
           detail: field_name.to_s
         )
       end
-    when Errors::InvalidCaptcha
+    when Errors::InvalidCaptcha, ActionController::ParameterMissing
       code = 422
       errors = [ApplicationError.new(code: 422, message: error.message, resource: request.path)]
     when Errors::CaptchaServiceUnavailable
