@@ -101,16 +101,17 @@ function useScreen({
 
     useEffect(() => {
         if (!config.screen.flow.end_of_flow) return;
+        console.log("End of flow reached, attempting to submit to remote...");
+        const isCaptchaConfigured =
+            Boolean(captchaConfig?.provider) && Boolean(captchaConfig?.site_key);
 
-        if (captchaConfig === undefined) return;
-
-        if (!captchaResponse && !isEmpty(captchaConfig)) {
+        console.log("Submitting to remote...", isCaptchaConfigured, captchaResponse, captchaConfig);
+        if (isCaptchaConfigured && !captchaResponse) {
             console.warn(
                 "Captcha response is required but not available, cannot submit to remote",
             );
             return;
         }
-
         submitToRemote();
     }, [
         computeNextScreen,
