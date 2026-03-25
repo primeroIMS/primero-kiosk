@@ -28,6 +28,7 @@ export type FormValues = {
     captchaResponse: string;
     global: Record<string, unknown>;
     kiosk: Record<string, unknown>;
+    loading: boolean;
     recordIndex: number;
     records: FormValueRecord;
     retryRecord: FormValueRecord;
@@ -70,20 +71,20 @@ export type Meta = {
 export type Path<T, Depth extends unknown[] = []> = Depth["length"] extends 8
     ? never
     : T extends (infer U)[]
-      ? `${number}.${Path<U, Depth>}` | `${number}`
-      : T extends object
-        ? {
-              [K in keyof T & string]: `${K}.${Path<T[K], [...Depth, unknown]>}` | `${K}`;
-          }[keyof T & string]
-        : never;
+    ? `${number}.${Path<U, Depth>}` | `${number}`
+    : T extends object
+    ? {
+        [K in keyof T & string]: `${K}.${Path<T[K], [...Depth, unknown]>}` | `${K}`;
+    }[keyof T & string]
+    : never;
 
 export type PathValue<T, P extends string> = P extends `${infer K}.${infer R}`
     ? K extends keyof T
-        ? PathValue<T[K], R>
-        : never
+    ? PathValue<T[K], R>
+    : never
     : P extends keyof T
-      ? T[P]
-      : never;
+    ? T[P]
+    : never;
 
 export type Primitive = boolean | null | number | string | undefined;
 

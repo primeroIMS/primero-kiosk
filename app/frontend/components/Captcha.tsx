@@ -93,7 +93,6 @@ function Captcha() {
 
             if (!el || !isTurnstileReady || isUnmounted) return;
 
-            // Ensure we don't stack widgets if this effect reruns with updated captcha settings.
             el.innerHTML = "";
             FormStore.setCaptchaResponse("");
 
