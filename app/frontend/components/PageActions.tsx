@@ -1,9 +1,11 @@
 import { useNavigate } from "@tanstack/react-router";
+import { Loader } from "lucide-react";
 
 import Button from "@/components/Button";
 import { Strings } from "@/constants";
 import usePreviousLocation from "@/hooks/use-previous-location";
 import { cn } from "@/lib/utils";
+import i18n from "@/translations";
 import { UseScreenReturn } from "@/type";
 
 import ExitFlow from "./ExitFlow";
@@ -11,10 +13,11 @@ import I18nText from "./I18nText";
 
 type Props = {
     isForm?: boolean;
+    loading?: boolean;
     screen: UseScreenReturn;
 };
 
-function PageActions({ isForm, screen }: Props) {
+function PageActions({ isForm, loading, screen }: Props) {
     const navigate = useNavigate();
     const previousLocation = usePreviousLocation();
 
@@ -64,13 +67,21 @@ function PageActions({ isForm, screen }: Props) {
                     <Button
                         {...nextButtonProps}
                         bgColor={screen.button.bg_color}
+                        disabled={loading}
                         textColor={screen.button.text_color}
                         variant={Strings.secondary}
                     >
-                        <I18nText
-                            fallback={Strings.buttonsContinue}
-                            text={screen.flow.label_next}
-                        />
+                        {loading ? (
+                            <>
+                                <Loader className="animate-spin" />{" "}
+                                {i18n.t("buttons.saving")}
+                            </>
+                        ) : (
+                            <I18nText
+                                fallback={Strings.buttonsContinue}
+                                text={screen.flow.label_next}
+                            />
+                        )}
                     </Button>
                 </div>
             </div>
