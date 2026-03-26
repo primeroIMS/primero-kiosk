@@ -45,8 +45,10 @@ class ConfigTranslationImporter
   end
 
   def import_screens(screens_hash)
+    app_flow_unique_id = app_flow_unique_id_from_file_name
+
     screens_hash.each do |screen_id, translations|
-      screen = Screen.find_by("data ->> 'id' = ?", screen_id)
+      screen = find_screen_for_import(screen_id, app_flow_unique_id)
       next log_info("Screen [#{screen_id}] not found. Skipping.") unless screen
 
       log_info("Updating Screen [#{screen_id}] for locale [#{@locale}]")
@@ -75,5 +77,25 @@ class ConfigTranslationImporter
   def log_info(message)
     Rails.logger.info(message)
     p message
+  end
+
+  def app_flow_unique_id_from_file_name
+    base_name = File.basename(file_name.to_s, File.extname(file_name.to_s))
+    return if base_name.blank? || base_name == 'lookups'
+
+    base_name
+  end
+
+  def find_screen_for_import(screen_id, app_flow_unique_id)
+    screens = Screen.joins(:app_flow)
+                    .where("screens.data ->> 'id' = ?", screen_id)
+                    .where("app_flows.data ->> 'unique_id' = ?", app_flow_unique_id)
+                    .limit(2).to_a
+
+    return nil if screens.empty?
+    return screens.first if screens.one?
+
+    log_error("Import Not Processed: multiple screens found for id #{screen_id} in app_flow #{app_flow_unique_id}")
+    nil
   end
 end
