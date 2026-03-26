@@ -10,7 +10,7 @@ type SystemSettingsState = {
 class Store extends BaseStore<SystemSettingsState> {
     setSettings(data: SystemSettings) {
         this.update((state) => {
-            state.data = { ...state.data, ...data };
+            state.data = data;
         });
     }
 }

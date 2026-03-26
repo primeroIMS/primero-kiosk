@@ -62,53 +62,66 @@ function useScreen({
         [config.screen.flow.next_screen],
     );
 
+    const parseDataBeforeSubmit = useCallback(() => {
+        const { record_type, ...rest } = records;
+        const dataToSend = {
+            ...(captchaResponse && { captcha_token: captchaResponse }),
+            data: { ...rest, ...globalData },
+            record_type,
+        };
+        FormStore.setRetryRecord(
+            dataToSend,
+            computeNextScreen(records as FormValueRecord),
+        );
+
+        return dataToSend;
+    }, [records, captchaResponse, globalData, computeNextScreen]);
+
     const submitToRemote = useCallback(async () => {
         if (!config.screen.flow.end_of_flow) return;
-
+        FormStore.setLoading(true);
         try {
             if (!isEmpty(records)) {
-                const { record_type, ...rest } = records;
-                const dataToSend = {
-                    ...(captchaResponse && { captcha_token: captchaResponse }),
-                    data: { ...rest, ...globalData },
-                    record_type,
-                };
-                FormStore.setRetryRecord(
-                    dataToSend,
-                    computeNextScreen(records as FormValueRecord),
-                );
-                const response = await api.post(ENDPOINTS.records, dataToSend);
-
-                if (response.status === 204) {
-                    FormStore.resetRecord();
-                }
+                const dataToSend = parseDataBeforeSubmit();
+                return api.post(ENDPOINTS.records, dataToSend).then((response) => {
+                    if (response.status === 204) {
+                        FormStore.resetRecord();
+                    }
+                });
             }
         } catch (error) {
             navigate({
                 params: { flow: config.appFlow.handle },
                 to: "/$flow/error",
             });
+        } finally {
+            FormStore.setLoading(false);
         }
     }, [
-        computeNextScreen,
         config.appFlow.handle,
         config.screen.flow.end_of_flow,
-        globalData,
         navigate,
         records,
-        captchaResponse,
+        parseDataBeforeSubmit,
     ]);
 
     useEffect(() => {
         if (!config.screen.flow.end_of_flow) return;
 
-        if (!captchaResponse && !isEmpty(captchaConfig)) {
+        const isCaptchaConfigured =
+            Boolean(captchaConfig?.provider) && Boolean(captchaConfig?.site_key);
+
+        if (isCaptchaConfigured && !captchaResponse) {
             console.warn(
                 "Captcha response is required but not available, cannot submit to remote",
             );
+            parseDataBeforeSubmit();
+            navigate({
+                params: { flow: config.appFlow.handle },
+                to: "/$flow/error",
+            });
             return;
         }
-
         submitToRemote();
     }, [
         computeNextScreen,
@@ -120,6 +133,7 @@ function useScreen({
         submitToRemote,
         captchaResponse,
         captchaConfig,
+        parseDataBeforeSubmit,
     ]);
 
     const mappedFields = Object.fromEntries(

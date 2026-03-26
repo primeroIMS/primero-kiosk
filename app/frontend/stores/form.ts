@@ -12,6 +12,7 @@ const DEFAULT_STATE = {
     captchaResponse: "",
     global: {},
     kiosk: {},
+    loading: false,
     records: {},
     retryRecord: {},
     retrySuccessNextScreen: "",
@@ -42,6 +43,12 @@ class Store extends BaseStore<FormState> {
     setCaptchaResponse(response: string) {
         this.update((state) => {
             state.data.captchaResponse = response;
+        });
+    }
+
+    setLoading(loading: boolean) {
+        this.update((state) => {
+            state.data.loading = loading;
         });
     }
 

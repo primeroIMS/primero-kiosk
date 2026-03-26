@@ -1,6 +1,7 @@
 import PageTitle from "@/components/PageTitle";
 import { Strings } from "@/constants";
 import useScreen from "@/hooks/use-screen";
+import useStore from "@/hooks/use-store";
 import { ScreenConfig } from "@/type";
 
 import Character from "../Character";
@@ -15,6 +16,7 @@ type Props = {
 
 function ComfortingResponse({ config }: Props) {
     const screen = useScreen({ config });
+    const loading = useStore(Strings.form, "loading");
 
     return (
         <PageContainer
@@ -54,7 +56,10 @@ function ComfortingResponse({ config }: Props) {
                     text={config.screen.description?.text}
                 />
             </div>
-            <PageActions screen={screen} />
+            <PageActions
+                loading={loading}
+                screen={screen}
+            />
         </PageContainer>
     );
 }

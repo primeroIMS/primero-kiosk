@@ -28,6 +28,7 @@ export type FormValues = {
     captchaResponse: string;
     global: Record<string, unknown>;
     kiosk: Record<string, unknown>;
+    loading: boolean;
     recordIndex: number;
     records: FormValueRecord;
     retryRecord: FormValueRecord;
