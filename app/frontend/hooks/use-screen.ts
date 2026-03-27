@@ -11,11 +11,51 @@ import {
     FormValueRecord,
     ScreenCalculation,
     ScreenField,
+    SystemCaptcha,
     UseScreenArgs,
     UseScreenReturn,
 } from "@/type";
 
 import useStore from "./use-store";
+
+type ConfigurationType = {
+    [key: string]: {
+        cleanup: (widgetId: string) => void;
+        render: (args: {
+            captchaConfig: SystemCaptcha;
+            errorCallback?: () => void;
+            successCallback?: (token: string) => void;
+        }) => string | undefined;
+    };
+};
+
+const configuration: ConfigurationType = {
+    turnstile: {
+        cleanup: (widgetId) => {
+            if (window.turnstile && widgetId) window.turnstile.remove(widgetId);
+        },
+        render: ({ captchaConfig, errorCallback, successCallback }) => {
+            if (!document.getElementById("captcha") || !window.turnstile) return;
+            return window.turnstile.render(
+                document.getElementById("captcha") as HTMLElement,
+                {
+                    callback: (token) => {
+                        successCallback?.(token);
+                        window.turnstile.remove(
+                            document.getElementById("captcha") as HTMLElement,
+                        );
+                    },
+                    "error-callback": () => errorCallback?.(),
+                    "expired-callback": () => errorCallback?.(),
+                    retry: "auto",
+                    "retry-interval": 2000,
+                    sitekey: captchaConfig.site_key,
+                    "timeout-callback": () => errorCallback?.(),
+                },
+            );
+        },
+    },
+} as const;
 
 function useScreen({
     config,
@@ -62,48 +102,62 @@ function useScreen({
         [config.screen.flow.next_screen],
     );
 
-    const parseDataBeforeSubmit = useCallback(() => {
-        const { record_type, ...rest } = records;
-        const dataToSend = {
-            ...(captchaResponse && { captcha_token: captchaResponse }),
-            data: { ...rest, ...globalData },
-            record_type,
-        };
-        FormStore.setRetryRecord(
-            dataToSend,
-            computeNextScreen(records as FormValueRecord),
-        );
+    const parseDataBeforeSubmit = useCallback(
+        (token?: string) => {
+            const { record_type, ...rest } = records;
+            const dataToSend = {
+                ...(token && { captcha_token: token }),
+                data: { ...rest, ...globalData },
+                record_type,
+            };
+            FormStore.setRetryRecord(
+                dataToSend,
+                computeNextScreen(records as FormValueRecord),
+            );
 
-        return dataToSend;
-    }, [records, captchaResponse, globalData, computeNextScreen]);
+            return dataToSend;
+        },
+        [records, globalData, computeNextScreen],
+    );
 
-    const submitToRemote = useCallback(async () => {
-        if (!config.screen.flow.end_of_flow) return;
-        FormStore.setLoading(true);
-        try {
+    const submitToRemote = useCallback(
+        (token?: string) => {
+            if (!config.screen.flow.end_of_flow) return;
+            FormStore.setLoading(true);
+
             if (!isEmpty(records)) {
-                const dataToSend = parseDataBeforeSubmit();
-                return api.post(ENDPOINTS.records, dataToSend).then((response) => {
-                    if (response.status === 204) {
-                        FormStore.resetRecord();
-                    }
-                });
+                const dataToSend = parseDataBeforeSubmit(token);
+                return api
+                    .post(ENDPOINTS.records, dataToSend)
+                    .then((response) => {
+                        if (response.status === 204) {
+                            FormStore.resetRecord();
+                        }
+                        FormStore.setCaptchaResponse("");
+                        FormStore.setLoading(false);
+                    })
+                    .catch((error) => {
+                        console.error("Error submitting data:", error);
+                        FormStore.setCaptchaResponse("");
+                        FormStore.setLoading(false);
+                        navigate({
+                            params: { flow: config.appFlow.handle },
+                            to: "/$flow/error",
+                        });
+                    });
+            } else {
+                console.warn("No data to submit");
+                FormStore.setLoading(false);
             }
-        } catch (error) {
-            navigate({
-                params: { flow: config.appFlow.handle },
-                to: "/$flow/error",
-            });
-        } finally {
-            FormStore.setLoading(false);
-        }
-    }, [
-        config.appFlow.handle,
-        config.screen.flow.end_of_flow,
-        navigate,
-        records,
-        parseDataBeforeSubmit,
-    ]);
+        },
+        [
+            config.appFlow.handle,
+            config.screen.flow.end_of_flow,
+            navigate,
+            records,
+            parseDataBeforeSubmit,
+        ],
+    );
 
     useEffect(() => {
         if (!config.screen.flow.end_of_flow) return;
@@ -111,30 +165,26 @@ function useScreen({
         const isCaptchaConfigured =
             Boolean(captchaConfig?.provider) && Boolean(captchaConfig?.site_key);
 
-        if (isCaptchaConfigured && !captchaResponse) {
-            console.warn(
-                "Captcha response is required but not available, cannot submit to remote",
-            );
-            parseDataBeforeSubmit();
-            navigate({
-                params: { flow: config.appFlow.handle },
-                to: "/$flow/error",
+        if (isCaptchaConfigured) {
+            configuration?.[captchaConfig.provider]?.render({
+                captchaConfig,
+                errorCallback: () => {
+                    parseDataBeforeSubmit();
+                    navigate({
+                        params: { flow: config.appFlow.handle },
+                        to: "/$flow/error",
+                    });
+                    return true;
+                },
+                successCallback: (token: string) => {
+                    submitToRemote(token);
+                },
             });
-            return;
+        } else {
+            submitToRemote();
         }
-        submitToRemote();
-    }, [
-        computeNextScreen,
-        config.appFlow.handle,
-        config.screen.flow.end_of_flow,
-        globalData,
-        navigate,
-        records,
-        submitToRemote,
-        captchaResponse,
-        captchaConfig,
-        parseDataBeforeSubmit,
-    ]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const mappedFields = Object.fromEntries(
         config.screen.fields.map((field) => {
