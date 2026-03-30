@@ -15,31 +15,12 @@ type ConfigurationType = {
     };
 };
 
-const TURNSTILE_READY_TIMEOUT_MS = 10000;
-
 function waitForRef(
     ref: RefObject<HTMLDivElement | null>,
 ): Promise<HTMLDivElement | null> {
     return new Promise((resolve) => {
         const check = () => {
             if (ref?.current) return resolve(ref.current);
-            requestAnimationFrame(check);
-
-            return null;
-        };
-
-        check();
-    });
-}
-
-function waitForTurnstile(timeoutMs = TURNSTILE_READY_TIMEOUT_MS): Promise<boolean> {
-    return new Promise((resolve) => {
-        const startedAt = Date.now();
-
-        const check = () => {
-            if (window.turnstile) return resolve(true);
-            if (Date.now() - startedAt >= timeoutMs) return resolve(false);
-
             requestAnimationFrame(check);
 
             return null;
@@ -76,46 +57,24 @@ const configuration: ConfigurationType = {
 function Captcha() {
     const ref = useRef<HTMLDivElement>(null);
     const captcha = useStore(Strings.systemSettings, Strings.captcha);
-    const provider = captcha?.provider;
-    const siteKey = captcha?.site_key;
 
     useEffect(() => {
-        let isUnmounted = false;
-        let widgetId: string | undefined;
-
-        const providerConfig = configuration?.[provider];
-
-        const initializeCaptcha = async () => {
-            if (!providerConfig || !provider || !siteKey) return;
-
-            const el = await waitForRef(ref);
-            const isTurnstileReady = await waitForTurnstile();
-
-            if (!el || !isTurnstileReady || isUnmounted) return;
-
-            el.innerHTML = "";
+        (async () => {
             FormStore.setCaptchaResponse("");
+            const el = await waitForRef(ref);
 
-            widgetId = providerConfig.render({
-                captcha: {
-                    provider,
-                    site_key: siteKey,
-                },
+            if (!el) return undefined;
+
+            const widgetId = configuration?.[captcha.provider]?.render({
+                captcha,
                 el,
             });
-        };
 
-        initializeCaptcha();
-
-        return () => {
-            isUnmounted = true;
-
-            if (!widgetId) return;
-
-            providerConfig?.cleanup(widgetId);
-            FormStore.setCaptchaResponse("");
-        };
-    }, [provider, siteKey]);
+            return () => {
+                configuration?.[captcha.provider]?.cleanup(widgetId as string);
+            };
+        })();
+    }, [captcha, ref]);
 
     return <div ref={ref}></div>;
 }

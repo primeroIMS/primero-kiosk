@@ -27,6 +27,7 @@ function RootComponent() {
     return (
         <>
             <Outlet />
+            <div id="captcha" />
         </>
     );
 }

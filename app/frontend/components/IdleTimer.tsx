@@ -74,6 +74,7 @@ function IdleTimer({ bgColor, buttonColor }: { bgColor?: string; buttonColor?: s
         return () => {
             clearInterval(interval);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     function exit() {
