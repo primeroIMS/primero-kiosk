@@ -68,9 +68,12 @@ function useScreen({
     const startingScreenId = config.appFlow.starting_screen_id;
     const navigate = useNavigate();
     const records = useStore(Strings.form, Strings.records);
-    const captchaResponse = useStore(Strings.form, Strings.captchaResponse);
     const globalData = useStore(Strings.form, Strings.global);
     const captchaConfig = useStore(Strings.systemSettings, Strings.captcha);
+    const currentRecordDefinition = useStore(
+        Strings.form,
+        Strings.currentRecordDefinition,
+    );
 
     useEffect(() => {
         if (startingScreenId === config.screen.id) {
@@ -104,11 +107,13 @@ function useScreen({
 
     const parseDataBeforeSubmit = useCallback(
         (token?: string) => {
+            const recordTypeFromStore = currentRecordDefinition?.type;
+
             const { record_type, ...rest } = records;
             const dataToSend = {
                 ...(token && { captcha_token: token }),
                 data: { ...rest, ...globalData },
-                record_type,
+                record_type: record_type || recordTypeFromStore,
             };
             FormStore.setRetryRecord(
                 dataToSend,
@@ -117,7 +122,7 @@ function useScreen({
 
             return dataToSend;
         },
-        [records, globalData, computeNextScreen],
+        [records, globalData, computeNextScreen, currentRecordDefinition],
     );
 
     const submitToRemote = useCallback(

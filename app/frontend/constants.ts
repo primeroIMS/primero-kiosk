@@ -13,6 +13,7 @@ export const Strings = {
     characterSelection: "CharacterSelection",
     characterWelcome: "CharacterWelcome",
     comfortingResponse: "ComfortingResponse",
+    currentRecordDefinition: "currentRecordDefinition",
     empty: "",
     featuredImage: "Featured Image",
     featuredImageAlt: "Featured Image",
