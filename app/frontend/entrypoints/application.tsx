@@ -1,4 +1,5 @@
 import { createRouter } from "@tanstack/react-router";
+import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
 import { Strings } from "@/constants";
@@ -33,5 +34,9 @@ const rootElement = document.getElementById(Strings.app)!;
 
 if (!rootElement.innerHTML) {
     const root = createRoot(rootElement);
-    root.render(<Root router={router} />);
+    root.render(
+        <StrictMode>
+            <Root router={router} />
+        </StrictMode>,
+    );
 }

@@ -1,6 +1,6 @@
 import { Strings } from "@/constants";
 import { deepMerge } from "@/lib/deep-merge";
-import { AppFlow, FormValueRecord, FormValues } from "@/type";
+import { AppFlow, AppFlowRecordDefinition, FormValueRecord, FormValues } from "@/type";
 
 import BaseStore from "./base-store";
 
@@ -10,6 +10,7 @@ type FormState = {
 
 const DEFAULT_STATE = {
     captchaResponse: "",
+    currentRecordDefinition: undefined,
     global: {},
     kiosk: {},
     loading: false,
@@ -19,6 +20,19 @@ const DEFAULT_STATE = {
 } as FormValues;
 
 class Store extends BaseStore<FormState> {
+    getRecordDefinition(recordDefinitionId: string, appFlow: AppFlow) {
+        const recordDefinition = appFlow.record_definitions.find(
+            (def) => def.id === recordDefinitionId,
+        );
+
+        if (!recordDefinition) {
+            console.error(`Record definition with id ${recordDefinitionId} not found`);
+            return;
+        }
+
+        return recordDefinition;
+    }
+
     reset() {
         this.update((state) => {
             state.data = DEFAULT_STATE as FormValues;
@@ -31,6 +45,7 @@ class Store extends BaseStore<FormState> {
             state.data.retryRecord = {} as FormValueRecord;
             state.data.retrySuccessNextScreen = "";
             state.data.captchaResponse = "";
+            state.data.currentRecordDefinition = undefined;
         });
     }
 
@@ -53,19 +68,17 @@ class Store extends BaseStore<FormState> {
     }
 
     setRecordDefinitionFields(recordDefinitionId: string, appFlow: AppFlow) {
-        const recordDefinition = appFlow.record_definitions.find(
-            (def) => def.id === recordDefinitionId,
-        );
-
-        if (!recordDefinition) {
-            console.error(`Record definition with id ${recordDefinitionId} not found`);
-            return;
-        }
+        const recordDefinition = this.getRecordDefinition(
+            recordDefinitionId,
+            appFlow,
+        ) as AppFlowRecordDefinition;
 
         this.update((state) => {
             if (!state.data.records) {
                 return;
             }
+
+            state.data.currentRecordDefinition = recordDefinition;
 
             state.data.records = deepMerge(state.data.records, {
                 module_id: recordDefinition.module_id,

@@ -26,6 +26,7 @@ export type FormValueRecord = {
 
 export type FormValues = {
     captchaResponse: string;
+    currentRecordDefinition?: AppFlowRecordDefinition;
     global: Record<string, unknown>;
     kiosk: Record<string, unknown>;
     loading: boolean;
