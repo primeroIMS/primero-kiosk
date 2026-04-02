@@ -1,6 +1,6 @@
 import { useNavigate } from "@tanstack/react-router";
 import { get, isEmpty, set } from "lodash-es";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef, useTransition } from "react";
 
 import { ENDPOINTS, RouteStrings, Strings } from "@/constants";
 import api from "@/lib/api-client";
@@ -70,6 +70,8 @@ function useScreen({
     const records = useStore(Strings.form, Strings.records);
     const globalData = useStore(Strings.form, Strings.global);
     const captchaConfig = useStore(Strings.systemSettings, Strings.captcha);
+    const hasRun = useRef(false);
+
     const currentRecordDefinition = useStore(
         Strings.form,
         Strings.currentRecordDefinition,
@@ -126,70 +128,77 @@ function useScreen({
     );
 
     const submitToRemote = useCallback(
-        (token?: string) => {
-            if (!config.screen.flow.end_of_flow) return;
+        async (token?: string) => {
             FormStore.setLoading(true);
 
             if (!isEmpty(records)) {
                 const dataToSend = parseDataBeforeSubmit(token);
-                return api
-                    .post(ENDPOINTS.records, dataToSend)
-                    .then((response) => {
-                        if (response.status === 204) {
-                            FormStore.resetRecord();
-                        }
-                        FormStore.setCaptchaResponse("");
-                        FormStore.setLoading(false);
-                    })
-                    .catch((error) => {
-                        console.error("Error submitting data:", error);
-                        FormStore.setCaptchaResponse("");
-                        FormStore.setLoading(false);
-                        navigate({
-                            params: { flow: config.appFlow.handle },
-                            to: "/$flow/error",
-                        });
+                try {
+                    const response = await api.post(ENDPOINTS.records, dataToSend);
+                    if (response.status === 204) {
+                        FormStore.resetRecord();
+                    }
+                    FormStore.setCaptchaResponse("");
+                    FormStore.setLoading(false);
+                } catch (error) {
+                    console.error("Error submitting data:", error);
+                    FormStore.setCaptchaResponse("");
+                    FormStore.setLoading(false);
+                    navigate({
+                        params: { flow: config.appFlow.handle },
+                        to: "/$flow/error",
                     });
+                }
             } else {
                 console.warn("No data to submit");
                 FormStore.setLoading(false);
             }
         },
-        [
-            config.appFlow.handle,
-            config.screen.flow.end_of_flow,
-            navigate,
-            records,
-            parseDataBeforeSubmit,
-        ],
+        [records, parseDataBeforeSubmit, navigate, config.appFlow.handle],
     );
 
     useEffect(() => {
-        if (!config.screen.flow.end_of_flow) return;
+        if (hasRun.current || !config.screen.flow.end_of_flow) return;
+        hasRun.current = true;
 
-        const isCaptchaConfigured =
-            Boolean(captchaConfig?.provider) && Boolean(captchaConfig?.site_key);
-
-        if (isCaptchaConfigured) {
-            configuration?.[captchaConfig.provider]?.render({
-                captchaConfig,
-                errorCallback: () => {
-                    parseDataBeforeSubmit();
-                    navigate({
-                        params: { flow: config.appFlow.handle },
-                        to: "/$flow/error",
-                    });
-                    return true;
-                },
-                successCallback: (token: string) => {
-                    submitToRemote(token);
-                },
-            });
-        } else {
-            submitToRemote();
+        if (!currentRecordDefinition?.type) {
+            return;
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+
+        const submitRecord = async () => {
+            const isCaptchaConfigured =
+                Boolean(captchaConfig?.provider) && Boolean(captchaConfig?.site_key);
+
+            if (isCaptchaConfigured) {
+                configuration?.[captchaConfig.provider]?.render({
+                    captchaConfig,
+                    errorCallback: () => {
+                        parseDataBeforeSubmit();
+                        navigate({
+                            params: { flow: config.appFlow.handle },
+                            to: "/$flow/error",
+                        });
+                        return true;
+                    },
+                    successCallback: (token: string) => {
+                        submitToRemote(token);
+                    },
+                });
+            } else {
+                submitToRemote();
+            }
+        };
+
+        submitRecord();
+    }, [
+        captchaConfig,
+        config.appFlow.handle,
+        config.screen.flow.end_of_flow,
+        navigate,
+        currentRecordDefinition,
+        parseDataBeforeSubmit,
+        submitToRemote,
+    ]);
 
     const mappedFields = Object.fromEntries(
         config.screen.fields.map((field) => {

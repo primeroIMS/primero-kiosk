@@ -22,8 +22,8 @@ const Stores = {
 
 type ExtractStoreData<T> = T extends { store: UseBoundStore<StoreApi<infer S>> }
     ? S extends { data: infer D }
-        ? D
-        : never
+    ? D
+    : never
     : never;
 
 type StoreDataMap = {
