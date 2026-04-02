@@ -1,6 +1,6 @@
 import { useNavigate } from "@tanstack/react-router";
 import { get, isEmpty, set } from "lodash-es";
-import { useCallback, useEffect, useRef, useTransition } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 import { ENDPOINTS, RouteStrings, Strings } from "@/constants";
 import api from "@/lib/api-client";
