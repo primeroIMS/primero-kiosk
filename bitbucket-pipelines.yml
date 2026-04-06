@@ -76,7 +76,7 @@ definitions:
             IMAGES=(--image "$IMAGE_NAME:${IMAGE_TAG}")
 
             # Only push latest tag on main branch
-            if [[ "$BITBUCKET_BRANCH" == "main" ]]; then
+            if [[ "${BITBUCKET_BRANCH:-}" == "main" ]]; then
               IMAGES+=(--image "$IMAGE_NAME:latest")
             fi
 
