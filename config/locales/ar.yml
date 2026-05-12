@@ -1,3 +1,13 @@
 ar:
-  locales:
-    es: Español
+  buttons:
+    continue: "استمر"
+    next: "التالي"
+    done: "تم"
+    back: "رجوع"
+    skip: "تخطّ"
+    get_started: "ابدأ"
+  site_description: "منصة Primero Kiosk هي منصة أكشاك."
+  form:
+    errors: "اختر أو املأ شيئًا في الأسفل"
+  divider:
+    pick_one: "اختر واحدة للبدء"
