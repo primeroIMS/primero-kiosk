@@ -4,6 +4,7 @@
 class Screen::NextScreen
   include JsonNestedModel
 
+  attribute :award_badge_path, :string
   attribute :conditions, array: true
   attribute :default, :string
 end

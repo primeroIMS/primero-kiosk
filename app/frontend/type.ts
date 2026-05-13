@@ -181,6 +181,7 @@ export type ScreenFlow = {
     label_next?: I18nTranslation;
     label_skip?: I18nTranslation;
     next_screen?: {
+        award_badge_path?: string;
         conditions?: Array<{ eq: Record<string, any>; path: string }>;
         default: string;
     };

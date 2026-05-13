@@ -70,6 +70,7 @@ function useScreen({
     const records = useStore(Strings.form, Strings.records);
     const globalData = useStore(Strings.form, Strings.global);
     const captchaConfig = useStore(Strings.systemSettings, Strings.captcha);
+    const flowCompleted = useStore(Strings.form, "kiosk.flowCompleted");
     const hasRun = useRef(false);
 
     const currentRecordDefinition = useStore(
@@ -102,9 +103,13 @@ function useScreen({
                 }
             }
 
+            if (config.screen.flow.next_screen?.award_badge_path && flowCompleted) {
+                return config.screen.flow.next_screen.award_badge_path;
+            }
+
             return config.screen.flow.next_screen?.default as string;
         },
-        [config.screen.flow.next_screen],
+        [config.screen.flow.next_screen, flowCompleted],
     );
 
     const parseDataBeforeSubmit = useCallback(
@@ -140,6 +145,7 @@ function useScreen({
                     }
                     FormStore.setCaptchaResponse("");
                     FormStore.setLoading(false);
+                    FormStore.flowCompleted(true);
                 } catch (error) {
                     console.error("Error submitting data:", error);
                     FormStore.setCaptchaResponse("");
