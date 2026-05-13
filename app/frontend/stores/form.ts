@@ -20,6 +20,13 @@ const DEFAULT_STATE = {
 } as FormValues;
 
 class Store extends BaseStore<FormState> {
+    flowCompleted(flag: boolean) {
+        console.log("Setting flow completed to", flag);
+        this.update((state) => {
+            state.data.kiosk.flowCompleted = flag;
+        });
+    }
+
     getRecordDefinition(recordDefinitionId: string, appFlow: AppFlow) {
         const recordDefinition = appFlow.record_definitions.find(
             (def) => def.id === recordDefinitionId,
