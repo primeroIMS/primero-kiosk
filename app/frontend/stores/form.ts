@@ -21,7 +21,6 @@ const DEFAULT_STATE = {
 
 class Store extends BaseStore<FormState> {
     flowCompleted(flag: boolean) {
-        console.log("Setting flow completed to", flag);
         this.update((state) => {
             state.data.kiosk.flowCompleted = flag;
         });
