@@ -67,6 +67,16 @@ class Store extends BaseStore<FormState> {
         });
     }
 
+    setLanguage(language: string[]) {
+        this.update((state) => {
+            if (!state.data.global) {
+                state.data.global = {};
+            }
+
+            state.data.global.language = language;
+        });
+    }
+
     setLoading(loading: boolean) {
         this.update((state) => {
             state.data.loading = loading;
