@@ -6,6 +6,7 @@ import { Strings } from "@/constants";
 import useScreen from "@/hooks/use-screen";
 import useStore from "@/hooks/use-store";
 import { cn } from "@/lib/utils";
+import FormStore from "@/stores/form";
 import i18n, { I18nLocale } from "@/translations";
 import { FormValueRecord, FormValues, ScreenConfig } from "@/type";
 
@@ -32,6 +33,9 @@ function LanguageSelect({ config }: Props) {
             }
 
             document.documentElement.lang = selectedLocale;
+            FormStore.setLanguage(
+                (data.records as Record<string, unknown>)?.language as string[],
+            );
         },
     });
 
