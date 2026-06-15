@@ -119,7 +119,14 @@ function useScreen({
             const { record_type, ...rest } = records;
             const dataToSend = {
                 ...(token && { captcha_token: token }),
-                data: { ...rest, ...globalData },
+                data: {
+                    ...rest,
+                    ...globalData,
+                    age:
+                        (globalData.age as number) > 0
+                            ? Number(globalData.age)
+                            : undefined,
+                },
                 record_type: record_type || recordTypeFromStore,
             };
             FormStore.setRetryRecord(
