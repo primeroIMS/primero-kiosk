@@ -6,8 +6,23 @@ ar:
     back: "رجوع"
     skip: "تخطّ"
     get_started: "ابدأ"
+    exit: "خروج"
+    try_again: "حاول مرة أخرى"
+    im_still_here: "ما زلت هنا"
+    saving: "جارٍ الحفظ"
   site_description: "منصة Primero Kiosk هي منصة أكشاك."
   form:
     errors: "اختر أو املأ شيئًا في الأسفل"
+  exit_flow:
+    title: "هل أنت متأكد أنك تريد الخروج؟"
+    description: "سيتم فقدان تقدمك إذا غادرت الآن."
+    cancel: "لا، البقاء والمتابعة"
+    exit: "نعم، الخروج وفقدان التقدم"
+  error:
+    title: "عذرًا... حدث خطأ ما."
+    description: "يبدو أن التطبيق غير متصل بالإنترنت أو غير متاح مؤقتًا. يُرجى المحاولة مرة أخرى بعد قليل."
   divider:
     pick_one: "اختر واحدة للبدء"
+  idle_timer:
+    title: يبدو أنك ابتعدت قليلًا.
+    description: تابع الآن حتى لا تفقد تقدمك.
