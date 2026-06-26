@@ -97,7 +97,12 @@ function useScreen({
         (data?: FormValueRecord) => {
             if (config.screen.flow.next_screen?.conditions && data) {
                 for (const condition of config.screen.flow.next_screen.conditions) {
-                    if (evaluateCondition(data, condition)) {
+                    if (
+                        evaluateCondition(
+                            { records } as unknown as FormValueRecord,
+                            condition,
+                        )
+                    ) {
                         return condition.path;
                     }
                 }
@@ -109,7 +114,7 @@ function useScreen({
 
             return config.screen.flow.next_screen?.default as string;
         },
-        [config.screen.flow.next_screen, flowCompleted],
+        [config.screen.flow.next_screen, flowCompleted, records],
     );
 
     const parseDataBeforeSubmit = useCallback(
