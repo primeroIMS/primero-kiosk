@@ -1,4 +1,5 @@
 import { useNavigate } from "@tanstack/react-router";
+import merge from "deepmerge";
 import { get, isEmpty, set } from "lodash-es";
 import { useCallback, useEffect, useRef } from "react";
 
@@ -70,6 +71,7 @@ function useScreen({
     const records = useStore(Strings.form, Strings.records);
     const globalData = useStore(Strings.form, Strings.global);
     const captchaConfig = useStore(Strings.systemSettings, Strings.captcha);
+    const kiosk = useStore(Strings.form, Strings.kiosk);
     const flowCompleted = useStore(Strings.form, "kiosk.flowCompleted");
     const hasRun = useRef(false);
 
@@ -99,7 +101,10 @@ function useScreen({
                 for (const condition of config.screen.flow.next_screen.conditions) {
                     if (
                         evaluateCondition(
-                            { records } as unknown as FormValueRecord,
+                            merge(
+                                { global: globalData, kiosk, records },
+                                data,
+                            ) as unknown as FormValueRecord,
                             condition,
                         )
                     ) {
@@ -114,7 +119,7 @@ function useScreen({
 
             return config.screen.flow.next_screen?.default as string;
         },
-        [config.screen.flow.next_screen, flowCompleted, records],
+        [config.screen.flow.next_screen, flowCompleted, records, globalData, kiosk],
     );
 
     const parseDataBeforeSubmit = useCallback(
