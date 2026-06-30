@@ -50,8 +50,23 @@ tr:
     back: "Önceki"
     skip: "Atla"
     get_started: "Başlayın"
+    exit: "Çıkış"
+    try_again: "Yeniden deneyin"
+    im_still_here: "Hâlâ buradayım"
+    saving: "Kaydediyor..."
   site_description: "Primero Kiosk bir kiosk platformudur."
   form:
     errors: "Aşağıdakilerden birini seçin veya doldurun"
+  exit_flow:
+    title: "Çıkmak istediğinize emin misiniz?"
+    description: "Şimdi çıkarsanız, kaydettiğiniz ilerleme kaybolacak."
+    cancel: "Hayır, kal ve devam et"
+    exit: "Evet, çık ve ilerlemeyi kaybet"
+  error:
+    title: "Ah! Bir şey yolunda gitmedi."
+    description: "Uygulama çevrimdışı veya geçici olarak kullanılamıyor. Lütfen daha sonra tekrar deneyin."
   divider:
     pick_one: "Başlamak içini birini seçin!"
+  idle_timer:
+    title: Bir süredir herhangi bir işlem yapmamış gibi görünüyorsunuz.
+    description: İlerlemenizi kaybetmemek için şimdi devam edin
