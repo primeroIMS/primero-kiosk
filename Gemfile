@@ -17,7 +17,7 @@ gem 'puma', '>= 5.0'
 # ActionDispatch::Request.remote_ip functionality. The diff with latest stable v6.8.0 has been reviewed:
 # https://github.com/rack/rack-attack/compare/v6.8.0...e938879178075afbf0dda4e99f0e11d408720b41
 gem 'rack-attack', git: 'https://github.com/rack/rack-attack/', ref: 'e938879178075afbf0dda4e99f0e11d408720b41'
-gem 'rails', '~> 8.1.1'
+gem 'rails', '~> 8.1.3'
 gem 'solid_cable'
 gem 'solid_cache'
 gem 'solid_queue'
