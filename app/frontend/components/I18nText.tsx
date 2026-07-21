@@ -1,3 +1,4 @@
+import Dompurify from "dompurify";
 import { isEmpty } from "lodash-es";
 import { useEffect, useState } from "react";
 
@@ -14,6 +15,7 @@ type Props = {
 function I18nText({ cycleText, fallback, html, text }: Props) {
     const [keyIndex, setKeyIndex] = useState<number>(0);
     const keys = Object.keys(text || {});
+    const sanitizer = Dompurify.sanitize;
 
     useEffect(() => {
         if (cycleText && !isEmpty(text)) {
@@ -41,7 +43,7 @@ function I18nText({ cycleText, fallback, html, text }: Props) {
     const translatedText = text?.[i18n.locale as I18nLocale];
 
     if (html && translatedText) {
-        return <div dangerouslySetInnerHTML={{ __html: translatedText }} />;
+        return <div dangerouslySetInnerHTML={{ __html: sanitizer(translatedText) }} />;
     }
 
     if (translatedText) {

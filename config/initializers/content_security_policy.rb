@@ -6,37 +6,56 @@
 
 return if ActiveRecord::Type::Boolean.new.cast(ENV.fetch('SKIP_CSP', nil)) || false
 
-self_sources = %i[self https]
-
-self_sources += %i[http] + %w[localhost:5100 localhost:5173 localhost:3036] if Rails.env.development?
+base_sources = %i[self]
+turnstile_source = 'https://challenges.cloudflare.com'
+dev_http_sources = %w[http://localhost:5100 http://localhost:5173 http://localhost:3036]
 
 storage_sources =
   case ENV.fetch('PRIMERO_STORAGE_TYPE', nil)
   when 'microsoft'
-    self_sources + ["https://#{ENV.fetch('PRIMERO_STORAGE_AZ_ACCOUNT', nil)}.blob.core.windows.net"]
+    base_sources + ["https://#{ENV.fetch('PRIMERO_STORAGE_AZ_ACCOUNT', nil)}.blob.core.windows.net"]
   else
-    self_sources
+    base_sources
   end
 
+script_sources = base_sources.dup
+style_sources = base_sources.dup
+connect_sources = base_sources.dup
+font_sources = base_sources + %i[data]
+img_sources = storage_sources + %i[data blob]
 media_sources = storage_sources + %i[data blob]
-font_and_image_sources = self_sources + %i[data blob]
-style_sources = self_sources
-script_sources = self_sources + %i[data blob]
-connect_sources = font_and_image_sources
+worker_sources = base_sources.dup + %i[blob]
+manifest_sources = base_sources.dup
+frame_sources = base_sources.dup
 
-style_sources += ["'unsafe-inline'"] if Rails.env.development?
-script_sources += ["'unsafe-inline'"] if Rails.env.development?
-connect_sources += %i[ws wss data blob] if Rails.env.development?
+if Rails.env.development?
+  script_sources += dev_http_sources + ["'unsafe-inline'"]
+  style_sources += dev_http_sources + ["'unsafe-inline'"]
+  worker_sources += dev_http_sources
+  connect_sources += dev_http_sources + %w[ws://localhost:5100 ws://localhost:5173 ws://localhost:3036]
+end
+
+if Rails.application.config.captcha_enabled
+  script_sources << turnstile_source
+  connect_sources << turnstile_source
+  frame_sources << turnstile_source
+end
 
 Rails.application.config.content_security_policy do |policy|
-  policy.default_src(*self_sources)
+  policy.default_src(*base_sources)
+  policy.base_uri(:self)
+  policy.form_action(:self)
+  policy.frame_ancestors(:none)
+  policy.object_src(:none)
+  policy.frame_src(*frame_sources)
+  policy.manifest_src(*manifest_sources)
+  policy.worker_src(*worker_sources)
   policy.connect_src(*connect_sources)
-  policy.font_src(*font_and_image_sources)
-  policy.img_src(*font_and_image_sources)
+  policy.font_src(*font_sources)
+  policy.img_src(*img_sources)
   policy.media_src(*media_sources)
   policy.script_src(*script_sources)
   policy.style_src(*style_sources)
-  policy.base_uri(:self)
 end
 
 # If you are using UJS then enable automatic nonce generation
