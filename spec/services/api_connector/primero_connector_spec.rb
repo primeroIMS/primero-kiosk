@@ -17,7 +17,7 @@ describe ApiConnector::PrimeroConnector do
       expect(connection).to(
         receive(:post).with('/api/v2/cases', record).and_return([200, record_with_id])
       )
-      result = primero_connector.create({'record_type' => 'case'}.merge(record))
+      result = primero_connector.create({ 'record_type' => 'case' }.merge(record))
 
       expect(result[:status]).to eq(200)
       expect(result[:response]).to eq(record_with_id)
@@ -29,7 +29,7 @@ describe ApiConnector::PrimeroConnector do
       )
 
       expect do
-        primero_connector.create({'record_type' => 'case'}.merge(record))
+        primero_connector.create({ 'record_type' => 'case' }.merge(record))
       end.to raise_error(ApiConnector::UnsuccessfulResponseError)
     end
   end
