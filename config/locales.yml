@@ -1,11 +1,8 @@
 development:
-  default_locale: <%= ENV['LOCALE_DEFAULT'] || 'en' %>
-  locales: <%= ENV['LOCALE_ALL']&.split(',') %>
+  default_locale: en
 
 test:
-  default_locale: <%= ENV['LOCALE_DEFAULT'] || 'en' %>
-  locales: <%= ENV['LOCALE_ALL']&.split(',') %>
+  default_locale: en
 
 production:
-  default_locale: <%= ENV['LOCALE_DEFAULT'] || 'en' %>
-  locales: <%= ENV['LOCALE_ALL']&.split(',') %>
+  default_locale: en

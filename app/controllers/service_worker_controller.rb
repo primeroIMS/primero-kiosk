@@ -2,8 +2,6 @@
 
 # Controller for handling service worker
 class ServiceWorkerController < ApplicationController
-  skip_forgery_protection if: -> { Rails.env.development? }
-
   def show
     if Rails.env.development?
       vite_dev_server = "http://localhost:#{vite_port}"
