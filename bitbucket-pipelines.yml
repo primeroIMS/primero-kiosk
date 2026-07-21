@@ -31,8 +31,7 @@ definitions:
           depth: full
         script:
           - git push https://$azdotoken@unicef.visualstudio.com/ICTD%20-%20Primero%20X%20DEV/_git/primero-kiosk $BITBUCKET_BRANCH
-          # TODO: This will be cross-posted on Github
-          # - git push https://$primeroimstoken@github.com/primeroIMS/primero-kiosk.git $BITBUCKET_BRANCH
+          - git push https://$primeroimstoken@github.com/primeroIMS/primero-kiosk.git $BITBUCKET_BRANCH
     - step: &build-and-push-to-acr
         name: Build and Push to ACR
         image: mcr.microsoft.com/azure-cli:2.57.0
@@ -114,8 +113,7 @@ pipelines:
           image: atlassian/default-image:4
           script:
             - git push https://$azdotoken@unicef.visualstudio.com/ICTD%20-%20Primero%20X%20DEV/_git/primero-kiosk $BITBUCKET_TAG
-            # TODO: This will be cross-posted on Github
-            # - git push https://$primeroimstoken@github.com/primeroIMS/primero-kiosk.git $BITBUCKET_TAG
+            - git push https://$primeroimstoken@github.com/primeroIMS/primero-kiosk.git $BITBUCKET_TAG
       - step: *build-and-push-to-acr
 
   pull-requests:
