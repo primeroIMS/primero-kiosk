@@ -23,7 +23,7 @@ gem 'solid_cache'
 gem 'solid_queue'
 gem 'thruster', require: false
 gem 'tzinfo-data'
-gem 'vite_rails', '~> 3.0'
+gem 'vite_rails', '~> 3.11'
 
 group :development, :test do
   gem 'brakeman', require: false
