@@ -1,3 +1,9 @@
+# Merge our exclusions with RuboCop's defaults instead of replacing them.
+# Without this, vendor/**/* is included in the analuysis.
+inherit_mode:
+  merge:
+    - Exclude
+
 AllCops:
   Exclude:
     - db/schema.rb
