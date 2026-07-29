@@ -37,6 +37,7 @@ const configuration: ConfigurationType = {
         },
         render: ({ captchaConfig, errorCallback, successCallback }) => {
             if (!document.getElementById("captcha") || !window.turnstile) return;
+            FormStore.setLoading(true);
             return window.turnstile.render(
                 document.getElementById("captcha") as HTMLElement,
                 {
