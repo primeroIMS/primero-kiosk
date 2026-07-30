@@ -18,6 +18,7 @@ gem 'puma', '>= 5.0'
 # https://github.com/rack/rack-attack/compare/v6.8.0...e938879178075afbf0dda4e99f0e11d408720b41
 gem 'rack-attack', git: 'https://github.com/rack/rack-attack/', ref: 'e938879178075afbf0dda4e99f0e11d408720b41'
 gem 'rails', '~> 8.1.1'
+gem 'ruby-vips', '~> 2.0'
 gem 'solid_cable'
 gem 'solid_cache'
 gem 'solid_queue'
