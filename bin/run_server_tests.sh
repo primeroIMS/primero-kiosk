@@ -25,7 +25,7 @@ setup_database() {
 setup_dependencies() {
   # Install Rails pre-requisites
   apt-get update
-  apt install -y --no-install-recommends libpq-dev libsodium-dev vips
+  apt install -y --no-install-recommends libpq-dev libsodium-dev libvips-tools
 
   if [ $PIPELINE == $BITBUCKET ]; then
     bundle install --without production
