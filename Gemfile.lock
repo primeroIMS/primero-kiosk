@@ -143,7 +143,7 @@ GEM
     i18n-js (4.2.4)
       glob (>= 0.4.0)
       i18n
-    image_processing (2.0.2)
+    image_processing (2.0.3)
     io-console (0.8.2)
     irb (1.18.0)
       pp (>= 0.6.0)
