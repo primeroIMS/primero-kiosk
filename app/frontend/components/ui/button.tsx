@@ -33,9 +33,10 @@ const buttonVariants = cva(
                 "icon-sm": "size-8",
                 "icon-xs": "size-6 [&_svg:not([class*='size-'])]:size-3",
                 lg: `
-                  h-10 gap-1.5 px-4
+                  h-14 gap-1.5 px-6
                   has-data-[icon=inline-end]:pr-3
                   has-data-[icon=inline-start]:pl-3
+                  text-base md:text-lg
                 `,
                 sm: `
                   h-8 gap-1 px-3
@@ -73,7 +74,7 @@ const buttonVariants = cva(
                 secondary: `
                   bg-secondary text-secondary-foreground
                   hover:bg-secondary/80
-                  aria-expanded:bg-secondary aria-expanded:text-secondary-foreground
+                  aria-expanded:bg-secondary aria-expanded:text-secondary-foreground shadow-md
                 `,
             },
         },
